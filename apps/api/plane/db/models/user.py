@@ -3,6 +3,7 @@
 # See the LICENSE file for details.
 
 # Python imports
+import os
 import random
 import string
 import uuid
@@ -37,6 +38,11 @@ def get_mobile_default_onboarding():
         "workspace_create": False,
         "workspace_join": False,
     }
+
+
+def get_default_language():
+    """Language new profiles start with. Set DEFAULT_USER_LANGUAGE (e.g. ``pt-BR``) to change it per instance."""
+    return os.environ.get("DEFAULT_USER_LANGUAGE") or "en"
 
 
 def get_default_product_tour():
@@ -248,7 +254,7 @@ class Profile(TimeAuditModel):
     mobile_onboarding_step = models.JSONField(default=get_mobile_default_onboarding)
     mobile_timezone_auto_set = models.BooleanField(default=False)
     # language
-    language = models.CharField(max_length=255, default="en")
+    language = models.CharField(max_length=255, default=get_default_language)
     start_of_the_week = models.PositiveSmallIntegerField(choices=START_OF_THE_WEEK_CHOICES, default=SUNDAY)
     goals = models.JSONField(default=dict)
     background_color = models.CharField(max_length=255, default=get_random_color)

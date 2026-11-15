@@ -4,6 +4,6 @@
 # A merge conflict here means another PR added a migration to the same app first:
 # merge preview, delete your migration, and run makemigrations again.
 
-db: 0126_resource_access_and_restricted_flags
+db: 0127_profile_default_language
 
 license: 0006_instance_is_current_version_deprecated
