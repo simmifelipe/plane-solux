@@ -110,32 +110,25 @@ def issue_access_q(user, action=AccessAction.VIEW):
 
     field = _ACTION_FIELD[action]
 
-    # Uncorrelated ``pk IN (subquery)`` terms on purpose: Postgres hashes each subquery once. The
-    # equivalent correlated EXISTS form makes the planner estimate a huge cost, which on large
-    # projects triggers JIT compilation (~1s per request) for what is really a ~50ms query.
-    in_restricted_module = ModuleIssue.objects.filter(
+    restricted_modules = ModuleIssue.objects.filter(
+        issue=OuterRef("pk"),
         module__is_restricted=True,
         module__deleted_at__isnull=True,
-        deleted_at__isnull=True,
     )
-    via_module_grant = in_restricted_module.filter(
+    module_grant = restricted_modules.filter(
         module__access_grants__user=user,
         module__access_grants__deleted_at__isnull=True,
         **{f"module__access_grants__{field}": True},
-    ).values("issue_id")
-    own_grant = ResourceAccess.objects.filter(
-        user=user, issue__isnull=False, deleted_at__isnull=True, **{field: True}
-    ).values("issue_id")
-
-    unrestricted_ok = Q(is_restricted=False) & (
-        ~Q(pk__in=in_restricted_module.values("issue_id")) | Q(pk__in=via_module_grant)
     )
-    restricted_ok = Q(is_restricted=True) & Q(pk__in=own_grant)
+    issue_grant = ResourceAccess.objects.filter(issue=OuterRef("pk"), user=user, **{field: True})
+
+    unrestricted_ok = Q(is_restricted=False) & (~Exists(restricted_modules) | Exists(module_grant))
+    restricted_ok = Q(is_restricted=True) & Exists(issue_grant)
 
     q = Q(project_id__in=admin_project_ids(user)) | unrestricted_ok | restricted_ok
 
     if action == AccessAction.VIEW:
-        is_assignee = Q(pk__in=IssueAssignee.objects.filter(assignee=user).values("issue_id"))
+        is_assignee = Exists(IssueAssignee.objects.filter(issue=OuterRef("pk"), assignee=user))
         q |= Q(created_by=user) | is_assignee
     return q
 

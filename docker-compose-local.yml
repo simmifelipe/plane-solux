@@ -53,7 +53,7 @@ services:
     restart: unless-stopped
     networks:
       - dev_env
-    command: postgres -c 'max_connections=1000'
+    command: postgres -c 'max_connections=1000' -c 'jit=off'
     volumes:
       - pgdata:/var/lib/postgresql/data
     env_file:
