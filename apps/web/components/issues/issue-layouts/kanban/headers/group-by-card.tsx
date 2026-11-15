@@ -165,13 +165,13 @@ export const HeaderGroupByCard = observer(function HeaderGroupByCard(props: IHea
               />
               <MenuContent side="bottom" align="end">
                 <MenuItem
-                  label="Create work item"
+                  label={t("create_work_item")}
                   onClick={() => {
                     setIsOpen(true);
                   }}
                 />
                 <MenuItem
-                  label="Add an existing work item"
+                  label={t("project_module.empty_state.no_issues.secondary_button.text")}
                   onClick={() => {
                     setOpenExistingIssueListModal(true);
                   }}

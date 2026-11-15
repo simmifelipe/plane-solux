@@ -400,11 +400,11 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                               value={value}
                               onChange={onChange}
                               ref={ref}
-                              placeholder="New password..."
+                              placeholder={t("ui.new_password")}
                               onFocus={() => setIsPasswordInputFocused(true)}
                               onBlur={() => setIsPasswordInputFocused(false)}
                               autoComplete="new-password"
-                              aria-label="New password..."
+                              aria-label={t("ui.new_password")}
                             />
                             <button
                               type="button"

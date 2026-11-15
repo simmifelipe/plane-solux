@@ -77,7 +77,7 @@ export const DeleteModuleModal = observer(function DeleteModuleModal(props: Prop
       handleSubmit={handleDeletion}
       isSubmitting={isDeleteLoading}
       isOpen={isOpen}
-      title="Delete module"
+      title={t("project_module.delete_module")}
       content={
         <>
           Are you sure you want to delete module-{" "}

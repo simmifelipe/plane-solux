@@ -175,7 +175,7 @@ export const ProfileSidebar = observer(function ProfileSidebar(props: TProfileSi
                         trigger={<span className="truncate text-body-xs-medium">{projectDetails.name}</span>}
                         trailing={
                           project.assigned_issues > 0 ? (
-                            <Tooltip label="Completion percentage" side="left" disabled={isMobile}>
+                            <Tooltip label={t("ui.completion_percentage")} side="left" disabled={isMobile}>
                               <Badge
                                 size="xs"
                                 variant={

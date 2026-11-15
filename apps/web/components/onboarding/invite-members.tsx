@@ -228,6 +228,7 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
 });
 
 export function InviteMembers(props: Props) {
+  const { t } = useTranslation();
   const { finishOnboarding, workspace } = props;
 
   const [isInvitationDisabled, setIsInvitationDisabled] = useState(true);
@@ -358,7 +359,7 @@ export function InviteMembers(props: Props) {
               >
                 {isSubmitting ? <Spinner height="20px" width="20px" /> : "Continue"}
               </ButtonElement>
-              <Button variant="ghost" size="lg" stretch="full" onClick={nextStep} label="I’ll do it later" />
+              <Button variant="ghost" size="lg" stretch="full" onClick={nextStep} label={t("ui.i_ll_do_it_later")} />
             </div>
           </form>
         </div>

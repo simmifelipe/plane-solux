@@ -22,6 +22,7 @@ import { cn } from "@plane/utils";
 import { RichTextEditor } from "@/components/editor/rich-text";
 // services
 import { AIService } from "@/services/ai.service";
+import { useTranslation } from "@plane/i18n";
 const aiService = new AIService();
 
 type Props = {
@@ -44,6 +45,7 @@ type FormData = {
 };
 
 export function GptAssistantPopover(props: Props) {
+  const { t } = useTranslation();
   const {
     isOpen,
     handleClose,
@@ -174,7 +176,7 @@ export function GptAssistantPopover(props: Props) {
       variant="primary"
       size="sm"
       stretch="auto"
-      label="Use this response"
+      label={t("ui.use_this_response")}
       onClick={() => {
         onResponse(response);
         onClose();
@@ -287,7 +289,7 @@ export function GptAssistantPopover(props: Props) {
                 </>
               )}
               <div className="flex items-center gap-2">
-                <Button variant="secondary" size="sm" stretch="auto" label="Close" onClick={onClose} />
+                <Button variant="secondary" size="sm" stretch="auto" label={t("close")} onClick={onClose} />
                 <Button
                   variant="primary"
                   size="sm"

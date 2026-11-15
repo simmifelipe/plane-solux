@@ -24,12 +24,14 @@ import { useAppRouter } from "@/hooks/use-app-router";
 // wrappers
 import { AuthenticationWrapper } from "@/lib/wrappers/authentication-wrapper";
 import { WorkspaceService } from "@/services/workspace.service";
+import { useTranslation } from "@plane/i18n";
 // services
 
 // service initialization
 const workspaceService = new WorkspaceService();
 
 function WorkspaceInvitationPage() {
+  const { t } = useTranslation();
   // router
   const router = useAppRouter();
   // query params
@@ -93,7 +95,7 @@ function WorkspaceInvitationPage() {
               align="center"
               assetKey="inbox"
               title={`You have been invited to ${invitationDetail.workspace.name}`}
-              description="Your workspace is where you'll create projects, collaborate on your work items, and organize different streams of work in your Plane account."
+              description={t("ui.your_workspace_is_where_you_ll_create")}
               actions={[
                 { label: "Accept", variant: "primary", onClick: handleAccept },
                 { label: "Ignore", variant: "secondary", onClick: handleReject },
@@ -106,13 +108,13 @@ function WorkspaceInvitationPage() {
               align="center"
               assetKey="project"
               title={`You are already a member of ${invitationDetail.workspace.name}`}
-              description="Your workspace is where you'll create projects, collaborate on your work items, and organize different streams of work in your Plane account."
+              description={t("ui.your_workspace_is_where_you_ll_create")}
               customButton={
                 <Button
                   variant="primary"
                   size="lg"
                   stretch="auto"
-                  label="Continue to home"
+                  label={t("ui.continue_to_home")}
                   nativeButton={false}
                   render={<Link href="/" />}
                 />
@@ -122,8 +124,8 @@ function WorkspaceInvitationPage() {
             <EmptyStateDetailed
               align="center"
               assetKey="invalid-link"
-              title="This invitation link is not active anymore."
-              description="Your workspace is where you'll create projects, collaborate on your work items, and organize different streams of work in your Plane account."
+              title={t("ui.this_invitation_link_is_not_active_anymore")}
+              description={t("ui.your_workspace_is_where_you_ll_create")}
               customButton={
                 <div className="flex flex-col items-center gap-4">
                   <Button
@@ -140,20 +142,20 @@ function WorkspaceInvitationPage() {
                       size="md"
                       href="https://github.com/makeplane"
                       external
-                      label="Star us on GitHub"
+                      label={t("home.star_us_on_github")}
                     />
                     <AnchorButton
                       variant="secondary"
                       size="md"
                       href="https://forum.plane.so"
                       external
-                      label="Join our community of active creators"
+                      label={t("ui.join_our_community_of_active_creators")}
                     />
                     <AnchorButton
                       variant="secondary"
                       size="md"
                       render={<Link href="/" />}
-                      label="Or start from an empty project"
+                      label={t("ui.or_start_from_an_empty_project")}
                     />
                   </div>
                 </div>

@@ -18,6 +18,7 @@ import type { EPageStoreType } from "@/hooks/store";
 import { usePageStore } from "@/hooks/store";
 // store
 import type { TPageInstance } from "@/store/pages/base-page";
+import { useTranslation } from "@plane/i18n";
 
 type TConfirmPageDeletionProps = {
   isOpen: boolean;
@@ -27,6 +28,7 @@ type TConfirmPageDeletionProps = {
 };
 
 export const DeletePageModal = observer(function DeletePageModal(props: TConfirmPageDeletionProps) {
+  const { t } = useTranslation();
   const { isOpen, onClose, page, storeType } = props;
   // states
   const [isDeleting, setIsDeleting] = useState(false);
@@ -78,7 +80,7 @@ export const DeletePageModal = observer(function DeletePageModal(props: TConfirm
       handleSubmit={handleDelete}
       isSubmitting={isDeleting}
       isOpen={isOpen}
-      title="Delete page"
+      title={t("ui.delete_page")}
       content={
         <>
           Are you sure you want to delete page-{" "}

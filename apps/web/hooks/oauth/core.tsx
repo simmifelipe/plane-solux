@@ -17,8 +17,10 @@ import gitlabLogo from "@/app/assets/logos/gitlab-logo.svg?url";
 import googleLogo from "@/app/assets/logos/google-logo.svg?url";
 // hooks
 import { useInstance } from "@/hooks/store/use-instance";
+import { useTranslation } from "@plane/i18n";
 
 export const useCoreOAuthConfig = (oauthActionText: string): TOAuthConfigs => {
+  const { t } = useTranslation();
   //router
   const searchParams = useSearchParams();
   // query params
@@ -39,7 +41,7 @@ export const useCoreOAuthConfig = (oauthActionText: string): TOAuthConfigs => {
     {
       id: "google",
       text: `${oauthActionText} with Google`,
-      icon: <img src={googleLogo} height={18} width={18} alt="Google Logo" />,
+      icon: <img src={googleLogo} height={18} width={18} alt={t("ui.google_logo")} />,
       onClick: () => {
         window.location.assign(`${API_BASE_URL}/auth/google/${next_path ? `?next_path=${next_path}` : ``}`);
       },
@@ -53,7 +55,7 @@ export const useCoreOAuthConfig = (oauthActionText: string): TOAuthConfigs => {
           src={resolvedTheme === "dark" ? GithubDarkLogo : GithubLightLogo}
           height={18}
           width={18}
-          alt="GitHub Logo"
+          alt={t("ui.github_logo")}
         />
       ),
       onClick: () => {
@@ -64,7 +66,7 @@ export const useCoreOAuthConfig = (oauthActionText: string): TOAuthConfigs => {
     {
       id: "gitlab",
       text: `${oauthActionText} with GitLab`,
-      icon: <img src={gitlabLogo} height={18} width={18} alt="GitLab Logo" />,
+      icon: <img src={gitlabLogo} height={18} width={18} alt={t("ui.gitlab_logo")} />,
       onClick: () => {
         window.location.assign(`${API_BASE_URL}/auth/gitlab/${next_path ? `?next_path=${next_path}` : ``}`);
       },
@@ -73,7 +75,7 @@ export const useCoreOAuthConfig = (oauthActionText: string): TOAuthConfigs => {
     {
       id: "gitea",
       text: `${oauthActionText} with Gitea`,
-      icon: <img src={giteaLogo} height={18} width={18} alt="Gitea Logo" />,
+      icon: <img src={giteaLogo} height={18} width={18} alt={t("ui.gitea_logo")} />,
       onClick: () => {
         window.location.assign(`${API_BASE_URL}/auth/gitea/${next_path ? `?next_path=${next_path}` : ``}`);
       },

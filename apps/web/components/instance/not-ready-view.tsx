@@ -11,8 +11,10 @@ import GradientBgLogo from "@/app/assets/auth/gradient-bg-logo.webp?url";
 import DefaultLayout from "@/layouts/default-layout";
 import { PlaneLockup } from "@plane/blocks/icons";
 import { Button } from "@makeplane/propel/components/button";
+import { useTranslation } from "@plane/i18n";
 
 export function InstanceNotReady() {
+  const { t } = useTranslation();
   return (
     <DefaultLayout>
       <div className="relative z-10 flex h-screen w-screen overflow-hidden">
@@ -36,7 +38,7 @@ export function InstanceNotReady() {
           </div>
           <div className="flex h-full w-full flex-col items-center justify-center gap-7">
             <div className="flex flex-col items-center gap-11">
-              <img src={GradientLogo} className="h-24 w-40 object-contain" alt="Plane Logo" />
+              <img src={GradientLogo} className="h-24 w-40 object-contain" alt={t("ui.plane_logo")} />
               <div className="flex max-w-124 flex-col items-center gap-3">
                 <h1 className="text-h2-semibold text-primary">Welcome to Plane</h1>
                 <p className="text-center text-body-md-regular text-secondary">
@@ -51,7 +53,7 @@ export function InstanceNotReady() {
                 stretch="full"
                 nativeButton={false}
                 render={<a href={GOD_MODE_URL}>Get started</a>}
-                label="Get started"
+                label={t("common.get_started")}
               />
             </div>
           </div>

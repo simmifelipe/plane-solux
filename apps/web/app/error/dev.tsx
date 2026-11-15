@@ -10,6 +10,7 @@ import { Banner } from "@makeplane/propel/components/banner";
 import { InfoFilled } from "@makeplane/propel/icons";
 import { Button } from "@makeplane/propel/components/button";
 import { Card } from "@plane/blocks/card";
+import { useTranslation } from "@plane/i18n";
 
 interface ErrorActionsProps {
   onGoHome: () => void;
@@ -17,10 +18,19 @@ interface ErrorActionsProps {
 }
 
 function ErrorActions({ onGoHome, onReload }: ErrorActionsProps) {
+  const { t } = useTranslation();
   return (
     <div className="flex gap-3 pt-2">
-      <Button variant="primary" size="md" stretch="auto" label="Go to home" onClick={onGoHome} />
-      {onReload && <Button variant="secondary" size="md" stretch="auto" label="Reload page" onClick={onReload} />}
+      <Button
+        variant="primary"
+        size="md"
+        stretch="auto"
+        label={t("power_k.navigation_actions.nav_home")}
+        onClick={onGoHome}
+      />
+      {onReload && (
+        <Button variant="secondary" size="md" stretch="auto" label={t("ui.reload_page")} onClick={onReload} />
+      )}
     </div>
   );
 }
@@ -32,11 +42,12 @@ interface DevErrorComponentProps {
 }
 
 export function DevErrorComponent({ error, onGoHome, onReload }: DevErrorComponentProps) {
+  const { t } = useTranslation();
   if (isRouteErrorResponse(error)) {
     return (
       <div className="flex min-h-screen items-start justify-center bg-surface-2 p-6 transition-none">
         <div className="mt-12 w-full max-w-4xl space-y-4 transition-none">
-          <Banner placement="page" variant="danger" icon={<InfoFilled />} title="Route Error Response" />
+          <Banner placement="page" variant="danger" icon={<InfoFilled />} title={t("ui.route_error_response")} />
 
           <Card variant="with-shadow" className="!p-6 transition-none">
             <div className="space-y-4">
@@ -66,7 +77,7 @@ export function DevErrorComponent({ error, onGoHome, onReload }: DevErrorCompone
     return (
       <div className="flex min-h-screen items-start justify-center bg-surface-2 p-6 transition-none">
         <div className="mt-12 w-full max-w-4xl space-y-4 transition-none">
-          <Banner placement="page" variant="danger" icon={<InfoFilled />} title="Runtime Error" />
+          <Banner placement="page" variant="danger" icon={<InfoFilled />} title={t("ui.runtime_error")} />
           <Card variant="with-shadow" className="!p-6 transition-none">
             <div className="space-y-4">
               <div>
@@ -116,7 +127,7 @@ export function DevErrorComponent({ error, onGoHome, onReload }: DevErrorCompone
   return (
     <div className="flex min-h-screen items-start justify-center bg-surface-2 p-6 transition-none">
       <div className="mt-12 w-full max-w-4xl space-y-4 transition-none">
-        <Banner placement="page" variant="danger" icon={<InfoFilled />} title="Unknown Error" />
+        <Banner placement="page" variant="danger" icon={<InfoFilled />} title={t("ui.unknown_error")} />
 
         <Card variant="with-shadow" className="!p-6">
           <div className="space-y-4">

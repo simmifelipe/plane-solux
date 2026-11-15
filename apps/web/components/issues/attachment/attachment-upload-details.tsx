@@ -16,12 +16,14 @@ import { getFileIcon } from "@/components/icons";
 import { usePlatformOS } from "@/hooks/use-platform-os";
 // types
 import type { TAttachmentUploadStatus } from "@/store/issue/issue-details/attachment.store";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   uploadStatus: TAttachmentUploadStatus;
 };
 
 export const IssueAttachmentsUploadDetails = observer(function IssueAttachmentsUploadDetails(props: Props) {
+  const { t } = useTranslation();
   // props
   const { uploadStatus } = props;
   // derived values
@@ -45,7 +47,12 @@ export const IssueAttachmentsUploadDetails = observer(function IssueAttachmentsU
         </div>
       </div>
       <span className="shrink-0">
-        <CircularProgress value={uploadStatus.progress} size="md" variant="brand" aria-label="Upload progress" />
+        <CircularProgress
+          value={uploadStatus.progress}
+          size="md"
+          variant="brand"
+          aria-label={t("ui.upload_progress")}
+        />
       </span>
     </div>
   );

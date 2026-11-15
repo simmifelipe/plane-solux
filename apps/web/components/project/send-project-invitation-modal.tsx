@@ -206,7 +206,7 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
                             onChange={(val: string) => handleMemberChange(index, val, onChange)}
                             variant="select-lg"
                             memberIds={uninvitedPeople}
-                            placeholder="Select co-worker"
+                            placeholder={t("project_settings.members.invite_members.select_co_worker")}
                           />
                         )}
                       />
@@ -233,7 +233,7 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
                                   onChange={(key) => onChange(parseInt(key))}
                                   getOptionValue={(role) => String(role.key)}
                                   getOptionLabel={(role) => role.label}
-                                  placeholder="Select role"
+                                  placeholder={t("ui.select_role")}
                                   showSearch={false}
                                   pinSelected={false}
                                 >

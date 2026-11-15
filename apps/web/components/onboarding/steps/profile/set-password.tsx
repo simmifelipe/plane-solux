@@ -8,6 +8,7 @@ import React, { useState, useCallback, useMemo } from "react";
 import { ChevronDownOutline, LockOutline } from "@makeplane/propel/icons";
 import { PasswordInput, PasswordStrengthIndicator } from "@plane/blocks/auth";
 import { cn } from "@plane/utils";
+import { useTranslation } from "@plane/i18n";
 
 interface PasswordState {
   password: string;
@@ -21,6 +22,7 @@ interface SetPasswordRootProps {
 }
 
 export function SetPasswordRoot({ onPasswordChange, onConfirmPasswordChange, disabled = false }: SetPasswordRootProps) {
+  const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
   const [passwordState, setPasswordState] = useState<PasswordState>({
     password: "",
@@ -103,10 +105,10 @@ export function SetPasswordRoot({ onPasswordChange, onConfirmPasswordChange, dis
         <div className="flex transform flex-col gap-2 pt-1 transition-all duration-300 ease-in-out">
           <PasswordInput
             id="password"
-            label="Password"
+            label={t("password")}
             value={passwordState.password}
             onChange={(value) => handlePasswordChange("password", value)}
-            placeholder="Set a password"
+            placeholder={t("auth.common.password.set_password")}
             className="transition-all duration-200"
           />
           {passwordState.password.length > 0 && <PasswordStrengthIndicator password={passwordState.password} />}
@@ -117,10 +119,10 @@ export function SetPasswordRoot({ onPasswordChange, onConfirmPasswordChange, dis
           <div className="transform transition-all delay-100 duration-300 ease-in-out">
             <PasswordInput
               id="confirm-password"
-              label="Confirm password"
+              label={t("auth.common.password.confirm_password.label")}
               value={passwordState.confirmPassword}
               onChange={(value) => handlePasswordChange("confirmPassword", value)}
-              placeholder="Confirm password"
+              placeholder={t("auth.common.password.confirm_password.label")}
               className="transition-all duration-200"
             />
             {hasPasswordMismatch && (

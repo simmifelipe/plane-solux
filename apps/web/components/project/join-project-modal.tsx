@@ -22,6 +22,7 @@ import {
 // hooks
 import { useUserPermissions } from "@/hooks/store/user";
 import { useAppRouter } from "@/hooks/use-app-router";
+import { useTranslation } from "@plane/i18n";
 
 // type
 type TJoinProjectModalProps = {
@@ -32,6 +33,7 @@ type TJoinProjectModalProps = {
 };
 
 export function JoinProjectModal(props: TJoinProjectModalProps) {
+  const { t } = useTranslation();
   const { handleClose, isOpen, project, workspaceSlug } = props;
   // states
   const [isJoiningLoading, setIsJoiningLoading] = useState(false);
@@ -80,7 +82,7 @@ export function JoinProjectModal(props: TJoinProjectModalProps) {
           </DialogBody>
         </DialogMain>
         <DialogActions>
-          <Button variant="secondary" size="md" stretch="auto" label="Cancel" onClick={handleClose} />
+          <Button variant="secondary" size="md" stretch="auto" label={t("cancel")} onClick={handleClose} />
           <Button
             variant="primary"
             size="md"

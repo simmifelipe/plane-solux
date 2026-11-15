@@ -19,8 +19,10 @@ import { useProject } from "@/hooks/store/use-project";
 import { useAppRouter } from "@/hooks/use-app-router";
 import useLocalStorage from "@/hooks/use-local-storage";
 import type { Route } from "./+types/page";
+import { useTranslation } from "@plane/i18n";
 
 function CycleDetailPage({ params }: Route.ComponentProps) {
+  const { t } = useTranslation();
   // router
   const router = useAppRouter();
   const { workspaceSlug, projectId, cycleId } = params;
@@ -56,8 +58,8 @@ function CycleDetailPage({ params }: Route.ComponentProps) {
           align="center"
           assetKey="cycle"
           assetClassName="size-40"
-          title="Cycle does not exist"
-          description="The cycle you are looking for does not exist or has been deleted."
+          title={t("ui.cycle_does_not_exist")}
+          description={t("ui.the_cycle_you_are_looking_for_does")}
           actions={[
             {
               label: "View other cycles",

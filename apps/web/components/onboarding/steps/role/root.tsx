@@ -26,6 +26,7 @@ import { useUserProfile } from "@/hooks/store/user";
 // local components
 import { CommonOnboardingHeader } from "../common";
 import type { TProfileSetupFormValues } from "../profile/root";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   handleStepChange: (step: EOnboardingSteps, skipInvites?: boolean) => void;
@@ -46,6 +47,7 @@ const defaultValues = {
 };
 
 export const RoleSetupStep = observer(function RoleSetupStep({ handleStepChange }: Props) {
+  const { t } = useTranslation();
   // store hooks
   const { data: profile, updateUserProfile } = useUserProfile();
   // form info
@@ -97,7 +99,7 @@ export const RoleSetupStep = observer(function RoleSetupStep({ handleStepChange 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
       {/* Header */}
-      <CommonOnboardingHeader title="What's your role?" description="Let's set up Plane for how you work." />
+      <CommonOnboardingHeader title={t("ui.what_s_your_role")} description={t("ui.let_s_set_up_plane_for_how")} />
       {/* Role Selection */}
       <fieldset className="flex min-w-0 flex-col gap-3">
         <legend className="mb-3 text-body-sm-semibold text-placeholder">Select one</legend>
@@ -163,7 +165,14 @@ export const RoleSetupStep = observer(function RoleSetupStep({ handleStepChange 
       </fieldset>
       {/* Action Buttons */}
       <div className="space-y-3">
-        <Button variant="primary" type="submit" stretch="full" size="lg" disabled={isButtonDisabled} label="Continue" />
+        <Button
+          variant="primary"
+          type="submit"
+          stretch="full"
+          size="lg"
+          disabled={isButtonDisabled}
+          label={t("common.continue")}
+        />
         <Button
           variant="ghost"
           onClick={handleSkip}

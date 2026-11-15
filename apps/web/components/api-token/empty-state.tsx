@@ -9,12 +9,14 @@ import React from "react";
 import { Button } from "@makeplane/propel/components/button";
 // assets
 import emptyApiTokens from "@/app/assets/empty-state/api-token.svg?url";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   onClick: () => void;
 };
 
 export function ApiTokenEmptyState(props: Props) {
+  const { t } = useTranslation();
   const { onClick } = props;
 
   return (
@@ -27,7 +29,7 @@ export function ApiTokenEmptyState(props: Props) {
         <p className="mb-7 text-tertiary sm:mb-8">
           Create API tokens for safe and easy data sharing with external apps, maintaining control and security.
         </p>
-        <Button variant="primary" size="sm" stretch="auto" label="Add token" onClick={onClick} />
+        <Button variant="primary" size="sm" stretch="auto" label={t("ui.add_token")} onClick={onClick} />
       </div>
     </div>
   );

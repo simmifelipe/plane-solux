@@ -13,6 +13,7 @@ import { setToast } from "@plane/blocks/toast";
 import type { IState } from "@plane/types";
 // hooks
 import { useProjectState } from "@/hooks/store/use-project-state";
+import { useTranslation } from "@plane/i18n";
 
 type TStateDeleteModal = {
   isOpen: boolean;
@@ -21,6 +22,7 @@ type TStateDeleteModal = {
 };
 
 export const StateDeleteModal = observer(function StateDeleteModal(props: TStateDeleteModal) {
+  const { t } = useTranslation();
   const { isOpen, onClose, data } = props;
   // states
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
@@ -66,7 +68,7 @@ export const StateDeleteModal = observer(function StateDeleteModal(props: TState
       handleSubmit={handleDeletion}
       isSubmitting={isDeleteLoading}
       isOpen={isOpen}
-      title="Delete State"
+      title={t("ui.delete_state")}
       content={
         <>
           Are you sure you want to delete state- <span className="font-medium text-primary">{data?.name}</span>? All of

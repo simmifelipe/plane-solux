@@ -27,6 +27,7 @@ import { STATIC_COVER_IMAGES, getCoverImageDisplayURL } from "@/helpers/cover-im
 import { useInstance } from "@/hooks/store/use-instance";
 // services
 import { FileService } from "@/services/file.service";
+import { useTranslation } from "@plane/i18n";
 
 type TTabOption = {
   key: string;
@@ -52,6 +53,7 @@ type Props<TFieldValues extends FieldValues = FieldValues> = {
 const fileService = new FileService();
 
 function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldValues>(props: Props<TFieldValues>) {
+  const { t } = useTranslation();
   const { label, value, control, onChange, disabled = false, tabIndex, isProfileCover = false, projectId } = props;
   // states
   const [image, setImage] = useState<File | null>(null);
@@ -232,7 +234,7 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
                                       value={value}
                                       onChange={(e) => setFormData({ ...formData, search: e.target.value })}
                                       ref={ref}
-                                      placeholder="Search for images"
+                                      placeholder={t("ui.search_for_images")}
                                     />
                                   </InputGroup>
                                 )}
@@ -242,7 +244,7 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
                               variant="primary"
                               size="lg"
                               stretch="auto"
-                              label="Search"
+                              label={t("search")}
                               onClick={() => setSearchParams(formData.search)}
                             />
                           </div>
@@ -322,7 +324,7 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
                           }`}
                         >
                           <div className="absolute top-0 right-1 z-40">
-                            <Button type="button" variant="tertiary" size="xs" stretch="auto" label="Edit" />
+                            <Button type="button" variant="tertiary" size="xs" stretch="auto" label={t("edit")} />
                           </div>
                           {image !== null || (value && value !== "") ? (
                             <>
@@ -360,7 +362,7 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
                             variant="secondary"
                             size="md"
                             stretch="auto"
-                            label="Cancel"
+                            label={t("cancel")}
                             onClick={() => {
                               setIsOpen(false);
                               setImage(null);

@@ -116,7 +116,7 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
             <SearchOutline className="size-4 shrink-0 text-placeholder" />
             <input
               className="w-full bg-transparent text-body-xs-regular outline-none placeholder:text-placeholder"
-              placeholder="Search for a cycle..."
+              placeholder={t("ui.search_for_a_cycle")}
               onChange={(e) => setQuery(e.target.value)}
               value={query}
             />

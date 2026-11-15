@@ -132,7 +132,7 @@ export function PageForm(props: Props) {
                 orientation="vertical"
                 value={formData.name}
                 onChange={(e) => handleFormData("name", e.target.value)}
-                placeholder="Title"
+                placeholder={t("title")}
                 error={
                   isTitleLengthMoreThan255Character
                     ? "Max length of the name should be less than 255 characters"
@@ -164,7 +164,7 @@ export function PageForm(props: Props) {
           variant="secondary"
           size="md"
           stretch="auto"
-          label="Cancel"
+          label={t("cancel")}
           onClick={handleModalClose}
           tabIndex={getIndex("cancel")}
         />

@@ -202,7 +202,7 @@ export function CreateApiTokenForm(props: Props) {
                   render={({ field: { onChange, value } }) => (
                     <SelectField<string>
                       name="expired_at"
-                      aria-label="Set expiration date"
+                      aria-label={t("ui.set_expiration_date")}
                       size="md"
                       variant="pill"
                       value={value ?? null}
@@ -216,7 +216,7 @@ export function CreateApiTokenForm(props: Props) {
                           : (EXPIRY_SELECT_OPTIONS.find((option) => option.value === expiry)?.label ?? expiry)
                       }
                       icon={<CalendarOutline className="size-3.5 shrink-0" />}
-                      placeholder="Set expiration date"
+                      placeholder={t("ui.set_expiration_date")}
                       disabled={neverExpires}
                     />
                   )}
@@ -227,7 +227,7 @@ export function CreateApiTokenForm(props: Props) {
                     onChange={(date) => setCustomDate(date)}
                     minDate={tomorrow}
                     icon={<CalendarOutline />}
-                    placeholder="Set date"
+                    placeholder={t("ui.set_date")}
                     disabled={neverExpires}
                     clearable
                     weekStartsOn={userProfile?.start_of_the_week}

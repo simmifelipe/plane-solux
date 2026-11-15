@@ -334,13 +334,13 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
                         size="md"
                         value="ACCORDION"
                         label={t("accordion_navigation_control")}
-                        description="Feature tabs will appear as nested items under project and acts as accordion."
+                        description={t("ui.feature_tabs_will_appear_as_nested_items")}
                       />
                       <RadioGroupFieldOption
                         size="md"
                         value="TABBED"
                         label={t("horizontal_navigation_bar")}
-                        description="Feature tabs will appear as horizontal tabs inside a project."
+                        description={t("ui.feature_tabs_will_appear_as_horizontal_tabs")}
                       />
                     </RadioGroup>
                   </Field>

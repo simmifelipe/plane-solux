@@ -35,6 +35,7 @@ import { Loader } from "@plane/blocks/skeleton";
 import { copyTextToClipboard } from "@plane/utils";
 // hooks
 import { useProjectPublish } from "@/hooks/store/use-project-publish";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   isOpen: boolean;
@@ -64,6 +65,7 @@ const VIEW_OPTIONS: TViewOption[] = [
 ];
 
 export const PublishProjectModal = observer(function PublishProjectModal(props: Props) {
+  const { t } = useTranslation();
   const { isOpen, onClose, projectId } = props;
   // states
   const [isUnPublishing, setIsUnPublishing] = useState(false);
@@ -247,7 +249,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                         <div className="flex flex-shrink-0 items-center gap-1">
                           <a
                             href={publishLink}
-                            aria-label="Open in new tab"
+                            aria-label={t("open_in_new_tab")}
                             className="grid size-8 place-items-center rounded-sm bg-layer-3 hover:bg-layer-3-hover"
                             target="_blank"
                             rel="noopener noreferrer"
@@ -318,7 +320,12 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                         control={control}
                         name="is_comments_enabled"
                         render={({ field: { onChange, value } }) => (
-                          <Switch size="sm" checked={!!value} onCheckedChange={onChange} aria-label="Allow comments" />
+                          <Switch
+                            size="sm"
+                            checked={!!value}
+                            onCheckedChange={onChange}
+                            aria-label={t("ui.allow_comments")}
+                          />
                         )}
                       />
                     </div>
@@ -328,7 +335,12 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                         control={control}
                         name="is_reactions_enabled"
                         render={({ field: { onChange, value } }) => (
-                          <Switch size="sm" checked={!!value} onCheckedChange={onChange} aria-label="Allow reactions" />
+                          <Switch
+                            size="sm"
+                            checked={!!value}
+                            onCheckedChange={onChange}
+                            aria-label={t("ui.allow_reactions")}
+                          />
                         )}
                       />
                     </div>
@@ -338,7 +350,12 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                         control={control}
                         name="is_votes_enabled"
                         render={({ field: { onChange, value } }) => (
-                          <Switch size="sm" checked={!!value} onCheckedChange={onChange} aria-label="Allow voting" />
+                          <Switch
+                            size="sm"
+                            checked={!!value}
+                            onCheckedChange={onChange}
+                            aria-label={t("ui.allow_voting")}
+                          />
                         )}
                       />
                     </div>
@@ -358,7 +375,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
             </DialogInfo>
             {!fetchSettingsLoader && (
               <div className="relative flex items-center gap-2">
-                <Button variant="secondary" size="md" stretch="auto" label="Cancel" onClick={handleClose} />
+                <Button variant="secondary" size="md" stretch="auto" label={t("cancel")} onClick={handleClose} />
                 {isProjectPublished ? (
                   isDirty && (
                     <Button

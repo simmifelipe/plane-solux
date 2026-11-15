@@ -164,7 +164,7 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
         {moduleLeadDetails ? (
           <ButtonAvatars showTooltip={false} userIds={moduleLeadDetails?.id} />
         ) : (
-          <Tooltip label="No lead">
+          <Tooltip label={t("workspace_projects.card.no_lead")}>
             <LeadOutline className="size-4 shrink-0 text-tertiary" />
           </Tooltip>
         )}

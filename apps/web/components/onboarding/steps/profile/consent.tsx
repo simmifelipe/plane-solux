@@ -5,6 +5,7 @@
  */
 
 import { Checkbox } from "@makeplane/propel/components/checkbox";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   isChecked: boolean;
@@ -12,10 +13,11 @@ type Props = {
 };
 
 export function MarketingConsent({ isChecked, handleChange }: Props) {
+  const { t } = useTranslation();
   return (
     <div className="flex w-full justify-center">
       <Checkbox
-        label="I agree to Plane marketing communications"
+        label={t("ui.i_agree_to_plane_marketing_communications")}
         checked={isChecked}
         onCheckedChange={(checked) => handleChange(checked)}
         onKeyDown={(event) => {

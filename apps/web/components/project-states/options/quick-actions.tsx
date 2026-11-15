@@ -79,7 +79,7 @@ export const StateQuickActions = observer(function StateQuickActions(props: TSta
         handleSubmit={handleDeleteState}
         isSubmitting={isDeleting}
         isOpen={isDeleteModalOpen}
-        title="Delete State"
+        title={t("ui.delete_state")}
         content={
           <>
             Are you sure you want to delete state- <span className="font-medium text-primary">{state?.name}</span>? All

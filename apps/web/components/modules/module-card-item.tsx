@@ -243,7 +243,7 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
               {moduleLeadDetails ? (
                 <ButtonAvatars showTooltip={false} userIds={moduleLeadDetails?.id} />
               ) : (
-                <Tooltip label="No lead">
+                <Tooltip label={t("workspace_projects.card.no_lead")}>
                   <span className="grid size-5 place-items-center text-tertiary">
                     <LeadOutline className="size-4" />
                   </span>

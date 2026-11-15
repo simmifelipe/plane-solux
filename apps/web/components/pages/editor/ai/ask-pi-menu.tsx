@@ -14,6 +14,7 @@ import { RichTextEditor } from "@/components/editor/rich-text";
 // helpers
 // hooks
 import { useWorkspace } from "@/hooks/store/use-workspace";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   handleInsertText: (insertOnNextLine: boolean) => void;
@@ -24,6 +25,7 @@ type Props = {
 };
 
 export function AskPiMenu(props: Props) {
+  const { t } = useTranslation();
   const { handleInsertText, handleRegenerate, isRegenerating, response, workspaceSlug } = props;
   // states
   const [query, setQuery] = useState("");
@@ -64,7 +66,7 @@ export function AskPiMenu(props: Props) {
               >
                 Replace selection
               </button>
-              <Tooltip label="Add to next line">
+              <Tooltip label={t("ui.add_to_next_line")}>
                 <button
                   type="button"
                   className="grid size-6 flex-shrink-0 place-items-center rounded-sm outline-none hover:bg-layer-1"
@@ -73,7 +75,7 @@ export function AskPiMenu(props: Props) {
                   <CornerRightDownOutline className="size-4 text-tertiary" />
                 </button>
               </Tooltip>
-              <Tooltip label="Re-generate response">
+              <Tooltip label={t("ui.re_generate_response")}>
                 <button
                   type="button"
                   className="grid size-6 flex-shrink-0 place-items-center rounded-sm outline-none hover:bg-layer-1"
@@ -107,7 +109,7 @@ export function AskPiMenu(props: Props) {
             className="w-full border-none bg-transparent text-body-xs-regular outline-none placeholder:text-placeholder"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Tell AI what to do..."
+            placeholder={t("ui.tell_ai_what_to_do")}
           />
           <span className="grid size-4 flex-shrink-0 place-items-center">
             <UpgradeOutline className="size-4 text-secondary" />

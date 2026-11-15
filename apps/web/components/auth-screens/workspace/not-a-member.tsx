@@ -9,8 +9,10 @@ import Link from "next/link";
 import { Button } from "@makeplane/propel/components/button";
 // layouts
 import DefaultLayout from "@/layouts/default-layout";
+import { useTranslation } from "@plane/i18n";
 
 export function NotAWorkspaceMember() {
+  const { t } = useTranslation();
   return (
     <DefaultLayout>
       <div className="grid h-full place-items-center p-4">
@@ -27,7 +29,7 @@ export function NotAWorkspaceMember() {
               variant="secondary"
               size="sm"
               stretch="auto"
-              label="Check pending invites"
+              label={t("ui.check_pending_invites")}
               nativeButton={false}
               render={<Link href="/invitations" />}
             />
@@ -35,7 +37,7 @@ export function NotAWorkspaceMember() {
               variant="primary"
               size="sm"
               stretch="auto"
-              label="Create new workspace"
+              label={t("ui.create_new_workspace")}
               nativeButton={false}
               render={<Link href="/create-workspace" />}
             />

@@ -11,6 +11,7 @@ import { Icon } from "@makeplane/propel/components/icon";
 import { DownloadOutline } from "@makeplane/propel/icons";
 import type { IExportData } from "@plane/types";
 import { getDate, getFileURL, renderFormattedDate } from "@plane/utils";
+import { useTranslation } from "@plane/i18n";
 
 type RowData = IExportData;
 const checkExpiry = (inputDateString: string) => {
@@ -21,6 +22,7 @@ const checkExpiry = (inputDateString: string) => {
   return expiryDate > currentDate;
 };
 export const useExportColumns = () => {
+  const { t } = useTranslation();
   const columns = [
     {
       key: "Exported By",
@@ -103,7 +105,7 @@ export const useExportColumns = () => {
                   href={rowData?.url}
                   rel="noopener noreferrer"
                   icon={<Icon icon={DownloadOutline} />}
-                  label="Download"
+                  label={t("page_navigation_pane.tabs.assets.download_button")}
                 />
               </div>
             ) : (

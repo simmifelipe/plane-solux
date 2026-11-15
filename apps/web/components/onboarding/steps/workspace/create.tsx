@@ -134,7 +134,7 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
         void handleSubmit(handleCreateWorkspace)(e);
       }}
     >
-      <CommonOnboardingHeader title="Create your workspace" description="All your work — unified." />
+      <CommonOnboardingHeader title={t("workspace_creation.heading")} description={t("ui.all_your_work_unified")} />
       <div className="flex flex-col gap-8">
         <Controller
           control={control}
@@ -164,7 +164,7 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
                   shouldValidate: true,
                 });
               }}
-              placeholder="Enter workspace name"
+              placeholder={t("ui.enter_workspace_name")}
               ref={ref}
               // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
@@ -271,7 +271,7 @@ export const WorkspaceCreateStep = observer(function WorkspaceCreateStep({
             size="lg"
             stretch="full"
             onClick={handleCurrentViewChange}
-            label="Join existing workspace"
+            label={t("ui.join_existing_workspace")}
           />
         )}
       </div>

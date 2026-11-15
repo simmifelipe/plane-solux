@@ -14,6 +14,7 @@ import type { IIssueLabel } from "@plane/types";
 import { ConfirmDialog } from "@plane/blocks/dialog";
 // hooks
 import { useLabel } from "@/hooks/store/use-label";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   isOpen: boolean;
@@ -22,6 +23,7 @@ type Props = {
 };
 
 export const DeleteLabelModal = observer(function DeleteLabelModal(props: Props) {
+  const { t } = useTranslation();
   const { isOpen, onClose, data } = props;
   // router
   const { workspaceSlug, projectId } = useParams();
@@ -63,7 +65,7 @@ export const DeleteLabelModal = observer(function DeleteLabelModal(props: Props)
       handleSubmit={handleDeletion}
       isSubmitting={isDeleteLoading}
       isOpen={isOpen}
-      title="Delete Label"
+      title={t("ui.delete_label")}
       content={
         <>
           Are you sure you want to delete <span className="font-medium text-primary">{data?.name}</span>? This will

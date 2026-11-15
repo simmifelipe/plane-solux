@@ -53,7 +53,7 @@ export const BillingRoot = observer(function BillingRoot() {
         <div className="mt-6">
           <SettingsBoxedControlItem
             title="Community"
-            description="Unlimited projects, issues, cycles, modules, pages, and storage"
+            description={t("ui.unlimited_projects_issues_cycles_modules_pages_and")}
           />
         </div>
       </div>

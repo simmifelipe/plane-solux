@@ -38,6 +38,7 @@ import { useProjectState } from "@/hooks/store/use-project-state";
 import { useWorkspace } from "@/hooks/store/use-workspace";
 import { useUser, useUserPermissions } from "@/hooks/store/user";
 import { usePlatformOS } from "@/hooks/use-platform-os";
+import { useTranslation } from "@plane/i18n";
 
 interface IWorkspaceAuthWrapper {
   children: ReactNode;
@@ -45,6 +46,7 @@ interface IWorkspaceAuthWrapper {
 }
 
 export const WorkspaceAuthWrapper = observer(function WorkspaceAuthWrapper(props: IWorkspaceAuthWrapper) {
+  const { t } = useTranslation();
   const { children, isLoading: isParentLoading = false } = props;
   // router params
   const { workspaceSlug } = useParams();
@@ -157,10 +159,10 @@ export const WorkspaceAuthWrapper = observer(function WorkspaceAuthWrapper(props
             </div>
             <div className="relative flex items-center gap-2">
               <div className="text-body-xs-medium">{currentUser?.email}</div>
-              <Tooltip label="Sign out" alignOffset={8} disabled={isMobile}>
+              <Tooltip label={t("sign_out")} alignOffset={8} disabled={isMobile}>
                 <button
                   type="button"
-                  aria-label="Sign out"
+                  aria-label={t("sign_out")}
                   className="relative flex h-6 w-6 flex-shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-sm hover:bg-layer-1"
                   onClick={() => void handleSignOut()}
                 >
@@ -174,8 +176,8 @@ export const WorkspaceAuthWrapper = observer(function WorkspaceAuthWrapper(props
               align="center"
               assetKey="invalid-link"
               assetClassName="size-40"
-              title="Workspace not found"
-              description="No workspace found with the URL. It may not exist or you lack authorization to view it."
+              title={t("ui.workspace_not_found")}
+              description={t("ui.no_workspace_found_with_the_url_it")}
               customButton={
                 <div className="flex flex-col gap-4 sm:flex-row">
                   {allWorkspaces.length > 0 ? (
@@ -184,7 +186,7 @@ export const WorkspaceAuthWrapper = observer(function WorkspaceAuthWrapper(props
                         variant="primary"
                         size="lg"
                         stretch="auto"
-                        label="Go Home"
+                        label={t("go_home")}
                         nativeButton={false}
                         render={<Link href="/" />}
                       />
@@ -192,7 +194,7 @@ export const WorkspaceAuthWrapper = observer(function WorkspaceAuthWrapper(props
                         variant="secondary"
                         size="lg"
                         stretch="auto"
-                        label="Visit Profile"
+                        label={t("ui.visit_profile")}
                         nativeButton={false}
                         render={<Link href="/settings/profile/general/" />}
                       />
@@ -202,7 +204,7 @@ export const WorkspaceAuthWrapper = observer(function WorkspaceAuthWrapper(props
                       variant="secondary"
                       size="lg"
                       stretch="auto"
-                      label="Create new workspace"
+                      label={t("ui.create_new_workspace")}
                       nativeButton={false}
                       render={<Link href="/create-workspace/" />}
                     />
@@ -236,7 +238,7 @@ export const WorkspaceAuthWrapper = observer(function WorkspaceAuthWrapper(props
                 variant="secondary"
                 size="sm"
                 stretch="auto"
-                label="Check pending invites"
+                label={t("ui.check_pending_invites")}
                 nativeButton={false}
                 render={<Link href="/invitations" />}
               />
@@ -244,7 +246,7 @@ export const WorkspaceAuthWrapper = observer(function WorkspaceAuthWrapper(props
                 variant="primary"
                 size="sm"
                 stretch="auto"
-                label="Create new workspace"
+                label={t("ui.create_new_workspace")}
                 nativeButton={false}
                 render={<Link href="/create-workspace" />}
               />

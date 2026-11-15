@@ -98,7 +98,7 @@ export const CustomThemeImportConfigButton = observer(function CustomThemeImport
         size="md"
         stretch="auto"
         type="button"
-        label="Import config"
+        label={t("ui.import_config")}
         onClick={() => fileInputRef.current?.click()}
       />
     </>

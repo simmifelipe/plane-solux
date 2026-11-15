@@ -63,7 +63,7 @@ export const CustomThemeDownloadConfigButton = observer(function CustomThemeDown
       size="md"
       stretch="auto"
       type="button"
-      label="Download config"
+      label={t("ui.download_config")}
       onClick={handleDownloadConfig}
     />
   );

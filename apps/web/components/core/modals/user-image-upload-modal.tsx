@@ -27,6 +27,7 @@ import { EFileAssetType } from "@plane/types";
 import { getAssetIdFromUrl, getFileURL, checkURLValidity } from "@plane/utils";
 // services
 import { FileService } from "@/services/file.service";
+import { useTranslation } from "@plane/i18n";
 const fileService = new FileService();
 
 type Props = {
@@ -38,6 +39,7 @@ type Props = {
 };
 
 export const UserImageUploadModal = observer(function UserImageUploadModal(props: Props) {
+  const { t } = useTranslation();
   const { handleRemove, isOpen, onClose, onSuccess, value } = props;
   // states
   const [image, setImage] = useState<File | null>(null);
@@ -178,7 +180,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
               disabled={!value}
             />
           </DialogInfo>
-          <Button variant="secondary" size="md" stretch="auto" label="Cancel" onClick={handleClose} />
+          <Button variant="secondary" size="md" stretch="auto" label={t("cancel")} onClick={handleClose} />
           <Button
             variant="primary"
             size="md"

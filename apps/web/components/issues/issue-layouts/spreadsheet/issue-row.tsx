@@ -34,6 +34,7 @@ import { usePlatformOS } from "@/hooks/use-platform-os";
 import type { TRenderQuickActions } from "../list/list-view-types";
 import { isIssueNew } from "../utils";
 import { IssueColumn } from "./issue-column";
+import { useTranslation } from "@plane/i18n";
 
 interface Props {
   displayProperties: IIssueDisplayProperties;
@@ -169,6 +170,7 @@ interface IssueRowDetailsProps {
 }
 
 const IssueRowDetails = observer(function IssueRowDetails(props: IssueRowDetailsProps) {
+  const { t } = useTranslation();
   const {
     displayProperties,
     issueId,
@@ -311,7 +313,7 @@ const IssueRowDetails = observer(function IssueRowDetails(props: IssueRowDetails
               {/* select checkbox */}
               {projectId && canSelectIssues && (
                 <Tooltip
-                  label="Only work items within the current project can be selected."
+                  label={t("ui.only_work_items_within_the_current_project")}
                   layout="stacked"
                   disabled={issueDetail.project_id === projectId}
                 >

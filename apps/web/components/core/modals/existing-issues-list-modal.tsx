@@ -186,7 +186,7 @@ export function ExistingIssuesListModal(props: Props) {
             {workspaceLevelToggle && (
               <>
                 <span className="h-5 border-s border-subtle" aria-hidden />
-                <Tooltip label="Toggle workspace level search" disabled={isMobile}>
+                <Tooltip label={t("ui.toggle_workspace_level_search")} disabled={isMobile}>
                   <div className="flex flex-shrink-0 items-center gap-2 text-body-xs-regular text-secondary">
                     <Switch
                       size="md"

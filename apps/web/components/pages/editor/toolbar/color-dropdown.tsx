@@ -15,6 +15,7 @@ import { COLORS_LIST } from "@plane/editor";
 import type { TEditorCommands } from "@plane/editor";
 // helpers
 import { cn } from "@plane/utils";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   handleColorSelect: (
@@ -28,6 +29,7 @@ type Props = {
 };
 
 export const ColorDropdown = memo(function ColorDropdown(props: Props) {
+  const { t } = useTranslation();
   const { handleColorSelect, isColorActive } = props;
 
   return (
@@ -62,7 +64,7 @@ export const ColorDropdown = memo(function ColorDropdown(props: Props) {
             <IconButton
               variant="secondary"
               size="sm"
-              aria-label="Remove text color"
+              aria-label={t("ui.remove_text_color")}
               icon={<Icon icon={DeactivatedOutline} />}
               onClick={() => handleColorSelect("text-color", undefined)}
             />
@@ -90,7 +92,7 @@ export const ColorDropdown = memo(function ColorDropdown(props: Props) {
             <IconButton
               variant="secondary"
               size="sm"
-              aria-label="Remove background color"
+              aria-label={t("ui.remove_background_color")}
               icon={<Icon icon={DeactivatedOutline} />}
               onClick={() => handleColorSelect("background-color", undefined)}
             />

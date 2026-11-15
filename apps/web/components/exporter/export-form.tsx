@@ -201,7 +201,7 @@ export const ExportForm = observer(function ExportForm(props: Props) {
                               logo_props: project.logo_props,
                             };
                           }}
-                          placeholder="All projects"
+                          placeholder={t("automations.global_automations.project_select.all_projects.label")}
                           // An empty selection exports every project, so it reads as a value.
                           emptyIsValue
                           className="w-fit"

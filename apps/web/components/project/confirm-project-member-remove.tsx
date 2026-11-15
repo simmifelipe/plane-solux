@@ -25,6 +25,7 @@ import {
 // hooks
 import { useProject } from "@/hooks/store/use-project";
 import { useUser } from "@/hooks/store/user";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   data: Partial<IUserLite>;
@@ -34,6 +35,7 @@ type Props = {
 };
 
 export const ConfirmProjectMemberRemove = observer(function ConfirmProjectMemberRemove(props: Props) {
+  const { t } = useTranslation();
   const { data, onSubmit, isOpen, onClose } = props;
   // router
   const { projectId } = useParams();
@@ -99,7 +101,7 @@ export const ConfirmProjectMemberRemove = observer(function ConfirmProjectMember
           </DialogBody>
         </DialogMain>
         <DialogActions>
-          <Button variant="secondary" size="md" stretch="auto" label="Cancel" onClick={handleClose} />
+          <Button variant="secondary" size="md" stretch="auto" label={t("cancel")} onClick={handleClose} />
           <Button
             variant="danger"
             size="md"

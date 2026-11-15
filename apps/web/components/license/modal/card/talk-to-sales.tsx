@@ -12,6 +12,7 @@ import type { EProductSubscriptionEnum, IPaymentProduct, TSubscriptionPrice } fr
 import { Loader } from "@plane/blocks/skeleton";
 // local imports
 import { BasePaidPlanCard } from "./base-paid-plan-card";
+import { useTranslation } from "@plane/i18n";
 
 export type TalkToSalesCardProps = {
   planVariant: EProductSubscriptionEnum;
@@ -36,6 +37,7 @@ const renderPriceContent = (price: TSubscriptionPrice) => (
 );
 
 export const TalkToSalesCard = observer(function TalkToSalesCard(props: TalkToSalesCardProps) {
+  const { t } = useTranslation();
   const {
     planVariant,
     href,
@@ -82,7 +84,7 @@ export const TalkToSalesCard = observer(function TalkToSalesCard(props: TalkToSa
                   Talk to Sales
                 </a>
               }
-              label="Talk to Sales"
+              label={t("common.upgrade_cta.talk_to_sales")}
             />
           </div>
           {isTrialAllowed && !isSelfHosted && (

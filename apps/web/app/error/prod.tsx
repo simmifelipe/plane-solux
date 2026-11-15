@@ -10,6 +10,7 @@ import { Button } from "@makeplane/propel/components/button";
 import { EmptyStateDetailed } from "@plane/blocks/empty-state";
 // layouts
 import DefaultLayout from "@/layouts/default-layout";
+import { useTranslation } from "@plane/i18n";
 
 const linkMap = [
   {
@@ -36,6 +37,7 @@ interface ProdErrorComponentProps {
 }
 
 export function ProdErrorComponent({ onGoHome, onReload }: ProdErrorComponentProps) {
+  const { t } = useTranslation();
   return (
     <DefaultLayout>
       {/* The blocks illustration is themed through CSS tokens, so no theme lookup is needed here. */}
@@ -45,7 +47,7 @@ export function ProdErrorComponent({ onGoHome, onReload }: ProdErrorComponentPro
           assetKey="server-error"
           assetClassName="size-40"
           title="🚧 Looks like something went wrong!"
-          description="We track these errors automatically and working on getting things back up and running. If the problem persists feel free to contact us. In the meantime, try refreshing."
+          description={t("ui.we_track_these_errors_automatically_and_working")}
           customButton={
             <div className="flex flex-col items-center gap-4">
               <div className="flex flex-wrap items-center justify-center gap-6">
@@ -63,7 +65,13 @@ export function ProdErrorComponent({ onGoHome, onReload }: ProdErrorComponentPro
               </div>
               <div className="flex flex-col gap-4 sm:flex-row">
                 <Button variant="primary" size="lg" stretch="auto" label="Reload" onClick={onReload} />
-                <Button variant="secondary" size="lg" stretch="auto" label="Go to home" onClick={onGoHome} />
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  stretch="auto"
+                  label={t("power_k.navigation_actions.nav_home")}
+                  onClick={onGoHome}
+                />
               </div>
             </div>
           }

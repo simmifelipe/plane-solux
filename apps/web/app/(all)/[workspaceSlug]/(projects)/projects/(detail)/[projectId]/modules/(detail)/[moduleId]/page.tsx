@@ -19,8 +19,10 @@ import { useProject } from "@/hooks/store/use-project";
 import { useAppRouter } from "@/hooks/use-app-router";
 import useLocalStorage from "@/hooks/use-local-storage";
 import type { Route } from "./+types/page";
+import { useTranslation } from "@plane/i18n";
 
 function ModuleIssuesPage({ params }: Route.ComponentProps) {
+  const { t } = useTranslation();
   // router
   const router = useAppRouter();
   const { workspaceSlug, projectId, moduleId } = params;
@@ -53,8 +55,8 @@ function ModuleIssuesPage({ params }: Route.ComponentProps) {
           align="center"
           assetKey="module"
           assetClassName="size-40"
-          title="Module does not exist"
-          description="The module you are looking for does not exist or has been deleted."
+          title={t("ui.module_does_not_exist")}
+          description={t("ui.the_module_you_are_looking_for_does")}
           actions={[
             {
               label: "View other modules",

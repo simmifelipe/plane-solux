@@ -122,7 +122,7 @@ export const ProjectFeaturesList = observer(function ProjectFeaturesList(props: 
           }
           titleAccessory={
             featureItem.isPro ? (
-              <Tooltip label="Pro feature">
+              <Tooltip label={t("ui.pro_feature")}>
                 <UpgradeBadge className="rounded-sm" />
               </Tooltip>
             ) : undefined

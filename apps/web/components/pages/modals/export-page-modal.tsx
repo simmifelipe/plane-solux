@@ -29,6 +29,7 @@ import { setToast } from "@plane/blocks/toast";
 import { PDFDocument } from "@/components/editor/pdf";
 // hooks
 import { useParseEditorContent } from "@/hooks/use-parse-editor-content";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   editorRef: EditorRefApi | null;
@@ -115,6 +116,7 @@ const defaultValues: TFormValues = {
 };
 
 export function ExportPageModal(props: Props) {
+  const { t } = useTranslation();
   const { editorRef, isOpen, onClose, pageTitle } = props;
   // states
   const [isExporting, setIsExporting] = useState(false);
@@ -238,7 +240,7 @@ export function ExportPageModal(props: Props) {
                   name="export_format"
                   render={({ field: { onChange, value } }) => (
                     <ExportOptionSelect
-                      label="Export format"
+                      label={t("ui.export_format")}
                       options={EXPORT_FORMATS}
                       value={value}
                       onChange={(val) => onChange(val as TExportFormats)}
@@ -253,7 +255,7 @@ export function ExportPageModal(props: Props) {
                   name="content_variety"
                   render={({ field: { onChange, value } }) => (
                     <ExportOptionSelect
-                      label="Include content"
+                      label={t("ui.include_content")}
                       options={CONTENT_VARIETY}
                       value={value}
                       onChange={(val) => onChange(val as TContentVariety)}
@@ -269,7 +271,7 @@ export function ExportPageModal(props: Props) {
                     name="page_format"
                     render={({ field: { onChange, value } }) => (
                       <ExportOptionSelect
-                        label="Page format"
+                        label={t("ui.page_format")}
                         options={PAGE_FORMATS}
                         value={value}
                         onChange={(val) => onChange(val as TPageFormats)}
@@ -282,7 +284,7 @@ export function ExportPageModal(props: Props) {
           </DialogBody>
         </DialogMain>
         <DialogActions>
-          <Button variant="secondary" size="md" stretch="auto" label="Cancel" onClick={handleClose} />
+          <Button variant="secondary" size="md" stretch="auto" label={t("cancel")} onClick={handleClose} />
           <Button
             variant="primary"
             size="md"

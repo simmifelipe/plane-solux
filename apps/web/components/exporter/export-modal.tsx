@@ -133,7 +133,7 @@ export const Exporter = observer(function Exporter(props: Props) {
                     logo_props: project.logo_props,
                   };
                 }}
-                placeholder="All projects"
+                placeholder={t("automations.global_automations.project_select.all_projects.label")}
                 className="w-full"
               />
               <Checkbox

@@ -20,6 +20,7 @@ import {
 } from "@makeplane/propel/components/dialog";
 import { InputField } from "@makeplane/propel/components/input-field";
 import type { IProject } from "@plane/types";
+import { useTranslation } from "@plane/i18n";
 
 // types
 type Props = {
@@ -31,6 +32,7 @@ type Props = {
 };
 
 export function SelectMonthModal({ type, initialValues, isOpen, handleClose, handleChange }: Props) {
+  const { t } = useTranslation();
   const { workspaceSlug, projectId } = useParams();
 
   const {
@@ -72,7 +74,7 @@ export function SelectMonthModal({ type, initialValues, isOpen, handleClose, han
           ref={ref}
           size="2xl"
           orientation="vertical"
-          placeholder="Enter Months"
+          placeholder={t("ui.enter_months")}
           min={1}
           max={12}
           endIcon={<span className="text-body-xs-regular text-secondary">Months</span>}
@@ -104,7 +106,7 @@ export function SelectMonthModal({ type, initialValues, isOpen, handleClose, han
             </DialogBody>
           </DialogMain>
           <DialogActions>
-            <Button variant="secondary" size="md" stretch="auto" label="Cancel" onClick={onClose} />
+            <Button variant="secondary" size="md" stretch="auto" label={t("cancel")} onClick={onClose} />
             <Button
               variant="primary"
               size="md"

@@ -23,6 +23,7 @@ import {
 import { useProjectEstimates } from "@/hooks/store/estimates";
 import { useEstimate } from "@/hooks/store/estimates/use-estimate";
 import { useProject } from "@/hooks/store/use-project";
+import { useTranslation } from "@plane/i18n";
 
 type TDeleteEstimateModal = {
   workspaceSlug: string;
@@ -33,6 +34,7 @@ type TDeleteEstimateModal = {
 };
 
 export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: TDeleteEstimateModal) {
+  const { t } = useTranslation();
   // props
   const { workspaceSlug, projectId, estimateId, isOpen, handleClose } = props;
   // hooks
@@ -104,7 +106,7 @@ export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: 
             onClick={handleClose}
             disabled={buttonLoader}
             stretch="auto"
-            label="Cancel"
+            label={t("cancel")}
           />
           <Button
             variant="danger"

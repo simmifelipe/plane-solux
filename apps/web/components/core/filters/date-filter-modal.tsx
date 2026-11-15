@@ -151,13 +151,13 @@ export function DateFilterModal({ title, handleClose, isOpen, onSelect }: Props)
             </DialogBody>
           </DialogMain>
           <DialogActions>
-            <Button variant="secondary" size="md" stretch="auto" label="Cancel" onClick={handleClose} />
+            <Button variant="secondary" size="md" stretch="auto" label={t("cancel")} onClick={handleClose} />
             <Button
               variant="primary"
               size="md"
               stretch="auto"
               type="button"
-              label="Apply"
+              label={t("common.apply")}
               onClick={() => {
                 void handleSubmit(handleFormSubmit)();
               }}

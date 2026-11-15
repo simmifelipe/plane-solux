@@ -16,6 +16,7 @@ import { isInDateFormat } from "@plane/utils";
 // local imports
 import { useDateFilterModal } from "./date-filter-modal-context";
 import { FilterSubmenuCount } from "./filter-submenu";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   /** The date property, shown on the row that opens the submenu and as the custom-range modal title. */
@@ -39,6 +40,7 @@ export const isCustomDateFilterValue = (value: string) => isInDateFormat(value.s
  * that opens the custom-range modal through the surrounding `DateFilterModalHost`.
  */
 export const DateFilterSubmenu = observer(function DateFilterSubmenu(props: Props) {
+  const { t } = useTranslation();
   const { label, options, appliedFilters, onToggleOption, onSelectCustomRange, onClearCustomRange } = props;
   // context hooks
   const dateFilterModal = useDateFilterModal();
@@ -60,7 +62,7 @@ export const DateFilterSubmenu = observer(function DateFilterSubmenu(props: Prop
         ))}
         {dateFilterModal && (
           <MenuCheckboxItem
-            label="Custom"
+            label={t("notification.snooze.custom")}
             checked={isCustomRangeApplied}
             // picking a range opens a modal, so the menu steps aside; clearing one keeps it open
             closeOnClick={!isCustomRangeApplied}

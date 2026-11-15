@@ -23,6 +23,7 @@ import type { ToolbarMenuItem } from "@plane/editor";
 import { TOOLBAR_ITEMS, TYPOGRAPHY_ITEMS } from "@plane/editor";
 // local imports
 import { ColorDropdown } from "./color-dropdown";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   editorRef: EditorRefApi;
@@ -70,6 +71,7 @@ ToolbarItem.displayName = "ToolbarItem";
 const toolbarItems = TOOLBAR_ITEMS.document;
 
 export function PageToolbar(props: Props) {
+  const { t } = useTranslation();
   const { editorRef } = props;
   // states
   const [activeStates, setActiveStates] = useState<Record<string, boolean>>(() => {
@@ -117,7 +119,7 @@ export function PageToolbar(props: Props) {
   return (
     <TooltipProvider>
       <div className="animate-in fade-in relative -top-px flex h-header items-center overflow-x-auto duration-200">
-        <Toolbar size="md" elevation="flat" aria-label="Formatting toolbar">
+        <Toolbar size="md" elevation="flat" aria-label={t("ui.formatting_toolbar")}>
           <Menu>
             <ToolbarMenuTrigger label={activeTypography?.name || "Text"} />
             <MenuContent side="bottom" align="start">

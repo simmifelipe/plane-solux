@@ -23,6 +23,7 @@ import { useWorkspace } from "@/hooks/store/use-workspace";
 import { useUserSettings } from "@/hooks/store/user";
 // services
 import { WorkspaceService } from "@/services/workspace.service";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   invitations: IWorkspaceMemberInvitation[];
@@ -32,6 +33,7 @@ type Props = {
 const workspaceService = new WorkspaceService();
 
 export function Invitations(props: Props) {
+  const { t } = useTranslation();
   const { invitations, handleNextStep, handleCurrentViewChange } = props;
   // states
   const [isJoiningWorkspaces, setIsJoiningWorkspaces] = useState(false);
@@ -121,7 +123,7 @@ export function Invitations(props: Props) {
         render={<button type="button" className="bg-surface-2 text-body-sm-regular" />}
         onClick={handleCurrentViewChange}
         disabled={isJoiningWorkspaces}
-        label="Create your own workspace"
+        label={t("ui.create_your_own_workspace")}
       />
     </div>
   ) : (
