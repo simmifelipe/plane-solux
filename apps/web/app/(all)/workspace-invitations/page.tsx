@@ -97,8 +97,8 @@ function WorkspaceInvitationPage() {
               title={`You have been invited to ${invitationDetail.workspace.name}`}
               description={t("ui.your_workspace_is_where_you_ll_create")}
               actions={[
-                { label: "Accept", variant: "primary", onClick: handleAccept },
-                { label: "Ignore", variant: "secondary", onClick: handleReject },
+                { label: t("inbox_issue.actions.accept"), variant: "primary", onClick: handleAccept },
+                { label: t("ui.ignore"), variant: "secondary", onClick: handleReject },
               ]}
             />
           )

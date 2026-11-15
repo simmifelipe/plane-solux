@@ -139,6 +139,6 @@ export function WorkspaceJoinInvitesStep(props: Props) {
       </div>
     </div>
   ) : (
-    <div>No Invitations found</div>
+    <div>{t("ui.no_invitations_found")}</div>
   );
 }

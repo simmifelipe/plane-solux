@@ -62,7 +62,7 @@ export const TalkToSalesCard = observer(function TalkToSalesCard(props: TalkToSa
               <Loader.Item height="36px" width="4rem" />
             </Loader>
           ) : (
-            <>Quote on request</>
+            <>{t("ui.quote_on_request")}</>
           )}
         </div>
         <div className="text-caption-md-medium text-tertiary">per user per month</div>
@@ -81,7 +81,7 @@ export const TalkToSalesCard = observer(function TalkToSalesCard(props: TalkToSa
               nativeButton={false}
               render={
                 <a href={href} target="_blank" rel="noreferrer">
-                  Talk to Sales
+                  {t("common.upgrade_cta.talk_to_sales")}
                 </a>
               }
               label={t("common.upgrade_cta.talk_to_sales")}

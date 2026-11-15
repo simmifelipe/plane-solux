@@ -223,7 +223,7 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
     else {
       setToast({
         type: "error",
-        title: "Permission denied",
+        title: t("ui.permission_denied"),
         message: errorMessage,
       });
     }

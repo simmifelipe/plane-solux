@@ -48,8 +48,8 @@ export function SwitchAccountModal(props: Props) {
     } catch {
       setToast({
         type: "error",
-        title: "Error!",
-        message: "Failed to sign out. Please try again.",
+        title: t("toast.error"),
+        message: t("auth.sign_out.toast.error.message"),
       });
     } finally {
       setSwitchingAccount(false);

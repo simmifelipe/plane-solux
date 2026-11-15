@@ -388,7 +388,7 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
                           </InputGroup>
                           {parseInt(projectCountInput) < 1 && projectCountInput !== "" && (
                             <InputFieldError id={`${projectCountId}-error`} size="md">
-                              Minimum value is 1
+                              {t("ui.minimum_value_is_1")}
                             </InputFieldError>
                           )}
                         </InputField>

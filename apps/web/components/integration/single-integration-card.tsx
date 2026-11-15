@@ -28,6 +28,7 @@ import useIntegrationPopup from "@/hooks/use-integration-popup";
 import { usePlatformOS } from "@/hooks/use-platform-os";
 // services
 import { IntegrationService } from "@/services/integrations";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   integration: IAppIntegration;
@@ -50,6 +51,7 @@ const integrationDetails: { [key: string]: any } = {
 const integrationService = new IntegrationService();
 
 export const SingleIntegrationCard = observer(function SingleIntegrationCard({ integration }: Props) {
+  const { t } = useTranslation();
   // states
   const [deletingIntegration, setDeletingIntegration] = useState(false);
   // router
@@ -91,7 +93,7 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
 
         setToast({
           type: "success",
-          title: "Deleted successfully!",
+          title: t("ui.deleted_successfully"),
           message: `${integration.title} integration deleted successfully.`,
         });
       })
@@ -100,7 +102,7 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
 
         setToast({
           type: "error",
-          title: "Error!",
+          title: t("toast.error"),
           message: `${integration.title} integration could not be deleted. Please try again.`,
         });
       });

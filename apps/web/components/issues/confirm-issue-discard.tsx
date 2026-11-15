@@ -58,10 +58,8 @@ export function ConfirmIssueDiscard(props: Props) {
         <DialogMain>
           <DialogHeader>
             <DialogHeading>
-              <DialogTitle>Save this draft?</DialogTitle>
-              <DialogDescription>
-                You can save this work item to Drafts so you can come back to it later.
-              </DialogDescription>
+              <DialogTitle>{t("ui.save_this_draft")}</DialogTitle>
+              <DialogDescription>{t("ui.you_can_save_this_work_item_to")}</DialogDescription>
             </DialogHeading>
           </DialogHeader>
         </DialogMain>

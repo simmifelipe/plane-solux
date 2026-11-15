@@ -67,8 +67,8 @@ export const AddFilterDropdown = observer(function AddFilterDropdown<
       props.handleFilterSelect(property, operator, isNegation);
     } else {
       setToast({
-        title: "Filter configuration error",
-        message: "This filter is not properly configured and cannot be applied",
+        title: t("ui.filter_configuration_error"),
+        message: t("ui.this_filter_is_not_properly_configured_and"),
         type: "error",
       });
     }

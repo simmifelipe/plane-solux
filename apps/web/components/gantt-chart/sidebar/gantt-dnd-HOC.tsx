@@ -13,6 +13,7 @@ import { useOutsideClickDetector } from "@plane/hooks";
 import { setToast } from "@plane/blocks/toast";
 import { DropIndicator } from "@plane/blocks/common";
 import { HIGHLIGHT_WITH_LINE, highlightIssueOnDrop } from "@/components/issues/issue-layouts/utils";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   id: string;
@@ -23,6 +24,7 @@ type Props = {
 };
 
 export const GanttDnDHOC = observer(function GanttDnDHOC(props: Props) {
+  const { t } = useTranslation();
   const { id, isLastChild, children, onDrop, isDragEnabled } = props;
   // states
   const [isDragging, setIsDragging] = useState(false);
@@ -106,9 +108,9 @@ export const GanttDnDHOC = observer(function GanttDnDHOC(props: Props) {
       onDragStart={() => {
         if (!isDragEnabled) {
           setToast({
-            title: "Warning!",
+            title: t("ui.warning"),
             type: "warning",
-            message: "Drag and drop is only enabled when sorted by manual",
+            message: t("ui.drag_and_drop_is_only_enabled_when"),
           });
         }
       }}

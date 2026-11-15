@@ -21,6 +21,7 @@ import { cn } from "@plane/utils";
 // components
 import { FreePlanCard, PlanUpgradeCard } from "@/components/license";
 import type { TCheckoutParams } from "@/components/license/modal/card/checkout-button";
+import { useTranslation } from "@plane/i18n";
 
 // Constants
 const COMMON_CARD_CLASSNAME = "flex flex-col w-full h-full justify-end col-span-12 sm:col-span-6 xl:col-span-3";
@@ -32,6 +33,7 @@ export type PaidPlanUpgradeModalProps = {
 };
 
 export const PaidPlanUpgradeModal = observer(function PaidPlanUpgradeModal(props: PaidPlanUpgradeModalProps) {
+  const { t } = useTranslation();
   const { isOpen, handleClose } = props;
   // derived values
   const isSelfHosted = true;
@@ -63,12 +65,11 @@ export const PaidPlanUpgradeModal = observer(function PaidPlanUpgradeModal(props
               {/* Free Plan Section */}
               <div className={cn(COMMON_CARD_CLASSNAME)}>
                 <h2 id="paid-plan-upgrade-modal-title" className="flex text-h3-bold leading-8">
-                  Upgrade to a paid plan and unlock missing features.
+                  {t("ui.upgrade_to_a_paid_plan_and_unlock")}
                 </h2>
                 <div className="mt-4 mb-2">
                   <p className="mb-4 pr-8 text-body-xs-regular text-primary">
-                    Dashboards, Workflows, Approvals, Time Management, and other superpowers are just a click away.
-                    Upgrade today to unlock features your teams need yesterday.
+                    {t("ui.dashboards_workflows_approvals_time_management_and_other")}
                   </p>
                 </div>
 
@@ -90,7 +91,7 @@ export const PaidPlanUpgradeModal = observer(function PaidPlanUpgradeModal(props
                         target="_blank"
                         rel="noreferrer"
                       >
-                        See full features list
+                        {t("ui.see_full_features_list")}
                       </a>
                     </p>
                   }
@@ -112,7 +113,7 @@ export const PaidPlanUpgradeModal = observer(function PaidPlanUpgradeModal(props
                         target="_blank"
                         rel="noreferrer"
                       >
-                        See full features list
+                        {t("ui.see_full_features_list")}
                       </a>
                     </p>
                   }
@@ -134,7 +135,7 @@ export const PaidPlanUpgradeModal = observer(function PaidPlanUpgradeModal(props
                         target="_blank"
                         rel="noreferrer"
                       >
-                        See full features list
+                        {t("ui.see_full_features_list")}
                       </a>
                     </p>
                   }

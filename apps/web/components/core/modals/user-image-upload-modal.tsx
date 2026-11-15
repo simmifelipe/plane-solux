@@ -78,7 +78,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
     } catch (error) {
       setToast({
         type: "error",
-        title: "Error!",
+        title: t("toast.error"),
         message: error?.toString() ?? "Something went wrong. Please try again.",
       });
       throw new Error("Error in uploading file.", { cause: error });
@@ -116,7 +116,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
         <DialogMain>
           <DialogHeader>
             <DialogHeading>
-              <DialogTitle>Upload Image</DialogTitle>
+              <DialogTitle>{t("ui.upload_image")}</DialogTitle>
             </DialogHeading>
           </DialogHeader>
           <DialogBody tabIndex={0}>
@@ -137,7 +137,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
                           type="button"
                           className="absolute top-0 right-0 z-40 translate-x-1/2 -translate-y-1/2 rounded-sm bg-surface-2 px-2 py-0.5 text-caption-sm-medium text-secondary"
                         >
-                          Edit
+                          {t("edit")}
                         </button>
                         <img
                           src={image ? URL.createObjectURL(image) : value ? getFileURL(value) : ""}
@@ -165,7 +165,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
                   </p>
                 )}
               </div>
-              <p className="text-body-xs-regular text-secondary">File formats supported- .jpeg, .jpg, .png, .webp</p>
+              <p className="text-body-xs-regular text-secondary">{t("ui.file_formats_supported_jpeg_jpg_png_webp")}</p>
             </div>
           </DialogBody>
         </DialogMain>

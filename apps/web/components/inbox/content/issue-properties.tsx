@@ -67,7 +67,7 @@ export const InboxIssueContentProperties = observer(function InboxIssueContentPr
   return (
     <div className="flex w-full flex-col divide-y-2 divide-subtle-1">
       <div className="w-full overflow-y-auto">
-        <h5 className="mb-2 text-body-sm-medium">Properties</h5>
+        <h5 className="mb-2 text-body-sm-medium">{t("common.properties")}</h5>
         <div className={`divide-y-2 divide-subtle-1 ${!isEditable ? "opacity-60" : ""}`}>
           <div className="flex flex-col gap-3">
             {/* Intake State */}

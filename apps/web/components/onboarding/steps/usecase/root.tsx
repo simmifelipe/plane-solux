@@ -55,14 +55,14 @@ export const UseCaseSetupStep = observer(function UseCaseSetupStep({ handleStepC
       [await updateUserProfile(profileUpdatePayload)];
       setToast({
         type: "success",
-        title: "Success",
-        message: "Profile setup completed!",
+        title: t("success"),
+        message: t("ui.profile_setup_completed"),
       });
     } catch {
       setToast({
         type: "error",
-        title: "Error",
-        message: "Profile setup failed. Please try again!",
+        title: t("error"),
+        message: t("ui.profile_setup_failed_please_try_again"),
       });
     }
   };
@@ -92,7 +92,7 @@ export const UseCaseSetupStep = observer(function UseCaseSetupStep({ handleStepC
 
       {/* Use Case Selection */}
       <fieldset className="flex min-w-0 flex-col gap-3">
-        <legend className="mb-3 text-body-sm-semibold text-placeholder">Select one or more</legend>
+        <legend className="mb-3 text-body-sm-semibold text-placeholder">{t("ui.select_one_or_more")}</legend>
 
         <Controller
           control={control}

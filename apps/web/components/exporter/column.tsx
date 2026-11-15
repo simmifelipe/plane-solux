@@ -113,7 +113,9 @@ export const useExportColumns = () => {
             )}
           </>
         ) : (
-          <div className="text-caption-sm-regular text-danger-primary">Expired</div>
+          <div className="text-caption-sm-regular text-danger-primary">
+            {t("workspace_settings.settings.api_tokens.expired")}
+          </div>
         ),
     },
   ];

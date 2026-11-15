@@ -24,12 +24,10 @@ export function WebhookDeleteSection(props: Props) {
       <Collapsible
         open={isOpen}
         onOpenChange={setIsOpen}
-        trigger={<span className="text-body-md-regular tracking-tight">Danger zone</span>}
+        trigger={<span className="text-body-md-regular tracking-tight">{t("ui.danger_zone")}</span>}
       >
         <div className="flex flex-col gap-8">
-          <span className="text-body-xs-regular tracking-tight">
-            Once a webhook is deleted, it cannot be restored. Future events will no longer be delivered to this webhook.
-          </span>
+          <span className="text-body-xs-regular tracking-tight">{t("ui.once_a_webhook_is_deleted_it_cannot")}</span>
           <div>
             <Button
               variant="danger"

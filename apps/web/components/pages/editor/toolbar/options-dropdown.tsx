@@ -23,6 +23,7 @@ import type { TPageInstance } from "@/store/pages/base-page";
 import { PageActions } from "../../dropdowns";
 import { ExportPageModal } from "../../modals/export-page-modal";
 import { PAGE_NAVIGATION_PANE_TABS_QUERY_PARAM } from "../../navigation-pane";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   page: TPageInstance;
@@ -30,6 +31,7 @@ type Props = {
 };
 
 export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: Props) {
+  const { t } = useTranslation();
   const { page, storeType } = props;
   // states
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
@@ -52,7 +54,7 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
         {
           key: "full-screen",
           action: () => handleFullWidth(!isFullWidth),
-          title: "Full width",
+          title: t("ui.full_width"),
           // The row itself does the toggling; the switch is the state readout at the row's end.
           customContent: (
             <span className="pointer-events-none">
@@ -63,7 +65,7 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
         {
           key: "sticky-toolbar",
           action: () => handleStickyToolbar(!isStickyToolbarEnabled),
-          title: "Sticky toolbar",
+          title: t("ui.sticky_toolbar"),
           customContent: (
             <span className="pointer-events-none">
               <Switch size="sm" checked={isStickyToolbarEnabled} aria-hidden tabIndex={-1} />
@@ -78,11 +80,11 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
             editorRef.copyMarkdownToClipboard();
             setToast({
               type: "success",
-              title: "Success!",
-              message: "Markdown copied to clipboard.",
+              title: t("toast.success"),
+              message: t("ui.markdown_copied_to_clipboard"),
             });
           },
-          title: "Copy markdown",
+          title: t("common.actions.copy_markdown"),
           icon: ClipboardOutline,
           shouldRender: true,
         },
@@ -97,14 +99,14 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
             });
             router.push(updatedRoute);
           },
-          title: "Version history",
+          title: t("product_tour.page.step_five.title"),
           icon: HistoryOutline,
           shouldRender: true,
         },
         {
           key: "export",
           action: () => setIsExportModalOpen(true),
-          title: "Export",
+          title: t("export"),
           icon: ExportOutline,
           shouldRender: true,
         },
@@ -120,6 +122,8 @@ export const PageOptionsDropdown = observer(function PageOptionsDropdown(props: 
       updateQueryParams,
       router,
       setIsExportModalOpen,
+      ,
+      t,
     ]
   );
 

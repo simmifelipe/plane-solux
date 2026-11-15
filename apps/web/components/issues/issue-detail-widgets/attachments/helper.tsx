@@ -12,6 +12,7 @@ import { EIssueServiceType } from "@plane/types";
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 // types
 import type { TAttachmentUploadStatus } from "@/store/issue/issue-details/attachment.store";
+import { useTranslation } from "@plane/i18n";
 
 export type TAttachmentOperations = {
   create: (file: File) => Promise<void>;
@@ -33,6 +34,7 @@ export const useAttachmentOperations = (
   issueId: string,
   issueServiceType: TIssueServiceType = EIssueServiceType.ISSUES
 ): TAttachmentHelpers => {
+  const { t } = useTranslation();
   const {
     attachment: { createAttachment, removeAttachment, getAttachmentsUploadStatusByIssueId },
   } = useIssueDetail(issueServiceType);
@@ -45,11 +47,11 @@ export const useAttachmentOperations = (
         setPromiseToast(attachmentUploadPromise, {
           loading: "Uploading attachment...",
           success: {
-            title: "Attachment uploaded",
+            title: t("ui.attachment_uploaded"),
             message: () => "The attachment has been successfully uploaded",
           },
           error: {
-            title: "Attachment not uploaded",
+            title: t("ui.attachment_not_uploaded"),
             message: () => "The attachment could not be uploaded",
           },
         });
@@ -61,20 +63,20 @@ export const useAttachmentOperations = (
           if (!workspaceSlug || !projectId || !issueId) throw new Error("Missing required fields");
           await removeAttachment(workspaceSlug, projectId, issueId, attachmentId);
           setToast({
-            message: "The attachment has been successfully removed",
+            message: t("ui.the_attachment_has_been_successfully_removed"),
             type: "success",
-            title: "Attachment removed",
+            title: t("ui.attachment_removed"),
           });
         } catch (_error) {
           setToast({
-            message: "The Attachment could not be removed",
+            message: t("ui.the_attachment_could_not_be_removed"),
             type: "error",
-            title: "Attachment not removed",
+            title: t("ui.attachment_not_removed"),
           });
         }
       },
     }),
-    [workspaceSlug, projectId, issueId, createAttachment, removeAttachment]
+    [workspaceSlug, projectId, issueId, createAttachment, removeAttachment, t]
   );
   const attachmentsUploadStatus = getAttachmentsUploadStatusByIssueId(issueId);
 

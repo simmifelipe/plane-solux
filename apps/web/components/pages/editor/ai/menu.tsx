@@ -238,7 +238,7 @@ export function EditorAIMenu(props: Props) {
                         className="rounded-sm p-1 text-body-xs-medium text-tertiary outline-none hover:bg-layer-1"
                         onClick={() => handleInsertText(false)}
                       >
-                        Replace selection
+                        {t("ui.replace_selection")}
                       </button>
                       <Tooltip label={t("ui.add_to_next_line")}>
                         <button
@@ -305,9 +305,7 @@ export function EditorAIMenu(props: Props) {
           <span className="grid size-4 flex-shrink-0 place-items-center">
             <WarningTriangleOutline className="size-3" />
           </span>
-          <p className="flex-shrink-0 text-caption-sm-medium">
-            By using this feature, you consent to sharing the message with a 3rd party service.
-          </p>
+          <p className="flex-shrink-0 text-caption-sm-medium">{t("ui.by_using_this_feature_you_consent_to")}</p>
         </div>
       )}
     </div>

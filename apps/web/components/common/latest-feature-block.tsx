@@ -23,7 +23,9 @@ export function LatestFeatureBlock() {
         <p className="text-left text-body-xs-regular text-primary">
           Pages gets a facelift! Write anything and use Galileo to help you start.{" "}
           <Link href="https://plane.so/changelog" target="_blank" rel="noopener noreferrer">
-            <span className="text-body-xs-medium underline hover:cursor-pointer">Learn more</span>
+            <span className="text-body-xs-medium underline hover:cursor-pointer">
+              {t("wiki.upgrade_flow.learn_more_button.text")}
+            </span>
           </Link>
         </p>
       </div>

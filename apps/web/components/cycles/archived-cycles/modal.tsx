@@ -11,6 +11,7 @@ import { setToast } from "@plane/blocks/toast";
 // hooks
 import { useCycle } from "@/hooks/store/use-cycle";
 import { useAppRouter } from "@/hooks/use-app-router";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   workspaceSlug: string;
@@ -22,6 +23,7 @@ type Props = {
 };
 
 export function ArchiveCycleModal(props: Props) {
+  const { t } = useTranslation();
   const { workspaceSlug, projectId, cycleId, isOpen, handleClose } = props;
   // router
   const router = useAppRouter();
@@ -43,8 +45,8 @@ export function ArchiveCycleModal(props: Props) {
       .then(() => {
         setToast({
           type: "success",
-          title: "Archive success",
-          message: "Your archives can be found in project archives.",
+          title: t("issue.archive.success.label"),
+          message: t("issue.archive.success.message"),
         });
         onClose();
         router.push(`/${workspaceSlug}/projects/${projectId}/cycles`);
@@ -53,8 +55,8 @@ export function ArchiveCycleModal(props: Props) {
       .catch(() => {
         setToast({
           type: "error",
-          title: "Error!",
-          message: "Cycle could not be archived. Please try again.",
+          title: t("toast.error"),
+          message: t("ui.cycle_could_not_be_archived_please_try"),
         });
       })
       .finally(() => setIsArchiving(false));

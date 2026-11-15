@@ -105,9 +105,9 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
         if (onSuccess) onSuccess();
         onClose();
         setToast({
-          title: "Success!",
+          title: t("toast.success"),
           type: "success",
-          message: "Members added successfully.",
+          message: t("ui.members_added_successfully"),
         });
       })
       .catch((error) => {

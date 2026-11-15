@@ -131,8 +131,8 @@ export const WorkspaceAuthWrapper = observer(function WorkspaceAuthWrapper(props
     await signOut().catch(() =>
       setToast({
         type: "error",
-        title: "Error!",
-        message: "Failed to sign out. Please try again.",
+        title: t("toast.error"),
+        message: t("auth.sign_out.toast.error.message"),
       })
     );
   };
@@ -227,7 +227,7 @@ export const WorkspaceAuthWrapper = observer(function WorkspaceAuthWrapper(props
         <div className="grid h-full place-items-center p-4">
           <div className="space-y-8 text-center">
             <div className="space-y-2">
-              <h3 className="text-h6-semibold">Not Authorized!</h3>
+              <h3 className="text-h6-semibold">{t("ui.not_authorized")}</h3>
               <p className="mx-auto w-1/2 text-body-xs-regular text-secondary">
                 You{"'"}re not a member of this workspace. Please contact the workspace admin to get an invitation or
                 check your pending invitations.

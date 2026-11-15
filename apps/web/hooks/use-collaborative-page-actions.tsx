@@ -11,6 +11,7 @@ import { DocumentCollaborativeEvents, getServerEventName } from "@plane/editor/l
 import { setToast } from "@plane/blocks/toast";
 // store
 import type { TPageInstance } from "@/store/pages/base-page";
+import { useTranslation } from "@plane/i18n";
 
 export type CollaborativeAction = {
   execute: (shouldSync?: boolean, recursive?: boolean) => Promise<void>;
@@ -26,6 +27,7 @@ type Props = {
 };
 
 export const useCollaborativePageActions = (props: Props) => {
+  const { t } = useTranslation();
   const { page } = props;
   const editorRef = page.editor.editorRef;
   // currentUserAction local state to track if the current action is being processed, a
@@ -80,13 +82,13 @@ export const useCollaborativePageActions = (props: Props) => {
         if (actionDetails?.errorMessage) {
           setToast({
             type: "error",
-            title: "Error!",
+            title: t("toast.error"),
             message: actionDetails.errorMessage,
           });
         }
       }
     },
-    [actionHandlerMap, editorRef]
+    [actionHandlerMap, editorRef, t]
   );
 
   useEffect(() => {

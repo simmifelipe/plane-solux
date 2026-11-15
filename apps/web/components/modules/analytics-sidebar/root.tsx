@@ -181,18 +181,18 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
         await deleteModuleLink(workspaceSlug.toString(), projectId.toString(), moduleId.toString(), linkId);
         setToast({
           type: "success",
-          title: "Success!",
-          message: "Module link deleted successfully.",
+          title: t("toast.success"),
+          message: t("ui.module_link_deleted_successfully"),
         });
       } catch (_error) {
         setToast({
           type: "error",
-          title: "Error!",
-          message: "Some error occurred",
+          title: t("toast.error"),
+          message: t("ui.some_error_occurred"),
         });
       }
     },
-    [workspaceSlug, projectId, moduleId, deleteModuleLink]
+    [workspaceSlug, projectId, moduleId, deleteModuleLink, t]
   );
 
   const handleDateChange = async (startDate: Date | undefined, targetDate: Date | undefined) => {
@@ -202,8 +202,8 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
     });
     setToast({
       type: "success",
-      title: "Success!",
-      message: "Module updated successfully.",
+      title: t("toast.success"),
+      message: t("ui.module_updated_successfully"),
     });
   };
 

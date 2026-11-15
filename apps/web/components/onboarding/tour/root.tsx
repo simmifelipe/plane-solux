@@ -126,7 +126,7 @@ export const TourRoot = observer(function TourRoot(props: TOnboardingTourProps) 
                       onComplete();
                     }}
                   >
-                    No thanks, I will explore it myself
+                    {t("ui.no_thanks_i_will_explore_it_myself")}
                   </button>
                 </div>
               </div>

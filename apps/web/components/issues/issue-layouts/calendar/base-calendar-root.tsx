@@ -23,6 +23,7 @@ import { useIssuesActions } from "@/hooks/use-issues-actions";
 import type { IQuickActionProps } from "../list/list-view-types";
 import { CalendarChart } from "./calendar";
 import { handleDragDrop } from "./utils";
+import { useTranslation } from "@plane/i18n";
 
 export type CalendarStoreType =
   | EIssuesStoreType.PROJECT
@@ -43,6 +44,7 @@ interface IBaseCalendarRoot {
 }
 
 export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseCalendarRoot) {
+  const { t } = useTranslation();
   const {
     QuickActions,
     addIssuesToView,
@@ -121,7 +123,7 @@ export const BaseCalendarRoot = observer(function BaseCalendarRoot(props: IBaseC
       updateIssue
     ).catch((err) => {
       setToast({
-        title: "Error!",
+        title: t("toast.error"),
         type: "error",
         message: err?.detail ?? "Failed to perform this action",
       });

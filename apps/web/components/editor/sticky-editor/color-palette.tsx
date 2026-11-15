@@ -63,7 +63,7 @@ export function ColorPalette(props: TProps) {
   const { handleUpdate } = props;
   return (
     <div className="space-y-1.5">
-      <p className="text-caption-sm-semibold text-tertiary">Background colors</p>
+      <p className="text-caption-sm-semibold text-tertiary">{t("ui.background_colors")}</p>
       <div role="group" aria-label={t("ui.background_colors")} className="flex items-center gap-2">
         {STICKY_COLORS_LIST.map((color) => (
           <button

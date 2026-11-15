@@ -104,8 +104,8 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
     } catch {
       setToast({
         type: "error",
-        title: "Error",
-        message: "User details update failed. Please try again!",
+        title: t("error"),
+        message: t("ui.user_details_update_failed_please_try_again"),
       });
     }
   };
@@ -211,7 +211,7 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
               validate: validatePersonName,
               maxLength: {
                 value: 50,
-                message: "Name must be within 50 characters.",
+                message: t("ui.name_must_be_within_50_characters"),
               },
             }}
             render={({ field: { value, onChange, ref } }) => (

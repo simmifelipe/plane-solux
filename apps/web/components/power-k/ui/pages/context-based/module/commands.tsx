@@ -46,13 +46,13 @@ export const usePowerKModuleContextBasedActions = (): TPowerKCommandConfig[] => 
         () => {
           setToast({
             type: "error",
-            title: "Error!",
-            message: "Module could not be updated. Please try again.",
+            title: t("toast.error"),
+            message: t("ui.module_could_not_be_updated_please_try"),
           });
         }
       );
     },
-    [moduleDetails, projectId, updateModuleDetails, workspaceSlug]
+    [moduleDetails, projectId, updateModuleDetails, workspaceSlug, t]
   );
 
   const handleUpdateMember = useCallback(
@@ -76,10 +76,10 @@ export const usePowerKModuleContextBasedActions = (): TPowerKCommandConfig[] => 
     } catch {
       setToast({
         type: "error",
-        title: "Some error occurred",
+        title: t("ui.some_error_occurred"),
       });
     }
-  }, [addModuleToFavorites, removeModuleFromFavorites, workspaceSlug, moduleDetails, isFavorite]);
+  }, [addModuleToFavorites, removeModuleFromFavorites, workspaceSlug, moduleDetails, isFavorite, t]);
 
   const copyModuleUrlToClipboard = useCallback(() => {
     const url = new URL(window.location.href);

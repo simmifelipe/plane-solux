@@ -27,10 +27,9 @@ function ProjectSettingsPage() {
   return (
     <div className="mx-auto flex h-full max-w-[480px] flex-col items-center justify-center gap-4">
       <img src={resolvedPath} alt={t("ui.no_projects_yet")} />
-      <div className="text-body-md-semibold text-tertiary">No projects yet</div>
+      <div className="text-body-md-semibold text-tertiary">{t("ui.no_projects_yet")}</div>
       <div className="text-center text-body-xs-regular text-tertiary">
-        Projects act as the foundation for goal-driven work. They let you manage your teams, tasks, and everything you
-        need to get things done.
+        {t("ui.projects_act_as_the_foundation_for_goal")}
       </div>
       <div className="flex gap-2">
         <ButtonElement
@@ -39,7 +38,7 @@ function ProjectSettingsPage() {
           stretch="auto"
           render={<Link href="https://plane.so/" target="_blank" />}
         >
-          Learn more about projects
+          {t("ui.learn_more_about_projects")}
         </ButtonElement>
         <Button
           variant="primary"

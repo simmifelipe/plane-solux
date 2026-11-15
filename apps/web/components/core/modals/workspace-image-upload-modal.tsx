@@ -91,7 +91,7 @@ export const WorkspaceImageUploadModal = observer(function WorkspaceImageUploadM
       console.log("error", error);
       setToast({
         type: "error",
-        title: "Error",
+        title: t("error"),
         message: error.error || "Something went wrong",
       });
     } finally {
@@ -129,7 +129,7 @@ export const WorkspaceImageUploadModal = observer(function WorkspaceImageUploadM
         <DialogMain>
           <DialogHeader>
             <DialogHeading>
-              <DialogTitle>Upload image</DialogTitle>
+              <DialogTitle>{t("ui.upload_image_2")}</DialogTitle>
             </DialogHeading>
           </DialogHeader>
           <DialogBody tabIndex={0}>
@@ -175,7 +175,7 @@ export const WorkspaceImageUploadModal = observer(function WorkspaceImageUploadM
                   </p>
                 )}
               </div>
-              <p className="text-body-xs-regular text-secondary">File formats supported- .jpeg, .jpg, .png, .webp</p>
+              <p className="text-body-xs-regular text-secondary">{t("ui.file_formats_supported_jpeg_jpg_png_webp")}</p>
             </div>
           </DialogBody>
         </DialogMain>

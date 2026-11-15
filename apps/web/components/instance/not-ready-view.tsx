@@ -40,9 +40,9 @@ export function InstanceNotReady() {
             <div className="flex flex-col items-center gap-11">
               <img src={GradientLogo} className="h-24 w-40 object-contain" alt={t("ui.plane_logo")} />
               <div className="flex max-w-124 flex-col items-center gap-3">
-                <h1 className="text-h2-semibold text-primary">Welcome to Plane</h1>
+                <h1 className="text-h2-semibold text-primary">{t("ui.welcome_to_plane")}</h1>
                 <p className="text-center text-body-md-regular text-secondary">
-                  Set up your instance and create your first workspace to begin managing projects and work.
+                  {t("ui.set_up_your_instance_and_create_your")}
                 </p>
               </div>
             </div>
@@ -52,7 +52,7 @@ export function InstanceNotReady() {
                 size="lg"
                 stretch="full"
                 nativeButton={false}
-                render={<a href={GOD_MODE_URL}>Get started</a>}
+                render={<a href={GOD_MODE_URL}>{t("common.get_started")}</a>}
                 label={t("common.get_started")}
               />
             </div>

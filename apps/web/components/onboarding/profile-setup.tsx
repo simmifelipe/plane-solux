@@ -140,8 +140,8 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
       ]);
       setToast({
         type: "success",
-        title: "Success",
-        message: "Profile setup completed!",
+        title: t("success"),
+        message: t("ui.profile_setup_completed"),
       });
       // For Invited Users, they will skip all other steps and finish onboarding.
       if (totalSteps <= 2) {
@@ -150,8 +150,8 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
     } catch {
       setToast({
         type: "error",
-        title: "Error",
-        message: "Profile setup failed. Please try again!",
+        title: t("error"),
+        message: t("ui.profile_setup_failed_please_try_again"),
       });
     }
   };
@@ -175,8 +175,8 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
     } catch {
       setToast({
         type: "error",
-        title: "Error",
-        message: "User details update failed. Please try again!",
+        title: t("error"),
+        message: t("ui.user_details_update_failed_please_try_again"),
       });
     }
   };
@@ -193,8 +193,8 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
       ]);
       setToast({
         type: "success",
-        title: "Success",
-        message: "Profile setup completed!",
+        title: t("success"),
+        message: t("ui.profile_setup_completed"),
       });
       // For Invited Users, they will skip all other steps and finish onboarding.
       if (totalSteps <= 2) {
@@ -203,8 +203,8 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
     } catch {
       setToast({
         type: "error",
-        title: "Error",
-        message: "Profile setup failed. Please try again!",
+        title: t("error"),
+        message: t("ui.profile_setup_failed_please_try_again"),
       });
     }
   };
@@ -278,7 +278,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                         </div>
                       </div>
                       <div className="pt-1 text-body-xs-medium text-accent-secondary hover:text-tertiary">
-                        Choose image
+                        {t("ui.choose_image")}
                       </div>
                     </div>
                   ) : (
@@ -299,7 +299,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                     className="text-body-xs-medium text-tertiary after:ml-0.5 after:text-danger-primary after:content-['*']"
                     htmlFor="first_name"
                   >
-                    First name
+                    {t("first_name")}
                   </label>
                   <Controller
                     control={control}
@@ -309,7 +309,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                       validate: validatePersonName,
                       maxLength: {
                         value: 50,
-                        message: "First name must be within 50 characters.",
+                        message: t("ui.first_name_must_be_within_50_characters"),
                       },
                     }}
                     render={({ field: { value, onChange, ref } }) => (
@@ -340,7 +340,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                     className="text-body-xs-medium text-tertiary after:ml-0.5 after:text-danger-primary after:content-['*']"
                     htmlFor="last_name"
                   >
-                    Last name
+                    {t("last_name")}
                   </label>
                   <Controller
                     control={control}
@@ -350,7 +350,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                       validate: validatePersonName,
                       maxLength: {
                         value: 50,
-                        message: "Last name must be within 50 characters.",
+                        message: t("ui.last_name_must_be_within_50_characters"),
                       },
                     }}
                     render={({ field: { value, onChange, ref } }) => (
@@ -483,7 +483,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                   className="text-body-xs-medium text-tertiary after:ml-0.5 after:text-danger-primary after:content-['*']"
                   htmlFor="role"
                 >
-                  What role are you working on? Choose one.
+                  {t("ui.what_role_are_you_working_on_choose")}
                 </label>
                 <Controller
                   control={control}
@@ -518,7 +518,7 @@ export const ProfileSetup = observer(function ProfileSetup(props: Props) {
                   className="text-body-xs-medium text-tertiary after:ml-0.5 after:text-danger-primary after:content-['*']"
                   htmlFor="use_case"
                 >
-                  What is your domain expertise? Choose one or more.
+                  {t("ui.what_is_your_domain_expertise_choose_one")}
                 </label>
                 <Controller
                   control={control}

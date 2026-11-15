@@ -34,7 +34,7 @@ export const ProjectViewEmptyState = observer(function ProjectViewEmptyState() {
       description={t("ui.work_items_help_you_track_individual_pieces")}
       actions={[
         {
-          label: "New work item",
+          label: t("new_issue"),
           onClick: () => {
             toggleCreateIssueModal(true, EIssuesStoreType.PROJECT_VIEW);
           },

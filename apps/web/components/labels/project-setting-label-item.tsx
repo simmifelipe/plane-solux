@@ -19,6 +19,7 @@ import { CreateUpdateLabelInline } from "./create-update-label-inline";
 import type { ICustomMenuItem } from "./label-block/label-item-block";
 import { LabelItemBlock } from "./label-block/label-item-block";
 import { LabelDndHOC } from "./label-drag-n-drop-HOC";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   label: IIssueLabel;
@@ -38,6 +39,7 @@ type Props = {
 };
 
 export function ProjectSettingLabelItem(props: Props) {
+  const { t } = useTranslation();
   const {
     label,
     setIsUpdating,
@@ -69,7 +71,7 @@ export function ProjectSettingLabelItem(props: Props) {
       CustomIcon: CloseOutline,
       onClick: removeFromGroup,
       isVisible: !!label.parent,
-      text: "Remove from group",
+      text: t("ui.remove_from_group"),
       key: "remove_from_group",
     },
     {
@@ -79,7 +81,7 @@ export function ProjectSettingLabelItem(props: Props) {
         setIsUpdating(true);
       },
       isVisible: true,
-      text: "Edit label",
+      text: t("ui.edit_label"),
       key: "edit_label",
     },
   ];

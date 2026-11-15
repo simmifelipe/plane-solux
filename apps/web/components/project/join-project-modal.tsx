@@ -70,7 +70,7 @@ export function JoinProjectModal(props: TJoinProjectModalProps) {
         <DialogMain>
           <DialogHeader>
             <DialogHeading>
-              <DialogTitle>Join Project?</DialogTitle>
+              <DialogTitle>{t("ui.join_project")}</DialogTitle>
             </DialogHeading>
           </DialogHeader>
           <DialogBody>

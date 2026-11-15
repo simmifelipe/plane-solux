@@ -61,7 +61,7 @@ export const StateQuickActions = observer(function StateQuickActions(props: TSta
       const errorStatus = error as { status: number; data: { error: string } };
       setToast({
         type: "error",
-        title: "Error!",
+        title: t("toast.error"),
         message:
           errorStatus.status === 400
             ? "This state contains some work items within it, please move them to some other state to delete this state."

@@ -78,16 +78,16 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
       },
       {
         key: "images",
-        title: "Images",
+        title: t("ui.images"),
         isEnabled: true,
       },
       {
         key: "upload",
-        title: "Upload",
+        title: t("ui.upload"),
         isEnabled: true,
       },
     ],
-    [hasUnsplashConfigured]
+    [hasUnsplashConfigured, t]
   );
 
   const enabledTabs = useMemo(() => tabOptions.filter((tab) => tab.isEnabled), [tabOptions]);
@@ -145,7 +145,7 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
           setToast({
             message: error?.error ?? "The image could not be uploaded",
             type: "error",
-            title: "Image not uploaded",
+            title: t("ui.image_not_uploaded"),
           });
         });
     } else {
@@ -166,7 +166,7 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
           setToast({
             message: error?.error ?? "The image could not be uploaded",
             type: "error",
-            title: "Image not uploaded",
+            title: t("ui.image_not_uploaded"),
           });
         });
     }
@@ -274,7 +274,9 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
                               </div>
                             ) : (
                               <div className="flex min-h-0 flex-1 items-center justify-center">
-                                <p className="text-center text-caption-md-regular text-tertiary">No images found.</p>
+                                <p className="text-center text-caption-md-regular text-tertiary">
+                                  {t("ui.no_images_found")}
+                                </p>
                               </div>
                             )
                           ) : (
@@ -355,7 +357,7 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
 
                       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-1">
                         <p className="min-w-0 truncate text-body-xs-regular text-secondary">
-                          File formats supported- .jpeg, .jpg, .png, .webp
+                          {t("ui.file_formats_supported_jpeg_jpg_png_webp")}
                         </p>
                         <div className="flex flex-shrink-0 items-center gap-2">
                           <Button

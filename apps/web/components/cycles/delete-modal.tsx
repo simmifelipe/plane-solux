@@ -49,8 +49,8 @@ export const CycleDeleteModal = observer(function CycleDeleteModal(props: ICycle
           if (cycleId || peekCycle) router.push(`/${workspaceSlug}/projects/${projectId}/cycles`);
           setToast({
             type: "success",
-            title: "Success!",
-            message: "Cycle deleted successfully.",
+            title: t("toast.success"),
+            message: t("ui.cycle_deleted_successfully"),
           });
         })
         .catch((errors) => {
@@ -68,8 +68,8 @@ export const CycleDeleteModal = observer(function CycleDeleteModal(props: ICycle
     } catch {
       setToast({
         type: "error",
-        title: "Warning!",
-        message: "Something went wrong please try again later.",
+        title: t("ui.warning"),
+        message: t("ui.something_went_wrong_please_try_again_later"),
       });
     }
 

@@ -99,8 +99,8 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
       .then(() => {
         setToast({
           type: "success",
-          title: "Success!",
-          message: "Profile picture deleted successfully.",
+          title: t("toast.success"),
+          message: t("ui.profile_picture_deleted_successfully"),
         });
         setValue("avatar_url", "");
         return;
@@ -108,8 +108,8 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
       .catch(() => {
         setToast({
           type: "error",
-          title: "Error!",
-          message: "There was some error in deleting your profile picture. Please try again.",
+          title: t("toast.error"),
+          message: t("ui.there_was_some_error_in_deleting_your"),
         });
       })
       .finally(() => {
@@ -179,11 +179,11 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
     setPromiseToast(updatePromise, {
       loading: "Updating...",
       success: {
-        title: "Success!",
+        title: t("toast.success"),
         message: () => `Profile updated successfully.`,
       },
       error: {
-        title: "Error!",
+        title: t("toast.error"),
         message: () => `There was some error in updating your profile. Please try again.`,
       },
     });

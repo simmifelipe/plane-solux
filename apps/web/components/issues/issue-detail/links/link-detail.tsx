@@ -14,6 +14,7 @@ import { useMember } from "@/hooks/store/use-member";
 import { usePlatformOS } from "@/hooks/use-platform-os";
 // types
 import type { TLinkOperationsModal } from "./create-update-link-modal";
+import { useTranslation } from "@plane/i18n";
 
 export type TIssueLinkDetail = {
   linkId: string;
@@ -22,6 +23,7 @@ export type TIssueLinkDetail = {
 };
 
 export function IssueLinkDetail(props: TIssueLinkDetail) {
+  const { t } = useTranslation();
   // props
   const { linkId, linkOperations, isNotAllowed } = props;
   // hooks
@@ -53,8 +55,8 @@ export function IssueLinkDetail(props: TIssueLinkDetail) {
             copyTextToClipboard(linkDetail.url);
             setToast({
               type: "success",
-              title: "Link copied!",
-              message: "Link copied to clipboard",
+              title: t("common.link_copied"),
+              message: t("common.link_copied_to_clipboard"),
             });
           }}
         >

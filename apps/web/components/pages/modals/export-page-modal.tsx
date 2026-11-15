@@ -201,16 +201,16 @@ export function ExportPageModal(props: Props) {
       }
       setToast({
         type: "success",
-        title: "Success!",
-        message: "Page exported successfully.",
+        title: t("toast.success"),
+        message: t("ui.page_exported_successfully"),
       });
       handleClose();
     } catch (error) {
       console.error("Error in exporting page:", error);
       setToast({
         type: "error",
-        title: "Error!",
-        message: "Page could not be exported. Please try again later.",
+        title: t("toast.error"),
+        message: t("ui.page_could_not_be_exported_please_try"),
       });
     } finally {
       setIsExporting(false);
@@ -228,13 +228,13 @@ export function ExportPageModal(props: Props) {
         <DialogMain>
           <DialogHeader>
             <DialogHeading>
-              <DialogTitle>Export page</DialogTitle>
+              <DialogTitle>{t("ui.export_page")}</DialogTitle>
             </DialogHeading>
           </DialogHeader>
           <DialogBody>
             <div className="flex flex-col gap-3">
               <div className="flex items-center justify-between gap-2">
-                <span className="shrink-0 text-body-sm-medium text-primary">Export format</span>
+                <span className="shrink-0 text-body-sm-medium text-primary">{t("ui.export_format")}</span>
                 <Controller
                   control={control}
                   name="export_format"
@@ -249,7 +249,7 @@ export function ExportPageModal(props: Props) {
                 />
               </div>
               <div className="flex items-center justify-between gap-2">
-                <span className="shrink-0 text-body-sm-medium text-primary">Include content</span>
+                <span className="shrink-0 text-body-sm-medium text-primary">{t("ui.include_content")}</span>
                 <Controller
                   control={control}
                   name="content_variety"
@@ -265,7 +265,7 @@ export function ExportPageModal(props: Props) {
               </div>
               {isPDFSelected && (
                 <div className="flex items-center justify-between gap-2">
-                  <span className="shrink-0 text-body-sm-medium text-primary">Page format</span>
+                  <span className="shrink-0 text-body-sm-medium text-primary">{t("ui.page_format")}</span>
                   <Controller
                     control={control}
                     name="page_format"

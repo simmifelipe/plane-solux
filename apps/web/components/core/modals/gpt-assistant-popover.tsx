@@ -97,7 +97,7 @@ export function GptAssistantPopover(props: Props) {
 
     setToast({
       type: "error",
-      title: "Error!",
+      title: t("toast.error"),
       message: errorMessage,
     });
 
@@ -123,8 +123,8 @@ export function GptAssistantPopover(props: Props) {
   const handleInvalidTask = () => {
     setToast({
       type: "error",
-      title: "Error!",
-      message: "Please enter some task to get AI assistance.",
+      title: t("toast.error"),
+      message: t("ui.please_enter_some_task_to_get_ai"),
     });
   };
 
@@ -248,8 +248,7 @@ export function GptAssistantPopover(props: Props) {
                 )}
                 {invalidResponse && (
                   <div className="text-body-xs-regular text-danger-primary">
-                    No response could be generated. This may be due to insufficient content or task information. Please
-                    try again.
+                    {t("ui.no_response_could_be_generated_this_may")}
                   </div>
                 )}
               </div>
@@ -284,7 +283,7 @@ export function GptAssistantPopover(props: Props) {
                 <>
                   <div className="flex items-center justify-center gap-2 text-body-xs-regular text-tertiary">
                     <WarningCircleOutline className="h-4 w-4" />
-                    <p>By using this feature, you consent to sharing the message with a 3rd party service. </p>
+                    <p>{t("ui.by_using_this_feature_you_consent_to")} </p>
                   </div>
                 </>
               )}

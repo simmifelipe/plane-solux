@@ -205,7 +205,7 @@ export const InboxIssueProperties = observer(function InboxIssueProperties(props
               onClick={() => setParentIssueModalOpen(true)}
             >
               <ParentOutline className="h-3 w-3 flex-shrink-0" />
-              <span className="whitespace-nowrap">Add parent</span>
+              <span className="whitespace-nowrap">{t("add_parent")}</span>
             </button>
           )}
 

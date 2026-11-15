@@ -65,22 +65,22 @@ export function CreateUpdateModuleLinkModal(props: Props) {
         await createLink(payload);
         setToast({
           type: "success",
-          title: "Success!",
-          message: "Module link created successfully.",
+          title: t("toast.success"),
+          message: t("ui.module_link_created_successfully"),
         });
       } else {
         await updateLink(payload, data.id);
         setToast({
           type: "success",
-          title: "Success!",
-          message: "Module link updated successfully.",
+          title: t("toast.success"),
+          message: t("ui.module_link_updated_successfully"),
         });
       }
       onClose();
     } catch (error: any) {
       setToast({
         type: "error",
-        title: "Error!",
+        title: t("toast.error"),
         message: error?.data?.error ?? "Some error occurred. Please try again.",
       });
     }

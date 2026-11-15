@@ -24,8 +24,8 @@ export function WebhooksEmptyState(props: Props) {
     >
       <div className="flex w-full flex-col items-center text-center">
         <img src={EmptyWebhook} className="w-52 object-cover sm:w-60" alt="empty" />
-        <h6 className="mt-6 mb-3 text-h5-semibold sm:mt-8">No webhooks</h6>
-        <p className="mb-7 text-tertiary sm:mb-8">Create webhooks to receive real-time updates and automate actions</p>
+        <h6 className="mt-6 mb-3 text-h5-semibold sm:mt-8">{t("ui.no_webhooks")}</h6>
+        <p className="mb-7 text-tertiary sm:mb-8">{t("ui.create_webhooks_to_receive_real_time_updates")}</p>
         <Button
           variant="primary"
           size="sm"

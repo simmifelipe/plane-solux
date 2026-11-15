@@ -77,7 +77,7 @@ export function SelectMonthModal({ type, initialValues, isOpen, handleClose, han
           placeholder={t("ui.enter_months")}
           min={1}
           max={12}
-          endIcon={<span className="text-body-xs-regular text-secondary">Months</span>}
+          endIcon={<span className="text-body-xs-regular text-secondary">{t("ui.months")}</span>}
           error={errors[name] ? "Select a month between 1 and 12." : undefined}
         />
       )}
@@ -96,7 +96,7 @@ export function SelectMonthModal({ type, initialValues, isOpen, handleClose, han
           <DialogMain>
             <DialogHeader>
               <DialogHeading>
-                <DialogTitle>Customize time range</DialogTitle>
+                <DialogTitle>{t("common.customize_time_range")}</DialogTitle>
               </DialogHeading>
             </DialogHeader>
             <DialogBody>

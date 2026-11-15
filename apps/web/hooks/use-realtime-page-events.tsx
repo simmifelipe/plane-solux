@@ -19,6 +19,7 @@ import type { EPageStoreType } from "@/hooks/store";
 import { usePageStore } from "@/hooks/store";
 // store
 import type { TPageInstance } from "@/store/pages/base-page";
+import { useTranslation } from "@plane/i18n";
 
 // Type for page update handlers with proper typing for action data
 export type PageUpdateHandler<T extends keyof EventToPayloadMap = keyof EventToPayloadMap> = (params: {
@@ -47,6 +48,7 @@ export const useRealtimePageEvents = ({
   customRealtimeEventHandlers,
   handlers,
 }: UsePageEventsProps) => {
+  const { t } = useTranslation();
   const router = useAppRouter();
   const { removePage, getPageById } = usePageStore(storeType);
 
@@ -119,7 +121,7 @@ export const useRealtimePageEvents = ({
               if (page.id === pageId && data?.user_id !== currentUser?.id) {
                 setToast({
                   type: "error",
-                  title: "Page deleted",
+                  title: t("ui.page_deleted"),
                   message: `Page deleted${getUserDisplayText(data.user_id)}`,
                 });
                 router.push(handlers.getRedirectionLink());
@@ -173,7 +175,7 @@ export const useRealtimePageEvents = ({
         ...customRealtimeEventHandlers,
       };
     },
-    [getPageById, removePage, page, currentUser, getUserDisplayText, router, handlers, customRealtimeEventHandlers]
+    [getPageById, removePage, page, currentUser, getUserDisplayText, router, handlers, customRealtimeEventHandlers, t]
   );
 
   // The main function that will be returned from this hook

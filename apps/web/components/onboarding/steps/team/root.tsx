@@ -142,7 +142,7 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
               rules={{
                 pattern: {
                   value: emailRegex,
-                  message: "Invalid Email ID",
+                  message: t("ui.invalid_email_id"),
                 },
               }}
               render={({ field: { value, onChange, ref } }) => (
@@ -265,15 +265,15 @@ export const InviteTeamStep = observer(function InviteTeamStep(props: Props) {
       .then(async () => {
         setToast({
           type: "success",
-          title: "Success!",
-          message: "Invitations sent successfully.",
+          title: t("toast.success"),
+          message: t("ui.invitations_sent_successfully"),
         });
         await nextStep();
       })
       .catch((err) => {
         setToast({
           type: "error",
-          title: "Error!",
+          title: t("toast.error"),
           message: err?.error,
         });
       });

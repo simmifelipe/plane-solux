@@ -118,8 +118,8 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
     await updatePublishSettings(workspaceSlug.toString(), projectId, payload.id, payload).then((res) => {
       setToast({
         type: "success",
-        title: "Success!",
-        message: "Publish settings updated successfully!",
+        title: t("toast.success"),
+        message: t("ui.publish_settings_updated_successfully"),
       });
 
       handleClose();
@@ -136,8 +136,8 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
       .catch(() =>
         setToast({
           type: "error",
-          title: "Error!",
-          message: "Something went wrong while unpublishing the project.",
+          title: t("toast.error"),
+          message: t("ui.something_went_wrong_while_unpublishing_the_project"),
         })
       )
       .finally(() => setIsUnPublishing(false));
@@ -154,8 +154,8 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
     if (!selectedLayouts || selectedLayouts.length === 0) {
       setToast({
         type: "error",
-        title: "Error!",
-        message: "Please select at least one view layout to publish the project.",
+        title: t("toast.error"),
+        message: t("ui.please_select_at_least_one_view_layout"),
       });
       return;
     }
@@ -192,7 +192,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
       setToast({
         type: "success",
         title: "",
-        message: "Published page link copied successfully.",
+        message: t("ui.published_page_link_copied_successfully"),
       })
     );
 
@@ -209,7 +209,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
             <DialogHeader>
               <div className="flex items-center justify-between gap-2">
                 <DialogHeading>
-                  <DialogTitle>Publish project</DialogTitle>
+                  <DialogTitle>{t("publish_project")}</DialogTitle>
                 </DialogHeading>
                 {isProjectPublished && (
                   <Button
@@ -261,7 +261,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                             className="h-8 rounded-sm bg-layer-3 px-3 py-2 text-caption-sm-medium hover:bg-layer-3-hover"
                             onClick={() => void handleCopyLink()}
                           >
-                            Copy link
+                            {t("copy_link")}
                           </button>
                         </div>
                       </div>
@@ -276,7 +276,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                   )}
                   <div className="space-y-4">
                     <div className="relative flex items-center justify-between gap-2">
-                      <div className="text-body-xs-regular">Views</div>
+                      <div className="text-body-xs-regular">{t("views")}</div>
                       <Controller
                         control={control}
                         name="view_props"
@@ -315,7 +315,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                       />
                     </div>
                     <div className="relative flex items-center justify-between gap-2">
-                      <div className="text-body-xs-regular">Allow comments</div>
+                      <div className="text-body-xs-regular">{t("ui.allow_comments")}</div>
                       <Controller
                         control={control}
                         name="is_comments_enabled"
@@ -330,7 +330,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                       />
                     </div>
                     <div className="relative flex items-center justify-between gap-2">
-                      <div className="text-body-xs-regular">Allow reactions</div>
+                      <div className="text-body-xs-regular">{t("ui.allow_reactions")}</div>
                       <Controller
                         control={control}
                         name="is_reactions_enabled"
@@ -345,7 +345,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                       />
                     </div>
                     <div className="relative flex items-center justify-between gap-2">
-                      <div className="text-body-xs-regular">Allow voting</div>
+                      <div className="text-body-xs-regular">{t("ui.allow_voting")}</div>
                       <Controller
                         control={control}
                         name="is_votes_enabled"

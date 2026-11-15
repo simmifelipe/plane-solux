@@ -10,6 +10,7 @@ import { Button } from "@makeplane/propel/components/button";
 import type { IExportData } from "@plane/types";
 // helpers
 import { getDate, renderFormattedDate } from "@plane/utils";
+import { useTranslation } from "@plane/i18n";
 // types
 
 type Props = {
@@ -18,6 +19,7 @@ type Props = {
 };
 
 export function SingleExport({ service, refreshing }: Props) {
+  const { t } = useTranslation();
   const provider = service.provider;
 
   const [isLoading] = useState(false);
@@ -82,7 +84,9 @@ export function SingleExport({ service, refreshing }: Props) {
           )}
         </>
       ) : (
-        <div className="text-caption-sm-regular text-danger-primary">Expired</div>
+        <div className="text-caption-sm-regular text-danger-primary">
+          {t("workspace_settings.settings.api_tokens.expired")}
+        </div>
       )}
     </div>
   );

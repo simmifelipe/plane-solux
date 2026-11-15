@@ -55,16 +55,16 @@ export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: 
       setButtonLoader(false);
       setToast({
         type: "success",
-        title: "Estimate deleted",
-        message: "Estimate has been removed from your project.",
+        title: t("ui.estimate_deleted"),
+        message: t("ui.estimate_has_been_removed_from_your_project"),
       });
       handleClose();
     } catch (_error) {
       setButtonLoader(false);
       setToast({
         type: "error",
-        title: "Estimate creation failed",
-        message: "We were unable to delete the estimate, please try again.",
+        title: t("project_settings.estimates.toasts.created.error.title"),
+        message: t("ui.we_were_unable_to_delete_the_estimate"),
       });
     }
   };
@@ -85,7 +85,7 @@ export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: 
           {/* heading */}
           <DialogHeader>
             <DialogHeading>
-              <DialogTitle>Delete Estimate System</DialogTitle>
+              <DialogTitle>{t("ui.delete_estimate_system")}</DialogTitle>
             </DialogHeading>
           </DialogHeader>
 

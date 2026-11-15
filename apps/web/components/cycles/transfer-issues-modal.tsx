@@ -54,16 +54,16 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
       .then(async () => {
         setToast({
           type: "success",
-          title: "Success!",
-          message: "Work items have been transferred successfully",
+          title: t("toast.success"),
+          message: t("ui.work_items_have_been_transferred_successfully"),
         });
         await getCycleDetails(payload.new_cycle_id);
       })
       .catch(() => {
         setToast({
           type: "error",
-          title: "Error!",
-          message: "Unable to transfer work items. Please try again.",
+          title: t("toast.error"),
+          message: t("ui.unable_to_transfer_work_items_please_try"),
         });
       });
   };
@@ -77,7 +77,7 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
     await Promise.all(cyclesFetch).catch((error) => {
       setToast({
         type: "error",
-        title: "Error",
+        title: t("error"),
         message: error.error || "Unable to fetch cycle details",
       });
     });
@@ -109,7 +109,7 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
         <DialogMain>
           <DialogHeader>
             <DialogHeading>
-              <DialogTitle>Transfer work items</DialogTitle>
+              <DialogTitle>{t("ui.transfer_work_items")}</DialogTitle>
             </DialogHeading>
           </DialogHeader>
           <div className="flex items-center gap-2 border-b border-subtle pb-3">
@@ -157,9 +157,7 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
                 ) : (
                   <div className="flex w-full items-center justify-center gap-2 p-5 text-body-xs-regular">
                     <WarningCircleOutline className="size-4 shrink-0 text-secondary" />
-                    <span className="text-center text-secondary">
-                      You don’t have any current cycle. Please create one to transfer the work items.
-                    </span>
+                    <span className="text-center text-secondary">{t("ui.you_don_t_have_any_current_cycle")}</span>
                   </div>
                 )
               ) : (

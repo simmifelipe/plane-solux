@@ -16,6 +16,7 @@ import { Menu, MenuContent, MenuItem, MenuTrigger } from "@makeplane/propel/comp
 // hooks
 import { useCycleFilter } from "@/hooks/store/use-cycle-filter";
 import { useProject } from "@/hooks/store/use-project";
+import { useTranslation } from "@plane/i18n";
 
 const CYCLE_VIEW_LAYOUTS: {
   key: TCycleLayoutOptions;
@@ -40,6 +41,7 @@ const CYCLE_VIEW_LAYOUTS: {
 ];
 
 export const CyclesListMobileHeader = observer(function CyclesListMobileHeader() {
+  const { t } = useTranslation();
   const { currentProjectDetails } = useProject();
   // hooks
   const { updateDisplayFilters } = useCycleFilter();
@@ -57,7 +59,9 @@ export const CyclesListMobileHeader = observer(function CyclesListMobileHeader()
           >
             <span className="flex items-center gap-2">
               <ListOutline className="h-4 w-4" />
-              <span className="flex flex-grow justify-center text-body-xs-regular text-secondary">Layout</span>
+              <span className="flex flex-grow justify-center text-body-xs-regular text-secondary">
+                {t("common.layout")}
+              </span>
             </span>
           </MenuTrigger>
         </div>

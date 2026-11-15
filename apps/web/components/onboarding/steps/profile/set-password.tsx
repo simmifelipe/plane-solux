@@ -92,7 +92,7 @@ export function SetPasswordRoot({ onPasswordChange, onConfirmPasswordChange, dis
       >
         <div className="flex items-center gap-1 text-tertiary">
           <LockOutline className="size-3" />
-          <span className="font-medium">Set a password</span>
+          <span className="font-medium">{t("auth.common.password.set_password")}</span>
           <span>{`(Optional)`}</span>
         </div>
         <div className="flex items-center gap-2 text-placeholder">
@@ -126,7 +126,7 @@ export function SetPasswordRoot({ onPasswordChange, onConfirmPasswordChange, dis
               className="transition-all duration-200"
             />
             {hasPasswordMismatch && (
-              <p className="mt-1 text-caption-sm-regular text-danger-primary">Passwords do not match</p>
+              <p className="mt-1 text-caption-sm-regular text-danger-primary">{t("ui.passwords_do_not_match")}</p>
             )}
             {isPasswordValid && <p className="mt-1 text-caption-sm-regular text-success-primary">✓ Passwords match</p>}
           </div>

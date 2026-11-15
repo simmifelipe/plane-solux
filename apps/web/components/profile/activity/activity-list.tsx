@@ -19,12 +19,14 @@ import { ActivitySettingsLoader } from "@/components/ui/loader/settings/activity
 // hooks
 import { useWorkspace } from "@/hooks/store/use-workspace";
 import { useUser } from "@/hooks/store/user";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   activity: IUserActivityResponse | undefined;
 };
 
 export const ActivityList = observer(function ActivityList(props: Props) {
+  const { t } = useTranslation();
   const { activity } = props;
   // params
   const { workspaceSlug } = useParams();
@@ -135,7 +137,9 @@ export const ActivityList = observer(function ActivityList(props: Props) {
                         <div className="min-w-0 flex-1 border-b border-subtle py-4">
                           <div className="text-body-xs-regular break-words text-secondary">
                             {activityItem.field === "archived_at" && activityItem.new_value !== "restore" ? (
-                              <span className="font-medium text-primary">Plane</span>
+                              <span className="font-medium text-primary">
+                                {t("templates.settings.form.publish.company_name.placeholder")}
+                              </span>
                             ) : activityItem.actor_detail.is_bot ? (
                               <span className="font-medium text-primary">
                                 {activityItem.actor_detail.first_name} Bot

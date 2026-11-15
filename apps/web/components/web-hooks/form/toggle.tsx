@@ -19,7 +19,7 @@ export function WebhookToggle({ control }: IWebHookToggle) {
   const { t } = useTranslation();
   return (
     <div className="flex gap-6">
-      <div className="text-body-xs-medium">Enable webhook</div>
+      <div className="text-body-xs-medium">{t("ui.enable_webhook")}</div>
       <Controller
         control={control}
         name="is_active"

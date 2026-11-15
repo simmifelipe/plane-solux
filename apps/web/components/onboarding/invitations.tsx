@@ -68,8 +68,8 @@ export function Invitations(props: Props) {
   return invitations && invitations.length > 0 ? (
     <div className="space-y-4">
       <div className="mx-auto space-y-1 py-4 text-center">
-        <h3 className="text-h3-bold text-primary">You are invited!</h3>
-        <p className="font-medium text-placeholder">Accept the invites to collaborate with your team.</p>
+        <h3 className="text-h3-bold text-primary">{t("ui.you_are_invited")}</h3>
+        <p className="font-medium text-placeholder">{t("ui.accept_the_invites_to_collaborate_with_your")}</p>
       </div>
       <div>
         {invitations &&
@@ -127,6 +127,6 @@ export function Invitations(props: Props) {
       />
     </div>
   ) : (
-    <div>No Invitations found</div>
+    <div>{t("ui.no_invitations_found")}</div>
   );
 }

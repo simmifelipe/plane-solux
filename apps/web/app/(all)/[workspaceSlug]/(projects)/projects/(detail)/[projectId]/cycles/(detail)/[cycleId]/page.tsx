@@ -62,7 +62,7 @@ function CycleDetailPage({ params }: Route.ComponentProps) {
           description={t("ui.the_cycle_you_are_looking_for_does")}
           actions={[
             {
-              label: "View other cycles",
+              label: t("ui.view_other_cycles"),
               variant: "primary",
               onClick: () => router.push(`/${workspaceSlug}/projects/${projectId}/cycles`),
             },

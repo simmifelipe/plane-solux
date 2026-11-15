@@ -54,8 +54,8 @@ export const DeletePageModal = observer(function DeletePageModal(props: TConfirm
       handleClose();
       setToast({
         type: "success",
-        title: "Success!",
-        message: "Page deleted successfully.",
+        title: t("toast.success"),
+        message: t("ui.page_deleted_successfully"),
       });
 
       if (routePageId) {
@@ -64,8 +64,8 @@ export const DeletePageModal = observer(function DeletePageModal(props: TConfirm
     } catch {
       setToast({
         type: "error",
-        title: "Error!",
-        message: "Page could not be deleted. Please try again.",
+        title: t("toast.error"),
+        message: t("ui.page_could_not_be_deleted_please_try"),
       });
     } finally {
       setIsDeleting(false);

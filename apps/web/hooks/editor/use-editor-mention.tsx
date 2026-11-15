@@ -14,6 +14,7 @@ import type { TSearchEntities, TSearchEntityRequestPayload, TSearchResponse, TUs
 import { getFileURL } from "@plane/utils";
 // plane web hooks
 import { useAdditionalEditorMention } from "@/hooks/use-additional-editor-mention";
+import { useTranslation } from "@plane/i18n";
 
 type TArgs = {
   enableAdvancedMentions?: boolean;
@@ -21,6 +22,7 @@ type TArgs = {
 };
 
 export const useEditorMention = (args: TArgs) => {
+  const { t } = useTranslation();
   const { enableAdvancedMentions = false, searchEntity } = args;
   // additional mentions
   const { editorMentionTypes, updateAdditionalSections } = useAdditionalEditorMention({
@@ -59,7 +61,7 @@ export const useEditorMention = (args: TArgs) => {
             }));
             suggestionSections.push({
               key: "users",
-              title: "Users",
+              title: t("common.users"),
               items,
             });
           }
@@ -73,7 +75,7 @@ export const useEditorMention = (args: TArgs) => {
         throw error;
       }
     },
-    [editorMentionTypes, searchEntity, updateAdditionalSections]
+    [editorMentionTypes, searchEntity, updateAdditionalSections, t]
   );
 
   return {

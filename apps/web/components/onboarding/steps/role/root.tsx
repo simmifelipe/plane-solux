@@ -72,14 +72,14 @@ export const RoleSetupStep = observer(function RoleSetupStep({ handleStepChange 
       [await updateUserProfile(profileUpdatePayload)];
       setToast({
         type: "success",
-        title: "Success",
-        message: "Profile setup completed!",
+        title: t("success"),
+        message: t("ui.profile_setup_completed"),
       });
     } catch {
       setToast({
         type: "error",
-        title: "Error",
-        message: "Profile setup failed. Please try again!",
+        title: t("error"),
+        message: t("ui.profile_setup_failed_please_try_again"),
       });
     }
   };
@@ -102,7 +102,7 @@ export const RoleSetupStep = observer(function RoleSetupStep({ handleStepChange 
       <CommonOnboardingHeader title={t("ui.what_s_your_role")} description={t("ui.let_s_set_up_plane_for_how")} />
       {/* Role Selection */}
       <fieldset className="flex min-w-0 flex-col gap-3">
-        <legend className="mb-3 text-body-sm-semibold text-placeholder">Select one</legend>
+        <legend className="mb-3 text-body-sm-semibold text-placeholder">{t("ui.select_one")}</legend>
         <Controller
           control={control}
           name="role"

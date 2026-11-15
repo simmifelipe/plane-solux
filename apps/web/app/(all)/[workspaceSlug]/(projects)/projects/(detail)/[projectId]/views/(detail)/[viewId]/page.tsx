@@ -43,7 +43,7 @@ function ProjectViewIssuesPage({ params }: Route.ComponentProps) {
         description={t("ui.the_view_you_are_looking_for_does")}
         actions={[
           {
-            label: "View other views",
+            label: t("ui.view_other_views"),
             variant: "primary",
             onClick: () => router.push(`/${workspaceSlug}/projects/${projectId}/views`),
           },

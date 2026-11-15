@@ -59,7 +59,7 @@ function ModuleIssuesPage({ params }: Route.ComponentProps) {
           description={t("ui.the_module_you_are_looking_for_does")}
           actions={[
             {
-              label: "View other modules",
+              label: t("ui.view_other_modules"),
               variant: "primary",
               onClick: () => router.push(`/${workspaceSlug}/projects/${projectId}/modules`),
             },
