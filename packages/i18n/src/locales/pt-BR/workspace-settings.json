@@ -385,7 +385,7 @@
         "webhook_url_title": "URL do webhook",
         "webhook_url_error": "URL do webhook é obrigatória",
         "invalid_webhook_url_error": "URL do webhook inválida",
-        "redirect_uris_title": "Redirect URIs",
+        "redirect_uris_title": "URIs de redirecionamento",
         "redirect_uris_error": "Redirect URIs são obrigatórias",
         "invalid_redirect_uris_error": "Redirect URIs inválidas",
         "redirect_uris_description": "Digite URIs separados por espaço onde o aplicativo redirecionará para o usuário após e.g https://example.com https://example.com/",
