@@ -15,6 +15,7 @@ from rest_framework import status
 
 # Module imports
 from .. import BaseViewSet
+from plane.utils.resource_access import AccessAction
 from plane.app.serializers import IssueReactionSerializer
 from plane.app.permissions import allow_permission, issue_hidden_from_guest, ROLE
 from plane.db.models import Issue, IssueReaction
@@ -23,6 +24,7 @@ from plane.utils.host import base_host
 
 
 class IssueReactionViewSet(BaseViewSet):
+    access_write_action = AccessAction.COMMENT
     serializer_class = IssueReactionSerializer
     model = IssueReaction
 

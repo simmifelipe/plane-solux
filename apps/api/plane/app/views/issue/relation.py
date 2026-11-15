@@ -19,6 +19,7 @@ from rest_framework import status
 
 # Module imports
 from .. import BaseViewSet
+from plane.utils.resource_access import restrict_to_request_user
 from plane.app.serializers import IssueRelationSerializer, RelatedIssueSerializer
 from plane.app.permissions import ProjectEntityPermission, issue_hidden_from_guest
 from plane.db.models import (
@@ -49,7 +50,7 @@ def issue_in_project(issue_id, slug, project_id, *, include_archived=False):
     ``include_archived=True`` for that case; the project/workspace binding itself is
     unchanged either way.
     """
-    manager = Issue.objects if include_archived else Issue.issue_objects
+    manager = restrict_to_request_user(Issue.objects.all()) if include_archived else Issue.issue_objects
     return manager.filter(pk=issue_id, workspace__slug=slug, project_id=project_id).exists()
 
 

@@ -33,6 +33,7 @@ from plane.utils.order_queryset import order_issue_queryset
 from plane.utils.paginator import GroupedOffsetPaginator, SubGroupedOffsetPaginator
 from plane.app.permissions import allow_permission, ROLE
 from plane.utils.host import base_host
+from plane.utils.resource_access import AccessAction, accessible_issues
 from plane.utils.filters import ComplexFilterBackend
 from plane.utils.filters import IssueFilterSet
 
@@ -226,6 +227,16 @@ class CycleIssueViewSet(BaseViewSet):
 
         if not issues:
             return Response({"error": "Issues are required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Ignore ids of work items the caller may not see or edit (restricted modules / work items)
+        issues = [
+            str(issue_id)
+            for issue_id in accessible_issues(
+                Issue.objects.filter(workspace__slug=slug, project_id=project_id, pk__in=issues),
+                request.user,
+                AccessAction.EDIT,
+            ).values_list("id", flat=True)
+        ]
 
         cycle = Cycle.objects.get(workspace__slug=slug, project_id=project_id, pk=cycle_id)
 

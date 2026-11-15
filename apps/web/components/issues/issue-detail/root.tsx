@@ -22,6 +22,7 @@ import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 import { useIssues } from "@/hooks/store/use-issues";
 import { useUserPermissions } from "@/hooks/store/user";
 import { useAppRouter } from "@/hooks/use-app-router";
+import { useMyResourceAccess } from "@/hooks/use-my-resource-access";
 // local components
 import { IssuePeekOverview } from "../peek-overview";
 import { IssueMainContent } from "./main-content";
@@ -80,6 +81,7 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
     issues: { removeIssue: removeArchivedIssue },
   } = useIssues(EIssuesStoreType.ARCHIVED);
   const { allowPermissions } = useUserPermissions();
+  const myAccess = useMyResourceAccess(workspaceSlug, projectId, "issue", issueId);
   const { issueDetailSidebarCollapsed } = useAppTheme();
 
   const issueOperations: TIssueOperations = useMemo(
@@ -218,12 +220,13 @@ export const IssueDetailRoot = observer(function IssueDetailRoot(props: TIssueDe
   // issue details
   const issue = getIssueById(issueId);
   // checking if issue is editable, based on user role
-  const isEditable = allowPermissions(
-    [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT,
-    workspaceSlug,
-    projectId
-  );
+  const isEditable =
+    allowPermissions(
+      [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
+      EUserPermissionsLevel.PROJECT,
+      workspaceSlug,
+      projectId
+    ) && myAccess?.can_edit !== false; // a restricted work item the user may only view or comment on stays read-only
 
   return (
     <>

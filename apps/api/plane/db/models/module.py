@@ -97,6 +97,8 @@ class Module(ProjectBaseModel):
     external_id = models.CharField(max_length=255, blank=True, null=True)
     archived_at = models.DateTimeField(null=True)
     logo_props = models.JSONField(default=dict)
+    # When True only project admins, the creator and users with a ResourceAccess grant can see it
+    is_restricted = models.BooleanField(default=False)
 
     class Meta:
         unique_together = ["name", "project", "deleted_at"]

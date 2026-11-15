@@ -36,6 +36,7 @@ import { MemberSelect } from "@/components/dropdowns/member/member-select";
 import { CreateUpdateModuleLinkModal, ModuleAnalyticsProgress, ModuleLinksList } from "@/components/modules";
 import { ModuleStatusDropdown } from "@/components/modules/module-status-dropdown";
 import { ModuleQuickActions } from "@/components/modules/quick-actions";
+import { ResourceAccessControl } from "@/components/resource-access";
 // hooks
 import { useProjectEstimates } from "@/hooks/store/estimates";
 import { useModule } from "@/hooks/store/use-module";
@@ -246,10 +247,9 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
       ? "0 work items"
       : `${moduleDetails.completed_estimate_points}/${moduleDetails.total_estimate_points}`;
 
-  const isEditingAllowed = allowPermissions(
-    [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT
-  );
+  const isEditingAllowed =
+    allowPermissions([EUserPermissions.ADMIN, EUserPermissions.MEMBER], EUserPermissionsLevel.PROJECT) &&
+    moduleDetails.can_edit !== false;
 
   return (
     <div className="relative flex flex-col gap-6 py-4">
@@ -274,8 +274,21 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
             </span>
           )}
           <h4 className="min-w-0 flex-1 wrap-break-word text-primary">{moduleDetails.name}</h4>
+          {moduleDetails.is_restricted && (
+            <span className="shrink-0 rounded-sm bg-layer-1 px-1.5 py-0.5 text-body-xs-medium text-tertiary">
+              {t("resource_access.restricted_badge")}
+            </span>
+          )}
         </div>
         <div className="flex shrink-0 items-center gap-3">
+          {workspaceSlug && projectId && (
+            <ResourceAccessControl
+              workspaceSlug={workspaceSlug.toString()}
+              projectId={projectId.toString()}
+              kind="module"
+              resourceId={moduleId}
+            />
+          )}
           {workspaceSlug && projectId && (
             <ModuleQuickActions
               parentRef={headerRef}

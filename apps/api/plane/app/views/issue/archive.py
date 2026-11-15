@@ -17,6 +17,7 @@ from django.views.decorators.gzip import gzip_page
 from rest_framework import status
 from rest_framework.response import Response
 
+from plane.utils.resource_access import AccessAction, accessible_issues
 from plane.app.permissions import ProjectEntityPermission
 from plane.app.serializers import (
     IssueFlatSerializer,
@@ -51,6 +52,7 @@ from plane.utils.filters import IssueFilterSet
 
 
 class IssueArchiveViewSet(BaseViewSet):
+    access_pk_resource = "issue"
     serializer_class = IssueFlatSerializer
     model = Issue
 
@@ -96,7 +98,8 @@ class IssueArchiveViewSet(BaseViewSet):
 
     def get_queryset(self):
         return (
-            Issue.objects.filter(Q(type__isnull=True) | Q(type__is_epic=False))
+            accessible_issues(Issue.objects, self.request.user)
+            .filter(Q(type__isnull=True) | Q(type__is_epic=False))
             .filter(archived_at__isnull=False)
             .filter(project_id=self.kwargs.get("project_id"))
             .filter(workspace__slug=self.kwargs.get("slug"))
@@ -312,8 +315,10 @@ class BulkArchiveIssuesEndpoint(BaseAPIView):
         if not len(issue_ids):
             return Response({"error": "Issue IDs are required"}, status=status.HTTP_400_BAD_REQUEST)
 
-        issues = Issue.objects.filter(workspace__slug=slug, project_id=project_id, pk__in=issue_ids).select_related(
-            "state"
+        issues = (
+            accessible_issues(Issue.objects, request.user, AccessAction.EDIT)
+            .filter(workspace__slug=slug, project_id=project_id, pk__in=issue_ids)
+            .select_related("state")
         )
         bulk_archive_issues = []
         for issue in issues:

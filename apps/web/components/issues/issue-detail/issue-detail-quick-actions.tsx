@@ -15,6 +15,8 @@ import { setToast } from "@plane/blocks/toast";
 import { Tooltip } from "@makeplane/propel/components/tooltip";
 import { EIssuesStoreType } from "@plane/types";
 import { generateWorkItemLink, copyTextToClipboard } from "@plane/utils";
+// components
+import { ResourceAccessControl } from "@/components/resource-access";
 // hooks
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
 import { useIssues } from "@/hooks/store/use-issues";
@@ -148,6 +150,12 @@ export const IssueDetailQuickActions = observer(function IssueDetailQuickActions
             <IssueSubscription workspaceSlug={workspaceSlug} projectId={projectId} issueId={issueId} />
           )}
           <div className="flex flex-wrap items-center gap-2 text-tertiary">
+            <ResourceAccessControl
+              workspaceSlug={workspaceSlug}
+              projectId={projectId}
+              kind="issue"
+              resourceId={issueId}
+            />
             <Tooltip label={t("common.actions.copy_link")} disabled={isMobile}>
               <IconButton
                 variant="secondary"

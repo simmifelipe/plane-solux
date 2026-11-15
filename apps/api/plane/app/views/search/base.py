@@ -27,6 +27,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 # Module imports
+from plane.utils.resource_access import accessible_issues, accessible_modules
 from plane.app.views.base import BaseAPIView
 from plane.app.permissions import ROLE, WorkspaceUserPermission
 from plane.db.models import (
@@ -149,7 +150,7 @@ class GlobalSearchEndpoint(BaseAPIView):
             for field in fields:
                 q |= Q(**{f"{field}__icontains": query})
 
-        modules = Module.objects.filter(
+        modules = accessible_modules(Module.objects, self.request.user).filter(
             q,
             project__project_projectmember__member=self.request.user,
             project__project_projectmember__is_active=True,
@@ -264,17 +265,21 @@ class GlobalSearchEndpoint(BaseAPIView):
                     q |= Q(**{f"{field}__icontains": query})
 
         # Guests only see intake issues they created unless guest_view_all_features
-        issues = Issue.objects.filter(
-            q,
-            Q(project__project_projectmember__role__gt=ROLE.GUEST.value)
-            | Q(project__guest_view_all_features=True)
-            | Q(created_by=self.request.user),
-            project__project_projectmember__member=self.request.user,
-            project__project_projectmember__is_active=True,
-            project__project_projectmember__deleted_at__isnull=True,
-            project__archived_at__isnull=True,
-            workspace__slug=slug,
-        ).filter(models.Q(issue_intake__status=0) | models.Q(issue_intake__status=-2))
+        issues = (
+            accessible_issues(Issue.objects, self.request.user)
+            .filter(
+                q,
+                Q(project__project_projectmember__role__gt=ROLE.GUEST.value)
+                | Q(project__guest_view_all_features=True)
+                | Q(created_by=self.request.user),
+                project__project_projectmember__member=self.request.user,
+                project__project_projectmember__is_active=True,
+                project__project_projectmember__deleted_at__isnull=True,
+                project__archived_at__isnull=True,
+                workspace__slug=slug,
+            )
+            .filter(models.Q(issue_intake__status=0) | models.Q(issue_intake__status=-2))
+        )
 
         if workspace_search == "false" and project_id:
             issues = issues.filter(project_id=project_id)
@@ -517,7 +522,8 @@ class SearchEndpoint(BaseAPIView):
                             q |= Q(**{f"{field}__icontains": query})
 
                     modules = (
-                        Module.objects.filter(
+                        accessible_modules(Module.objects, self.request.user)
+                        .filter(
                             q,
                             project__project_projectmember__member=self.request.user,
                             project__project_projectmember__is_active=True,
@@ -728,7 +734,8 @@ class SearchEndpoint(BaseAPIView):
                             q |= Q(**{f"{field}__icontains": query})
 
                     modules = (
-                        Module.objects.filter(
+                        accessible_modules(Module.objects, self.request.user)
+                        .filter(
                             q,
                             project__project_projectmember__member=self.request.user,
                             project__project_projectmember__is_active=True,

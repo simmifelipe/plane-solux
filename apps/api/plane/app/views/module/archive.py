@@ -28,6 +28,7 @@ from django.db import models
 # Third party imports
 from rest_framework import status
 from rest_framework.response import Response
+from plane.utils.resource_access import accessible_modules
 from plane.app.permissions import ProjectEntityPermission
 from plane.app.serializers import ModuleDetailSerializer
 from plane.db.models import Issue, Module, ModuleLink, UserFavorite, Project
@@ -40,6 +41,7 @@ from .. import BaseAPIView
 
 
 class ModuleArchiveUnarchiveEndpoint(BaseAPIView):
+    access_pk_resource = "module"
     permission_classes = [ProjectEntityPermission]
 
     def get_queryset(self):
@@ -176,7 +178,8 @@ class ModuleArchiveUnarchiveEndpoint(BaseAPIView):
             .values("cancelled_estimate_point")[:1]
         )
         return (
-            Module.objects.filter(workspace__slug=self.kwargs.get("slug"))
+            accessible_modules(Module.objects, self.request.user)
+            .filter(workspace__slug=self.kwargs.get("slug"))
             .filter(project_id=self.kwargs.get("project_id"))
             .filter(archived_at__isnull=False)
             .annotate(is_favorite=Exists(favorite_subquery))

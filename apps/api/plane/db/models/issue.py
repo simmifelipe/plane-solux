@@ -91,7 +91,10 @@ def get_default_display_properties():
 # TODO: Handle identifiers for Bulk Inserts - nk
 class IssueManager(SoftDeletionManager):
     def get_queryset(self):
-        return (
+        # Imported here: plane.utils.resource_access imports this module's models
+        from plane.utils.resource_access import restrict_to_request_user
+
+        queryset = (
             super()
             .get_queryset()
             .exclude(state__group=StateGroup.TRIAGE.value)
@@ -99,6 +102,8 @@ class IssueManager(SoftDeletionManager):
             .exclude(project__archived_at__isnull=False)
             .exclude(is_draft=True)
         )
+        # Hide restricted issues the current request's user has no access to
+        return restrict_to_request_user(queryset)
 
 
 class Issue(ChangeTrackerMixin, ProjectBaseModel):
@@ -168,6 +173,8 @@ class Issue(ChangeTrackerMixin, ProjectBaseModel):
         null=True,
         blank=True,
     )
+    # When True only project admins, the creator, assignees and users with a ResourceAccess grant can see it
+    is_restricted = models.BooleanField(default=False)
 
     issue_objects = IssueManager()
 

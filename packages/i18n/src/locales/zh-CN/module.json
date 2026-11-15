@@ -10,5 +10,28 @@
         "empty": "向模块添加工作项以跟踪进度。"
       }
     }
+  },
+  "resource_access": {
+    "title": "Access",
+    "manage": "Manage access",
+    "description_module": "Choose who can see, comment on and edit this module. Project admins always have full access.",
+    "description_issue": "Choose who can see, comment on and edit this work item. Project admins always have full access.",
+    "restrict": "Restrict access",
+    "restrict_hint": "When on, only the people listed below (and project admins) can access it.",
+    "restricted_badge": "Restricted",
+    "no_grants": "Nobody has been given access yet.",
+    "add_user": "Add a person",
+    "select_user": "Select a project member",
+    "add": "Add",
+    "view": "View",
+    "comment": "Comment",
+    "edit": "Edit",
+    "remove": "Remove",
+    "toast": {
+      "updated": "Access updated.",
+      "error": "Could not update access. Please try again.",
+      "load_error": "Could not load access settings."
+    },
+    "no_comment_permission": "You don't have permission to comment on this work item."
   }
 }

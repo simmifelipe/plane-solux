@@ -20,6 +20,7 @@ from rest_framework.response import Response
 
 # Module imports
 from ..base import BaseViewSet
+from plane.utils.resource_access import accessible_issue_ids
 from plane.app.permissions import allow_permission, ROLE
 from plane.db.models import (
     Intake,
@@ -96,6 +97,7 @@ class IntakeViewSet(BaseViewSet):
 class IntakeIssueViewSet(BaseViewSet):
     serializer_class = IntakeIssueSerializer
     model = IntakeIssue
+    access_pk_resource = "issue"  # the URL pk is the work item id
 
     filterset_fields = ["status"]
 
@@ -185,6 +187,7 @@ class IntakeIssueViewSet(BaseViewSet):
         filters = issue_filters(request.GET, "GET", "issue__")
         intake_issue = (
             IntakeIssue.objects.filter(intake_id=intake.id, project_id=project_id, **filters)
+            .filter(issue_id__in=accessible_issue_ids(request.user))
             .select_related("issue")
             .prefetch_related("issue__labels")
             .annotate(

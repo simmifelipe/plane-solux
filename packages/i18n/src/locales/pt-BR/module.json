@@ -10,5 +10,28 @@
         "empty": "Adicione itens de trabalho ao módulo para acompanhar o progresso."
       }
     }
+  },
+  "resource_access": {
+    "title": "Acesso",
+    "manage": "Gerenciar acesso",
+    "description_module": "Escolha quem pode ver, comentar e editar este módulo. Administradores do projeto sempre têm acesso total.",
+    "description_issue": "Escolha quem pode ver, comentar e editar este item de trabalho. Administradores do projeto sempre têm acesso total.",
+    "restrict": "Restringir acesso",
+    "restrict_hint": "Quando ativado, só as pessoas listadas abaixo (e os administradores do projeto) têm acesso.",
+    "restricted_badge": "Restrito",
+    "no_grants": "Ninguém recebeu acesso ainda.",
+    "add_user": "Adicionar uma pessoa",
+    "select_user": "Selecione um membro do projeto",
+    "add": "Adicionar",
+    "view": "Ver",
+    "comment": "Comentar",
+    "edit": "Editar",
+    "remove": "Remover",
+    "toast": {
+      "updated": "Acesso atualizado.",
+      "error": "Não foi possível atualizar o acesso. Tente novamente.",
+      "load_error": "Não foi possível carregar as configurações de acesso."
+    },
+    "no_comment_permission": "Você não tem permissão para comentar neste item de trabalho."
   }
 }

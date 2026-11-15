@@ -23,6 +23,7 @@ from plane.db.models import (
     WorkspaceMember,
 )
 from plane.utils.paginator import BasePaginator
+from plane.utils.resource_access import accessible_notifications
 from plane.utils.order_queryset import NOTIFICATION_ORDER_BY_ALLOWLIST, sanitize_order_by
 from plane.app.permissions import allow_permission, ROLE
 
@@ -35,7 +36,7 @@ class NotificationViewSet(BaseViewSet, BasePaginator):
     serializer_class = NotificationSerializer
 
     def get_queryset(self):
-        return (
+        queryset = (
             super()
             .get_queryset()
             .filter(
@@ -44,6 +45,7 @@ class NotificationViewSet(BaseViewSet, BasePaginator):
             )
             .select_related("workspace", "project", "triggered_by", "receiver")
         )
+        return accessible_notifications(queryset, self.request.user)
 
     @allow_permission(allowed_roles=[ROLE.ADMIN, ROLE.MEMBER, ROLE.GUEST], level="WORKSPACE")
     def list(self, request, slug):
@@ -62,7 +64,9 @@ class NotificationViewSet(BaseViewSet, BasePaginator):
         )
 
         notifications = (
-            Notification.objects.filter(workspace__slug=slug, receiver_id=request.user.id)
+            accessible_notifications(
+                Notification.objects.filter(workspace__slug=slug, receiver_id=request.user.id), request.user
+            )
             .filter(entity_name="issue")
             .annotate(is_inbox_issue=Exists(intake_issue))
             .annotate(is_intake_issue=Exists(intake_issue))
@@ -205,24 +209,30 @@ class UnreadNotificationEndpoint(BaseAPIView):
     def get(self, request, slug):
         # Watching Issues Count
         unread_notifications_count = (
+            accessible_notifications(
+                Notification.objects.filter(
+                    workspace__slug=slug,
+                    receiver_id=request.user.id,
+                    read_at__isnull=True,
+                    archived_at__isnull=True,
+                    snoozed_till__isnull=True,
+                ),
+                request.user,
+            )
+            .exclude(sender__icontains="mentioned")
+            .count()
+        )
+
+        mention_notifications_count = accessible_notifications(
             Notification.objects.filter(
                 workspace__slug=slug,
                 receiver_id=request.user.id,
                 read_at__isnull=True,
                 archived_at__isnull=True,
                 snoozed_till__isnull=True,
-            )
-            .exclude(sender__icontains="mentioned")
-            .count()
-        )
-
-        mention_notifications_count = Notification.objects.filter(
-            workspace__slug=slug,
-            receiver_id=request.user.id,
-            read_at__isnull=True,
-            archived_at__isnull=True,
-            snoozed_till__isnull=True,
-            sender__icontains="mentioned",
+                sender__icontains="mentioned",
+            ),
+            request.user,
         ).count()
 
         return Response(

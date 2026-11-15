@@ -30,6 +30,8 @@ import { useIssues } from "@/hooks/store/use-issues";
 import { useProject } from "@/hooks/store/use-project";
 import { useUser } from "@/hooks/store/user";
 import { usePlatformOS } from "@/hooks/use-platform-os";
+// components
+import { ResourceAccessControl } from "@/components/resource-access";
 // local imports
 import { IssueSubscription } from "../issue-detail/subscription";
 import { WorkItemDetailQuickActions } from "../issue-layouts/quick-action-dropdowns";
@@ -217,6 +219,12 @@ export const IssuePeekOverviewHeader = observer(function IssuePeekOverviewHeader
           {currentUser && !isArchived && (
             <IssueSubscription workspaceSlug={workspaceSlug} projectId={projectId} issueId={issueId} />
           )}
+          <ResourceAccessControl
+            workspaceSlug={workspaceSlug}
+            projectId={projectId}
+            kind="issue"
+            resourceId={issueId}
+          />
           <Tooltip label={t("common.actions.copy_link")} disabled={isMobile}>
             <IconButton
               variant="secondary"

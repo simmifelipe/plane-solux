@@ -17,6 +17,7 @@ from rest_framework import status
 
 # Module imports
 from .. import BaseViewSet
+from plane.utils.resource_access import AccessAction
 from plane.app.serializers import IssueCommentSerializer, CommentReactionSerializer
 from plane.app.permissions import allow_permission, issue_hidden_from_guest, ROLE
 from plane.db.models import IssueComment, ProjectMember, CommentReaction, Project, Issue
@@ -31,6 +32,7 @@ COMMENT_WRITABLE_FIELDS = ("comment_html", "comment_json", "access")
 
 
 class IssueCommentViewSet(BaseViewSet):
+    access_write_action = AccessAction.COMMENT
     serializer_class = IssueCommentSerializer
     model = IssueComment
     webhook_event = "issue_comment"
@@ -204,6 +206,7 @@ class IssueCommentViewSet(BaseViewSet):
 
 
 class CommentReactionViewSet(BaseViewSet):
+    access_write_action = AccessAction.COMMENT
     serializer_class = CommentReactionSerializer
     model = CommentReaction
 

@@ -37,6 +37,7 @@ class ModuleWriteSerializer(BaseSerializer):
         model = Module
         fields = "__all__"
         read_only_fields = [
+            "is_restricted",
             "workspace",
             "project",
             "created_by",
@@ -214,6 +215,9 @@ class ModuleSerializer(DynamicBaseSerializer):
     backlog_issues = serializers.IntegerField(read_only=True)
     total_estimate_points = serializers.FloatField(read_only=True)
     completed_estimate_points = serializers.FloatField(read_only=True)
+    # Annotated by the module viewset; absent (and skipped) elsewhere
+    can_comment = serializers.BooleanField(read_only=True)
+    can_edit = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Module
@@ -237,7 +241,10 @@ class ModuleSerializer(DynamicBaseSerializer):
             "external_source",
             "external_id",
             "logo_props",
+            "is_restricted",
             # computed fields
+            "can_comment",
+            "can_edit",
             "total_estimate_points",
             "completed_estimate_points",
             "is_favorite",

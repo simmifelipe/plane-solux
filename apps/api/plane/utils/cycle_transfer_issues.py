@@ -30,9 +30,21 @@ from plane.db.models import (
 from plane.utils.analytics_plot import burndown_plot
 from plane.bgtasks.issue_activities_task import issue_activity
 from plane.utils.host import base_host
+from plane.utils.resource_access import unrestricted_access
 
 
-def transfer_cycle_issues(
+def transfer_cycle_issues(*args, **kwargs):
+    """Move a cycle's incomplete issues. Sees every issue, restricted or not.
+
+    The move and the progress snapshot must cover the whole cycle no matter who
+    triggers it, so the per-user issue filtering is switched off here. Nothing
+    issue-level is returned to the caller.
+    """
+    with unrestricted_access():
+        return _transfer_cycle_issues(*args, **kwargs)
+
+
+def _transfer_cycle_issues(
     slug,
     project_id,
     cycle_id,

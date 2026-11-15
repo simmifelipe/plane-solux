@@ -104,6 +104,7 @@ class IssueCreateSerializer(BaseSerializer):
         model = Issue
         fields = "__all__"
         read_only_fields = [
+            "is_restricted",
             "workspace",
             "project",
             "created_by",

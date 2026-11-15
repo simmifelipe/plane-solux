@@ -35,6 +35,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 # Module imports
+from plane.utils.resource_access import AccessAction, accessible_modules, annotate_module_access
 from plane.app.permissions import (
     ProjectEntityPermission,
     ProjectLitePermission,
@@ -70,6 +71,7 @@ from plane.utils.host import base_host
 
 
 class ModuleViewSet(BaseViewSet):
+    access_pk_resource = "module"
     model = Module
     webhook_event = "module"
 
@@ -210,8 +212,7 @@ class ModuleViewSet(BaseViewSet):
             .values("cancelled_estimate_point")[:1]
         )
         return (
-            super()
-            .get_queryset()
+            annotate_module_access(accessible_modules(super().get_queryset(), self.request.user), self.request.user)
             .filter(project_id=self.kwargs.get("project_id"))
             .filter(workspace__slug=self.kwargs.get("slug"))
             .annotate(is_favorite=Exists(favorite_subquery))
@@ -376,7 +377,10 @@ class ModuleViewSet(BaseViewSet):
                 "external_source",
                 "external_id",
                 "logo_props",
+                "is_restricted",
                 # computed fields
+                "can_comment",
+                "can_edit",
                 "completed_estimate_points",
                 "total_estimate_points",
                 "total_issues",
@@ -796,6 +800,7 @@ class ModuleLinkViewSet(BaseViewSet):
 
 
 class ModuleFavoriteViewSet(BaseViewSet):
+    access_write_action = AccessAction.VIEW
     model = UserFavorite
     permission_classes = [ProjectLitePermission]
 
@@ -834,6 +839,8 @@ class ModuleFavoriteViewSet(BaseViewSet):
 
 
 class ModuleUserPropertiesEndpoint(BaseAPIView):
+    access_write_action = AccessAction.VIEW
+
     @allow_permission([ROLE.ADMIN, ROLE.MEMBER, ROLE.GUEST])
     def patch(self, request, slug, project_id, module_id):
         module_properties = ModuleUserProperties.objects.get(

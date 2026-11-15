@@ -20,6 +20,8 @@ from plane.app.views import (
     IssueSubscriberViewSet,
     ProjectUserDisplayPropertyEndpoint,
     IssueViewSet,
+    IssueAccessEndpoint,
+    IssueMyAccessEndpoint,
     LabelViewSet,
     BulkArchiveIssuesEndpoint,
     DeletedIssuesListViewSet,
@@ -282,5 +284,20 @@ urlpatterns = [
         "workspaces/<str:slug>/work-items/<str:project_identifier>-<str:issue_identifier>/",
         IssueDetailIdentifierEndpoint.as_view(),
         name="issue-detail-identifier",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/issues/<uuid:issue_id>/access/",
+        IssueAccessEndpoint.as_view(),
+        name="issue-access",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/issues/<uuid:issue_id>/access/<uuid:user_id>/",
+        IssueAccessEndpoint.as_view(),
+        name="issue-access-user",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/issues/<uuid:issue_id>/my-access/",
+        IssueMyAccessEndpoint.as_view(),
+        name="issue-my-access",
     ),
 ]

@@ -22,6 +22,7 @@ import { useProject } from "@/hooks/store/use-project";
 // local imports
 import { IssueActivityCommentRoot } from "./activity-comment-root";
 import type { TActivityTab } from "./activity-tabs";
+import { useMyResourceAccess } from "@/hooks/use-my-resource-access";
 import { ActivityTabs, getActivityTabId, getActivityTabPanelId } from "./activity-tabs";
 import { useWorkItemCommentOperations } from "./helper";
 import { ActivitySortRoot } from "./sort-root";
@@ -60,6 +61,8 @@ export const IssueActivity = observer(function IssueActivity(props: TIssueActivi
   const { workspaceSlug, projectId, issueId, disabled = false, isIntakeIssue = false } = props;
   // i18n
   const { t } = useTranslation();
+  // a restricted work item can be shared view-only: then there is no comment box, only an explanation
+  const canComment = useMyResourceAccess(workspaceSlug, projectId, "issue", issueId)?.can_comment !== false;
   // hooks
   const { setValue: setFilterValue, storedValue: selectedFilters } = useLocalStorage(
     "issue_activity_filters",
@@ -121,7 +124,13 @@ export const IssueActivity = observer(function IssueActivity(props: TIssueActivi
   if (!project) return <></>;
 
   const tabPanelId = getActivityTabPanelId(tabIdPrefix);
-  const showCommentBox = !disabled && activeTabKey !== "activity";
+  const showCommentBox = !disabled && canComment && activeTabKey !== "activity";
+  const showNoCommentNotice = !disabled && !canComment && activeTabKey !== "activity";
+  const noCommentNotice = (
+    <p className="rounded-md border border-subtle bg-layer-1 px-3 py-2 text-13 text-tertiary">
+      {t("resource_access.no_comment_permission")}
+    </p>
+  );
 
   return (
     <div className="py-8">
@@ -157,6 +166,7 @@ export const IssueActivity = observer(function IssueActivity(props: TIssueActivi
         <div className="min-h-[200px]">
           <div className="space-y-3">
             {showCommentBox && sortOrder === E_SORT_ORDER.DESC && renderCommentCreationBox}
+            {showNoCommentNotice && sortOrder === E_SORT_ORDER.DESC && noCommentNotice}
             <IssueActivityCommentRoot
               projectId={projectId}
               workspaceSlug={workspaceSlug}
@@ -169,6 +179,7 @@ export const IssueActivity = observer(function IssueActivity(props: TIssueActivi
               sortOrder={sortOrder || E_SORT_ORDER.ASC}
             />
             {showCommentBox && sortOrder === E_SORT_ORDER.ASC && renderCommentCreationBox}
+            {showNoCommentNotice && sortOrder === E_SORT_ORDER.ASC && noCommentNotice}
           </div>
         </div>
       </div>

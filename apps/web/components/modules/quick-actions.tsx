@@ -53,12 +53,13 @@ export const ModuleQuickActions = observer(function ModuleQuickActions(props: Pr
   // derived values
   const moduleDetails = getModuleById(moduleId);
   // auth
-  const isEditingAllowed = allowPermissions(
-    [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
-    EUserPermissionsLevel.PROJECT,
-    workspaceSlug,
-    projectId
-  );
+  const isEditingAllowed =
+    allowPermissions(
+      [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
+      EUserPermissionsLevel.PROJECT,
+      workspaceSlug,
+      projectId
+    ) && moduleDetails?.can_edit !== false; // a module the user may only view or comment on stays read-only
 
   const moduleLink = `${workspaceSlug}/projects/${projectId}/modules/${moduleId}`;
   const handleCopyText = () =>

@@ -165,6 +165,13 @@ from .module.issue import ModuleIssueViewSet
 
 from .module.archive import ModuleArchiveUnarchiveEndpoint
 
+from .resource_access import (
+    ModuleAccessEndpoint,
+    IssueAccessEndpoint,
+    ModuleMyAccessEndpoint,
+    IssueMyAccessEndpoint,
+)
+
 from .api import ApiTokenEndpoint
 
 from .page.base import (

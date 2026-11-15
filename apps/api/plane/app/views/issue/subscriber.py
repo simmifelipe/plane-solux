@@ -9,12 +9,14 @@ from rest_framework.exceptions import PermissionDenied, ValidationError
 
 # Module imports
 from .. import BaseViewSet
+from plane.utils.resource_access import AccessAction
 from plane.app.serializers import IssueSubscriberSerializer, ProjectMemberLiteSerializer
 from plane.app.permissions import ProjectEntityPermission, ProjectLitePermission, issue_hidden_from_guest
 from plane.db.models import Issue, IssueSubscriber, ProjectMember
 
 
 class IssueSubscriberViewSet(BaseViewSet):
+    access_write_action = AccessAction.VIEW
     serializer_class = IssueSubscriberSerializer
     model = IssueSubscriber
 

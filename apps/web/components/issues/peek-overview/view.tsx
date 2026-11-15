@@ -23,6 +23,7 @@ import useKeypress from "@/hooks/use-keypress";
 import usePeekOverviewOutsideClickDetector from "@/hooks/use-peek-overview-outside-click";
 // local imports
 import type { TIssueOperations } from "../issue-detail";
+import { useMyResourceAccess } from "@/hooks/use-my-resource-access";
 import { IssueActivity } from "../issue-detail/issue-activity";
 import { IssueDetailWidgets } from "../issue-detail-widgets";
 import { IssuePeekOverviewError } from "./error";
@@ -53,11 +54,14 @@ export const IssueView = observer(function IssueView(props: IIssueView) {
     isLoading,
     isError,
     is_archived,
-    disabled = false,
+    disabled: disabledProp = false,
     embedIssue = false,
     embedRemoveCurrentNotification,
     issueOperations,
   } = props;
+  // a restricted work item the user may only view (or comment on) is read-only here too
+  const myAccess = useMyResourceAccess(workspaceSlug, projectId, "issue", issueId);
+  const disabled = disabledProp || myAccess?.can_edit === false;
   // translation
   const { t } = useTranslation();
   // states

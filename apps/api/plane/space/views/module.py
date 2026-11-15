@@ -9,6 +9,7 @@ from rest_framework.response import Response
 
 # Module imports
 from .base import BaseAPIView
+from plane.utils.resource_access import accessible_modules
 from plane.db.models import DeployBoard, Module
 
 
@@ -20,9 +21,13 @@ class ProjectModulesEndpoint(BaseAPIView):
         if not deploy_board:
             return Response({"error": "Invalid anchor"}, status=status.HTTP_404_NOT_FOUND)
 
-        modules = Module.objects.filter(
-            workspace__slug=deploy_board.workspace.slug,
-            project_id=deploy_board.project_id,
-        ).values("id", "name")
+        modules = (
+            accessible_modules(Module.objects, request.user)
+            .filter(
+                workspace__slug=deploy_board.workspace.slug,
+                project_id=deploy_board.project_id,
+            )
+            .values("id", "name")
+        )
 
         return Response(modules, status=status.HTTP_200_OK)

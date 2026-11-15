@@ -20,6 +20,7 @@ from django.db.models import Prefetch, Q
 
 # Module imports
 from plane.app.permissions import ROLE
+from plane.utils.resource_access import accessible_issues
 from plane.db.models import ExporterHistory, Issue, IssueComment, IssueRelation, IssueSubscriber
 from plane.utils.exception_logger import log_exception
 from plane.utils.porters.exporter import DataExporter
@@ -147,8 +148,10 @@ def issue_export_task(
 
         # Build base queryset for issues; guests on projects without
         # guest_view_all_features only get the issues they created.
+        # Restricted modules / work items: export only what the person who asked may see.
         workspace_issues = (
-            Issue.objects.filter(
+            accessible_issues(Issue.objects.all(), exporter_instance.initiated_by)
+            .filter(
                 Q(project__project_projectmember__role__gt=ROLE.GUEST.value)
                 | Q(project__guest_view_all_features=True)
                 | Q(created_by_id=exporter_instance.initiated_by_id),

@@ -42,6 +42,7 @@ from drf_spectacular.utils import (
 )
 
 # Module imports
+from plane.utils.resource_access import AccessAction, accessible_issues
 from plane.api.serializers import (
     IssueAttachmentSerializer,
     IssueActivitySerializer,
@@ -604,6 +605,8 @@ class IssueListCreateAPIEndpoint(BaseAPIView):
 
 class IssueDetailAPIEndpoint(BaseAPIView):
     """Issue Detail Endpoint"""
+
+    access_pk_resource = "issue"
 
     model = Issue
     webhook_event = "issue"
@@ -1454,6 +1457,8 @@ class IssueLinkDetailAPIEndpoint(BaseAPIView):
 class IssueCommentListCreateAPIEndpoint(BaseAPIView):
     """Issue Comment List and Create Endpoint"""
 
+    access_write_action = AccessAction.COMMENT
+
     serializer_class = IssueCommentSerializer
     model = IssueComment
     webhook_event = "issue_comment"
@@ -1616,6 +1621,8 @@ class IssueCommentListCreateAPIEndpoint(BaseAPIView):
 
 class IssueCommentDetailAPIEndpoint(BaseAPIView):
     """Work Item Comment Detail Endpoint"""
+
+    access_write_action = AccessAction.COMMENT
 
     serializer_class = IssueCommentSerializer
     model = IssueComment
@@ -2581,7 +2588,9 @@ class IssueRelationListCreateAPIEndpoint(BaseAPIView):
             raise Issue.DoesNotExist()
 
         # Only list related work items the caller may view.
-        visible_issue_ids = Issue.objects.filter(visible_issue_q(request.user)).values("id")
+        visible_issue_ids = accessible_issues(Issue.objects.filter(visible_issue_q(request.user)), request.user).values(
+            "id"
+        )
         relations = IssueRelation.objects.filter(
             Q(issue_id=issue_id, related_issue_id__in=visible_issue_ids)
             | Q(related_issue_id=issue_id, issue_id__in=visible_issue_ids),

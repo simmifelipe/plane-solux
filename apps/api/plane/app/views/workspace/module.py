@@ -13,6 +13,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 # Module imports
+from plane.utils.resource_access import accessible_modules
 from plane.app.views.base import BaseAPIView
 from plane.db.models import Module, ModuleLink
 from plane.app.permissions import WorkspaceViewerPermission
@@ -24,7 +25,8 @@ class WorkspaceModulesEndpoint(BaseAPIView):
 
     def get(self, request, slug):
         modules = (
-            Module.objects.filter(
+            accessible_modules(Module.objects, request.user)
+            .filter(
                 workspace__slug=slug,
                 project__project_projectmember__member=request.user,
                 project__project_projectmember__is_active=True,

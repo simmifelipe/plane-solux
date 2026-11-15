@@ -29,6 +29,7 @@ from plane.authentication.session import BaseSessionAuthentication
 from plane.utils.exception_logger import log_exception
 from plane.utils.paginator import BasePaginator
 from plane.utils.core.mixins import ReadReplicaControlMixin
+from plane.utils.resource_access_mixin import ResourceAccessMixin
 
 
 class TimezoneMixin:
@@ -64,7 +65,7 @@ _MIXIN_PROVIDED_ACTIONS = frozenset({"list", "retrieve", "create", "update", "pa
 _NON_AUTHORIZING_PERMISSIONS = frozenset({IsAuthenticated, AllowAny})
 
 
-class BaseViewSet(TimezoneMixin, ReadReplicaControlMixin, ModelViewSet, BasePaginator):
+class BaseViewSet(ResourceAccessMixin, TimezoneMixin, ReadReplicaControlMixin, ModelViewSet, BasePaginator):
     model = None
 
     permission_classes = [IsAuthenticated]
@@ -276,7 +277,7 @@ class BaseViewSet(TimezoneMixin, ReadReplicaControlMixin, ModelViewSet, BasePagi
         return expand if expand else None
 
 
-class BaseAPIView(TimezoneMixin, ReadReplicaControlMixin, APIView, BasePaginator):
+class BaseAPIView(ResourceAccessMixin, TimezoneMixin, ReadReplicaControlMixin, APIView, BasePaginator):
     permission_classes = [IsAuthenticated]
 
     filter_backends = (DjangoFilterBackend, SearchFilter)

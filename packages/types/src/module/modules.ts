@@ -80,6 +80,9 @@ export interface IModule {
   link_module?: ILinkDetails[];
   sub_issues?: number;
   is_favorite: boolean;
+  is_restricted?: boolean;
+  can_comment?: boolean;
+  can_edit?: boolean;
   sort_order: number;
   view_props: {
     filters: IIssueFilterOptions;

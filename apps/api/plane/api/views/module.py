@@ -17,6 +17,7 @@ from rest_framework.response import Response
 from drf_spectacular.utils import OpenApiResponse, OpenApiRequest
 
 # Module imports
+from plane.utils.resource_access import AccessAction, accessible_issues, accessible_modules
 from plane.api.serializers import (
     IssueSerializer,
     ModuleIssueSerializer,
@@ -87,7 +88,8 @@ class ModuleListCreateAPIEndpoint(BaseAPIView):
 
     def get_queryset(self):
         return (
-            Module.objects.filter(project_id=self.kwargs.get("project_id"))
+            accessible_modules(Module.objects, self.request.user)
+            .filter(project_id=self.kwargs.get("project_id"))
             .filter(workspace__slug=self.kwargs.get("slug"))
             .select_related("project")
             .select_related("workspace")
@@ -308,7 +310,8 @@ class ModuleListLiteAPIEndpoint(BaseAPIView):
         optimized for pickers and references.
         """
         modules = (
-            Module.objects.filter(project_id=project_id, workspace__slug=slug)
+            accessible_modules(Module.objects, request.user)
+            .filter(project_id=project_id, workspace__slug=slug)
             .filter(archived_at__isnull=True)
             .select_related("project", "workspace", "lead")
             .prefetch_related("members")
@@ -330,6 +333,8 @@ class ModuleListLiteAPIEndpoint(BaseAPIView):
 class ModuleDetailAPIEndpoint(BaseAPIView):
     """Module Detail Endpoint"""
 
+    access_pk_resource = "module"
+
     model = Module
     permission_classes = [ProjectEntityPermission]
     serializer_class = ModuleSerializer
@@ -338,7 +343,8 @@ class ModuleDetailAPIEndpoint(BaseAPIView):
 
     def get_queryset(self):
         return (
-            Module.objects.filter(project_id=self.kwargs.get("project_id"))
+            accessible_modules(Module.objects, self.request.user)
+            .filter(project_id=self.kwargs.get("project_id"))
             .filter(workspace__slug=self.kwargs.get("slug"))
             .select_related("project")
             .select_related("workspace")
@@ -727,9 +733,12 @@ class ModuleIssueListCreateAPIEndpoint(BaseAPIView):
             return Response({"error": "Issues are required"}, status=status.HTTP_400_BAD_REQUEST)
         module = Module.objects.get(workspace__slug=slug, project_id=project_id, pk=module_id)
 
-        issues = Issue.objects.filter(workspace__slug=slug, project_id=project_id, pk__in=issues).values_list(
-            "id", flat=True
-        )
+        # Ignore work items the caller may not see or edit (restricted modules / work items)
+        issues = accessible_issues(
+            Issue.objects.filter(workspace__slug=slug, project_id=project_id, pk__in=issues),
+            request.user,
+            AccessAction.EDIT,
+        ).values_list("id", flat=True)
 
         module_issues = list(ModuleIssue.objects.filter(issue_id__in=issues))
 
@@ -950,12 +959,14 @@ class ModuleIssueDetailAPIEndpoint(BaseAPIView):
 
 
 class ModuleArchiveUnarchiveAPIEndpoint(BaseAPIView):
+    access_pk_resource = "module"
     permission_classes = [ProjectEntityPermission]
     use_read_replica = True
 
     def get_queryset(self):
         return (
-            Module.objects.filter(project_id=self.kwargs.get("project_id"))
+            accessible_modules(Module.objects, self.request.user)
+            .filter(project_id=self.kwargs.get("project_id"))
             .filter(workspace__slug=self.kwargs.get("slug"))
             .filter(archived_at__isnull=False)
             .select_related("project")

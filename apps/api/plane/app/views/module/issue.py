@@ -41,6 +41,7 @@ from plane.utils.filters import ComplexFilterBackend
 from plane.utils.filters import IssueFilterSet
 from .. import BaseViewSet
 from plane.utils.host import base_host
+from plane.utils.resource_access import AccessAction, accessible_modules
 
 
 class ModuleIssueViewSet(BaseViewSet):
@@ -265,11 +266,13 @@ class ModuleIssueViewSet(BaseViewSet):
         # The URL issue must belong to the URL workspace + project (404 otherwise).
         Issue.objects.get(pk=issue_id, project_id=project_id, workspace__slug=slug)
         # Only link body modules that belong to the URL workspace + project.
-        modules = [
-            str(module_id)
-            for module_id in Module.objects.filter(
-                pk__in=modules, project_id=project_id, workspace__slug=slug
-            ).values_list("id", flat=True)
+        # Linking an issue to a module changes what that module contains, so it needs edit access to it.
+        editable_modules = accessible_modules(
+            Module.objects.filter(project_id=project_id, workspace__slug=slug), request.user, AccessAction.EDIT
+        )
+        modules = [str(module_id) for module_id in editable_modules.filter(pk__in=modules).values_list("id", flat=True)]
+        removed_modules = [
+            str(module_id) for module_id in editable_modules.filter(pk__in=removed_modules).values_list("id", flat=True)
         ]
 
         if modules:

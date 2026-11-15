@@ -32,6 +32,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 # Module imports
+from plane.utils.resource_access import AccessAction, accessible_issues
 from plane.app.permissions import ROLE, allow_permission
 from plane.app.serializers import (
     IssueCreateSerializer,
@@ -207,6 +208,7 @@ class IssueListEndpoint(BaseAPIView):
 
 
 class IssueViewSet(BaseViewSet):
+    access_pk_resource = "issue"
     model = Issue
     webhook_event = "issue"
     search_fields = ["name"]
@@ -806,7 +808,8 @@ class DeletedIssuesListViewSet(BaseAPIView):
         if request.GET.get("updated_at__gt", None) is not None:
             filters = {"updated_at__gt": request.GET.get("updated_at__gt")}
         deleted_issues = (
-            Issue.all_objects.filter(workspace__slug=slug, project_id=project_id)
+            accessible_issues(Issue.all_objects, request.user)
+            .filter(workspace__slug=slug, project_id=project_id)
             .filter(Q(archived_at__isnull=False) | Q(deleted_at__isnull=False))
             .filter(**filters)
             .values_list("id", flat=True)
@@ -1133,7 +1136,11 @@ class IssueBulkUpdateDateEndpoint(BaseAPIView):
         epoch = int(timezone.now().timestamp())
 
         # Fetch all relevant issues in a single query
-        issues = list(Issue.objects.filter(id__in=issue_ids, workspace__slug=slug, project_id=project_id))
+        issues = list(
+            accessible_issues(Issue.objects, request.user, AccessAction.EDIT).filter(
+                id__in=issue_ids, workspace__slug=slug, project_id=project_id
+            )
+        )
         issues_dict = {str(issue.id): issue for issue in issues}
         issues_to_update = []
 
@@ -1233,7 +1240,8 @@ class IssueDetailIdentifierEndpoint(BaseAPIView):
 
         # Fetch the issue
         issue = (
-            Issue.objects.filter(project_id=project.id)
+            accessible_issues(Issue.objects, request.user)
+            .filter(project_id=project.id)
             .filter(workspace__slug=slug)
             .select_related("workspace", "project", "state", "parent")
             .prefetch_related("assignees", "labels", "issue_module__module")

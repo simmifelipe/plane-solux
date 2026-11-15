@@ -12,6 +12,8 @@ from plane.app.views import (
     ModuleFavoriteViewSet,
     ModuleUserPropertiesEndpoint,
     ModuleArchiveUnarchiveEndpoint,
+    ModuleAccessEndpoint,
+    ModuleMyAccessEndpoint,
 )
 
 
@@ -101,5 +103,20 @@ urlpatterns = [
         "workspaces/<str:slug>/projects/<uuid:project_id>/archived-modules/<uuid:pk>/",
         ModuleArchiveUnarchiveEndpoint.as_view(),
         name="module-archive-unarchive",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/modules/<uuid:module_id>/access/",
+        ModuleAccessEndpoint.as_view(),
+        name="module-access",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/modules/<uuid:module_id>/access/<uuid:user_id>/",
+        ModuleAccessEndpoint.as_view(),
+        name="module-access-user",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/modules/<uuid:module_id>/my-access/",
+        ModuleMyAccessEndpoint.as_view(),
+        name="module-my-access",
     ),
 ]
