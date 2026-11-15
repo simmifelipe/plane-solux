@@ -40,7 +40,8 @@
         "title": "Пригласить участников",
         "sub_heading": "Пригласите коллег для работы над проектом.",
         "select_co_worker": "Выберите сотрудника"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "Состояния",

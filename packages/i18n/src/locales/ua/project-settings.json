@@ -40,7 +40,8 @@
         "title": "Запросити учасників",
         "sub_heading": "Запросіть учасників до проєкту.",
         "select_co_worker": "Вибрати колегу"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "Стани",

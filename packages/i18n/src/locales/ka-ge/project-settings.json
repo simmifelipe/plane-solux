@@ -40,7 +40,8 @@
         "title": "წევრების მოწვევა",
         "sub_heading": "მოწვიეთ წევრები თქვენს პროექტზე სამუშაოდ.",
         "select_co_worker": "აირჩიეთ თანამშრომელი"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "მდგომარეობები",

@@ -40,7 +40,8 @@
         "title": "Invita membri",
         "sub_heading": "Invita membri a lavorare sul tuo progetto.",
         "select_co_worker": "Seleziona un collega"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "Stati",

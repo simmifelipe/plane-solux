@@ -40,7 +40,8 @@
         "title": "Pozvat členy",
         "sub_heading": "Pozvěte členy do projektu.",
         "select_co_worker": "Vybrat spolupracovníka"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "Stavy",

@@ -40,7 +40,8 @@
         "title": "Convidar membros",
         "sub_heading": "Convide membros para trabalhar em seu projeto.",
         "select_co_worker": "Selecionar colega de trabalho"
-      }
+      },
+      "guest_access": "Acesso de convidados"
     },
     "states": {
       "heading": "Estados",

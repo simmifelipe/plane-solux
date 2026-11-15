@@ -40,7 +40,8 @@
         "title": "Invite members",
         "sub_heading": "Invite members to work on your project.",
         "select_co_worker": "Select co-worker"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "States",

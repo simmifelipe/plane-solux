@@ -40,7 +40,8 @@
         "title": "Leden uitnodigen",
         "sub_heading": "Nodig leden uit om aan je project te werken.",
         "select_co_worker": "Selecteer collega"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "Statussen",

@@ -40,7 +40,8 @@
         "title": "邀请成员",
         "sub_heading": "邀请成员参与您的项目。",
         "select_co_worker": "选择同事"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "状态",

@@ -40,7 +40,8 @@
         "title": "Invită membri",
         "sub_heading": "Invită membri să lucreze la proiectul tău.",
         "select_co_worker": "Selectează colegul de echipă"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "Stări",

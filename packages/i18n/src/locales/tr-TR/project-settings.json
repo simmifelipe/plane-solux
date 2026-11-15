@@ -40,7 +40,8 @@
         "title": "Üyeleri davet et",
         "sub_heading": "Projenizde çalışmaları için üyeleri davet edin.",
         "select_co_worker": "İş arkadaşı seç"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "Durumlar",

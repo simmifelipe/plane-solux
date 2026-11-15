@@ -40,7 +40,8 @@
         "title": "Покани членове",
         "sub_heading": "Поканете членове да работят по проекта ви.",
         "select_co_worker": "Изберете колега"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "Състояния",

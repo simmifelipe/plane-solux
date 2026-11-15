@@ -40,7 +40,8 @@
         "title": "Mitglieder einladen",
         "sub_heading": "Laden Sie Mitglieder in das Projekt ein.",
         "select_co_worker": "Wählen Sie einen Mitarbeiter"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "Status",

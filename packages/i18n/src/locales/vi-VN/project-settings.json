@@ -40,7 +40,8 @@
         "title": "Mời thành viên",
         "sub_heading": "Mời thành viên tham gia dự án của bạn.",
         "select_co_worker": "Chọn đồng nghiệp"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "Trạng thái",

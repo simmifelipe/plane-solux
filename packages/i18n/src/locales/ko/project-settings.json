@@ -40,7 +40,8 @@
         "title": "멤버 초대",
         "sub_heading": "프로젝트에서 작업할 멤버를 초대하세요.",
         "select_co_worker": "동료 선택"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "상태",

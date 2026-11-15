@@ -40,7 +40,8 @@
         "title": "Zaproś członków",
         "sub_heading": "Zaproś członków do projektu.",
         "select_co_worker": "Wybierz współpracownika"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "Stany",

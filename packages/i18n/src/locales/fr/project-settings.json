@@ -40,7 +40,8 @@
         "title": "Inviter des membres",
         "sub_heading": "Invitez des membres à travailler sur votre projet.",
         "select_co_worker": "Sélectionner un acteur"
-      }
+      },
+      "guest_access": "Guest access"
     },
     "states": {
       "heading": "États",
