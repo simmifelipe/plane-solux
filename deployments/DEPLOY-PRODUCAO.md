@@ -50,7 +50,7 @@ Roteamento do proxy: `/` → web, `/god-mode/` → admin, `/spaces/` → space, 
 
 ### 1.3 Acesso ao código
 
-O código está no fork `https://github.com/simmifelipe/plane`, branch `feat/resource-access-control` (PR #1). Como o fork é público, o `git clone` funciona sem credenciais.
+O código está no repositório **privado** `simmifelipe/plane-solux`, branch `main`. Como ele é privado, o servidor precisa de uma credencial de **somente leitura** para clonar e atualizar: uma _deploy key_ do GitHub (passo 3.1). Não use sua senha nem um token pessoal com acesso total.
 
 ---
 
@@ -129,14 +129,38 @@ e rode `sudo systemctl restart docker`.
 
 ## 3. Baixar o código
 
+### 3.1 Criar uma deploy key (somente leitura) no servidor
+
+```
+$ ssh-keygen -t ed25519 -N "" -C "plane-deploy@SEU_DOMINIO" -f ~/.ssh/plane_deploy
+$ cat ~/.ssh/plane_deploy.pub
+```
+
+Copie a linha que o `cat` mostrou e cadastre no GitHub: repositório `simmifelipe/plane-solux` → **Settings → Deploy keys → Add deploy key**. Dê um título (por exemplo, o nome do servidor) e **deixe desmarcado "Allow write access"**. Depois diga ao SSH qual chave usar, acrescentando este bloco ao arquivo `~/.ssh/config`:
+
+```
+Host github-plane
+  HostName github.com
+  User git
+  IdentityFile ~/.ssh/plane_deploy
+  IdentitiesOnly yes
+```
+
+```
+$ chmod 600 ~/.ssh/config
+$ ssh -T git@github-plane      # deve responder "Hi simmifelipe/plane-solux! ..."
+```
+
+### 3.2 Clonar
+
 ```
 $ sudo mkdir -p /opt/plane && sudo chown plane:plane /opt/plane
-$ git clone --branch feat/resource-access-control https://github.com/simmifelipe/plane.git /opt/plane
+$ git clone --branch main git@github-plane:simmifelipe/plane-solux.git /opt/plane
 $ cd /opt/plane
 $ git log --oneline -5
 ```
 
-Confirme que o histórico mostra os commits da feature (`feat: per-module and per-issue access control` e os seguintes). Se você já tiver mesclado o PR no `main` do fork, clone o `main`.
+Confirme que o histórico mostra os commits da feature (`feat: per-module and per-issue access control` e os seguintes).
 
 > **Dica:** fixe a versão que você implantou: `git rev-parse HEAD` e anote o hash. Ele é o seu ponto de retorno (seção 10.4).
 
@@ -487,13 +511,13 @@ Um backup que nunca foi restaurado não é backup. Restaure em uma máquina de t
 
 ## 10. Atualizações e rollback
 
-### 10.1 Aplicar mudanças do seu fork
+### 10.1 Aplicar mudanças do seu repositório privado
 
 ```
 $ cd /opt/plane
 $ ./backup.sh                          # sempre faça backup antes
 $ git fetch origin
-$ git log --oneline HEAD..origin/feat/resource-access-control   # veja o que vai entrar
+$ git log --oneline HEAD..origin/main  # veja o que vai entrar
 $ git pull
 $ docker compose build
 $ docker compose up -d
@@ -502,13 +526,15 @@ $ docker compose logs migrator | tail -20
 
 ### 10.2 Trazer novidades do Plane oficial (upstream)
 
-Faça isso numa máquina de desenvolvimento, nunca direto em produção:
+Faça isso numa máquina de desenvolvimento, nunca direto em produção. Nessa cópia, o remote `private` é o repositório privado e o `origin` é o Plane oficial. Nada é enviado ao Plane oficial: você só **baixa** dele.
 
 ```
-$ git remote add upstream https://github.com/makeplane/plane.git
-$ git fetch upstream
-$ git checkout feat/resource-access-control
-$ git merge upstream/preview
+$ git remote -v                         # confira: private = plane-solux, origin = makeplane/plane
+$ git fetch origin                      # baixa as novidades do Plane oficial
+$ git checkout main                     # a main local acompanha private/main
+$ git merge origin/preview
+# resolva conflitos, rode os testes de acesso e depois:
+$ git push private main
 ```
 
 A feature mexe em arquivos centrais (`Issue.issue_objects`, views e serializers de issue e módulo), então **conflitos são prováveis** em versões grandes. Resolva com cuidado, rode os testes de acesso (seção 8.1) e a checagem do repositório (`pnpm check`). Se o upstream adicionar migrations, o arquivo `apps/api/migrations_lockfile.txt` pode conflitar: regenere a sua migration (`makemigrations`) conforme o `AGENTS.md`.
@@ -603,5 +629,6 @@ $ df -h && docker system df
 - [ ] Workspace, projeto e usuários criados; idioma em português.
 - [ ] Roteiro de testes da feature de acesso (seção 8) executado com 3 contas.
 - [ ] Backup automático ativo, copiado para fora da máquina e restauração testada.
+- [ ] Deploy key somente leitura cadastrada no repositório privado.
 - [ ] Hash do commit implantado anotado.
 - [ ] Senhas e `.env` guardados em local seguro.
