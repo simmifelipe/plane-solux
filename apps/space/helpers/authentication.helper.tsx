@@ -43,6 +43,7 @@ export enum EAuthenticationErrorCodes {
   MAGIC_SIGN_UP_EMAIL_CODE_REQUIRED = "5055",
   // Sign In
   BOT_USER_LOGIN_FORBIDDEN = "5017",
+  EMAIL_DOMAIN_NOT_ALLOWED = "5014",
   USER_ACCOUNT_DEACTIVATED = "5019",
   USER_DOES_NOT_EXIST = "5060",
   AUTHENTICATION_FAILED_SIGN_IN = "5065",
@@ -161,6 +162,10 @@ const errorCodeMessages: {
   },
 
   // sign in
+  [EAuthenticationErrorCodes.EMAIL_DOMAIN_NOT_ALLOWED]: {
+    title: `Domínio de e-mail não permitido`,
+    message: () => `Use sua conta Google corporativa (@gruposolar.com.br, @naturovos.com.br ou @uevo.com.br).`,
+  },
   [EAuthenticationErrorCodes.BOT_USER_LOGIN_FORBIDDEN]: {
     title: `Sign in not allowed`,
     message: () => `This account cannot be used to sign in. Please use a personal account.`,
@@ -390,6 +395,7 @@ export const authErrorHandler = (errorCode: EAuthenticationErrorCodes, email?: s
     EAuthenticationErrorCodes.ADMIN_USER_ALREADY_EXIST,
     EAuthenticationErrorCodes.ADMIN_USER_DOES_NOT_EXIST,
     EAuthenticationErrorCodes.BOT_USER_LOGIN_FORBIDDEN,
+    EAuthenticationErrorCodes.EMAIL_DOMAIN_NOT_ALLOWED,
     EAuthenticationErrorCodes.USER_ACCOUNT_DEACTIVATED,
   ];
 

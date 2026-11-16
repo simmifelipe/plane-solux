@@ -142,6 +142,10 @@ const errorCodeMessages: {
     message: () => `Invalid email. Please try again.`,
   },
   // sign in
+  [EAuthErrorCodes.EMAIL_DOMAIN_NOT_ALLOWED]: {
+    title: `Domínio de e-mail não permitido`,
+    message: () => `Use sua conta Google corporativa (@gruposolar.com.br, @naturovos.com.br ou @uevo.com.br).`,
+  },
   [EAuthErrorCodes.BOT_USER_LOGIN_FORBIDDEN]: {
     title: `Sign in not allowed`,
     message: () => `This account cannot be used to sign in. Please use a personal account.`,
@@ -354,6 +358,7 @@ export const authErrorHandler = (errorCode: EAuthErrorCodes, email?: string): TA
     EAuthErrorCodes.ADMIN_USER_ALREADY_EXIST,
     EAuthErrorCodes.ADMIN_USER_DOES_NOT_EXIST,
     EAuthErrorCodes.BOT_USER_LOGIN_FORBIDDEN,
+    EAuthErrorCodes.EMAIL_DOMAIN_NOT_ALLOWED,
     EAuthErrorCodes.USER_ACCOUNT_DEACTIVATED,
   ];
 

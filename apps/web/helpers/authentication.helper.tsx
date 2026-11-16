@@ -44,6 +44,7 @@ export enum EAuthenticationErrorCodes {
   SIGNUP_DISABLED = "5015",
   MAGIC_LINK_LOGIN_DISABLED = "5016",
   BOT_USER_LOGIN_FORBIDDEN = "5017",
+  EMAIL_DOMAIN_NOT_ALLOWED = "5014",
   PASSWORD_LOGIN_DISABLED = "5018",
   USER_ACCOUNT_DEACTIVATED = "5019",
   // Password strength
@@ -141,6 +142,10 @@ const errorCodeMessages: {
   [EAuthenticationErrorCodes.USER_ACCOUNT_DEACTIVATED]: {
     title: `User account deactivated`,
     message: () => `User account deactivated. Please contact ${SUPPORT_EMAIL ? SUPPORT_EMAIL : "administrator"}.`,
+  },
+  [EAuthenticationErrorCodes.EMAIL_DOMAIN_NOT_ALLOWED]: {
+    title: `Domínio de e-mail não permitido`,
+    message: () => `Use sua conta Google corporativa (@gruposolar.com.br, @naturovos.com.br ou @uevo.com.br).`,
   },
   [EAuthenticationErrorCodes.BOT_USER_LOGIN_FORBIDDEN]: {
     title: `Sign in not allowed`,
@@ -386,6 +391,7 @@ export const authErrorHandler = (errorCode: EAuthenticationErrorCodes, email?: s
     EAuthenticationErrorCodes.MAGIC_LINK_LOGIN_DISABLED,
     EAuthenticationErrorCodes.PASSWORD_LOGIN_DISABLED,
     EAuthenticationErrorCodes.BOT_USER_LOGIN_FORBIDDEN,
+    EAuthenticationErrorCodes.EMAIL_DOMAIN_NOT_ALLOWED,
     EAuthenticationErrorCodes.USER_ACCOUNT_DEACTIVATED,
     EAuthenticationErrorCodes.INVALID_PASSWORD,
     EAuthenticationErrorCodes.SMTP_NOT_CONFIGURED,

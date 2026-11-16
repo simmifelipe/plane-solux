@@ -96,6 +96,25 @@ class Adapter:
             )
         return
 
+    def __check_email_domain(self, email):
+        """Raise if ALLOWED_EMAIL_DOMAINS is set and the e-mail domain is not in it"""
+        allowed = {
+            d.strip().lower().lstrip("@")
+            for d in os.environ.get("ALLOWED_EMAIL_DOMAINS", "").split(",")
+            if d.strip()
+        }
+        if not allowed:
+            return True
+        domain = (email or "").rsplit("@", 1)[-1].strip().lower()
+        if domain not in allowed:
+            self.logger.warning("Login rejected: e-mail domain not allowed")
+            raise AuthenticationException(
+                error_code=AUTHENTICATION_ERROR_CODES["EMAIL_DOMAIN_NOT_ALLOWED"],
+                error_message="EMAIL_DOMAIN_NOT_ALLOWED",
+                payload={"email": email},
+            )
+        return True
+
     def __check_signup(self, email):
         """Check if sign up is enabled or not and raise exception if not enabled"""
 
@@ -310,6 +329,10 @@ class Adapter:
 
         # Sanitize email
         email = self.sanitize_email(email)
+
+        # Restrict login/signup to the allowed e-mail domains (ALLOWED_EMAIL_DOMAINS,
+        # comma-separated; empty = no restriction). Applies to every provider.
+        self.__check_email_domain(email)
 
         # Check if the user is present
         user = User.objects.filter(email=email).first()
