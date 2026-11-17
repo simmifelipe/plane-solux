@@ -216,9 +216,9 @@
   "open_project": "Abrir projeto",
   "issues": "Itens de trabalho",
   "cycles": "Ciclos",
-  "modules": "Módulos",
-  "pages": "Páginas",
-  "intake": "Admissão",
+  "modules": "Demandas",
+  "pages": "Anotações",
+  "intake": "Requisições",
   "renew": "Renovar",
   "preview": "Visualização",
   "time_tracking": "Rastreamento de tempo",
@@ -896,7 +896,7 @@
     }
   },
   "ui": {
-    "work_items": "Itens de trabalho",
+    "work_items": "Tarefas",
     "profile_activity": "Perfil - Atividade",
     "cycle_does_not_exist": "O ciclo não existe",
     "the_cycle_you_are_looking_for_does": "O ciclo que você procura não existe ou foi excluído.",

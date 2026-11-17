@@ -57,8 +57,8 @@
       "updated_at": "Atualizado em",
       "id": "ID"
     },
-    "label": "Admissão",
-    "page_label": "{workspace} - Admissão",
+    "label": "Requisições",
+    "page_label": "{workspace} - Requisições",
     "modal": {
       "title": "Criar item de trabalho de admissão"
     },
