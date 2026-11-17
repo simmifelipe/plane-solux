@@ -7,6 +7,7 @@
 import type { ILinkDetails } from "../issues";
 import type { TIssue } from "../issues/issue";
 import type { IIssueFilterOptions } from "../view-props";
+import type { TIssuePriorities } from "../issues";
 
 export type TModuleStatus = "backlog" | "planned" | "in-progress" | "paused" | "completed" | "cancelled";
 
@@ -88,6 +89,7 @@ export interface IModule {
     filters: IIssueFilterOptions;
   };
   status?: TModuleStatus;
+  priority?: TIssuePriorities;
   archived_at: string | null;
   start_date: string | null;
   target_date: string | null;

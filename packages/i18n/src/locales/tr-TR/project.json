@@ -352,6 +352,7 @@
     },
     "order_by": {
       "name": "Ad",
+      "priority": "Priority",
       "progress": "İlerleme",
       "issues": "İş öğesi sayısı",
       "due_date": "Son tarih",

@@ -352,6 +352,7 @@
     },
     "order_by": {
       "name": "Naam",
+      "priority": "Priority",
       "progress": "Voortgang",
       "issues": "Aantal werkitems",
       "due_date": "Vervaldatum",

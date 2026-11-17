@@ -352,6 +352,7 @@
     },
     "order_by": {
       "name": "Name",
+      "priority": "Priorität",
       "progress": "Fortschritt",
       "issues": "Anzahl Elemente",
       "due_date": "Fälligkeitsdatum",

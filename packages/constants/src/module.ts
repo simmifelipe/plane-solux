@@ -96,6 +96,10 @@ export const MODULE_ORDER_BY_OPTIONS: {
     i18n_label: "project_modules.order_by.name",
   },
   {
+    key: "priority",
+    i18n_label: "project_modules.order_by.priority",
+  },
+  {
     key: "progress",
     i18n_label: "project_modules.order_by.progress",
   },

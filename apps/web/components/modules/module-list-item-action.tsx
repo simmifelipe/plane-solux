@@ -20,6 +20,7 @@ import { DateRangeSelect } from "@plane/blocks/property-select";
 import { renderFormattedPayloadDate, getDate } from "@plane/utils";
 // components
 import { ModuleQuickActions } from "@/components/modules";
+import { PrioritySelect } from "@/components/dropdowns/priority/priority-select";
 import { ModuleStatusDropdown } from "@/components/modules/module-status-dropdown";
 // hooks
 import { useMember } from "@/hooks/store/use-member";
@@ -149,6 +150,14 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
         weekStartsOn={userProfile?.start_of_the_week}
         disabled={isDisabled}
         icon={renderIcon ? undefined : <CalendarOutline aria-hidden="true" />}
+      />
+
+      <PrioritySelect
+        value={moduleDetails.priority ?? "none"}
+        onChange={(val) => void handleModuleDetailsChange({ priority: val })}
+        variant="icon-sm"
+        disabled={isDisabled}
+        tooltip
       />
 
       {moduleStatus && (

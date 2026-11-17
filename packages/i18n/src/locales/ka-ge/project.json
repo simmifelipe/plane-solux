@@ -352,6 +352,7 @@
     },
     "order_by": {
       "name": "სახელი",
+      "priority": "Priority",
       "progress": "პროგრესი",
       "issues": "სამუშაო ელემენტების რაოდენობა",
       "due_date": "ვადის თარიღი",

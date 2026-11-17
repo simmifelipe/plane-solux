@@ -352,6 +352,7 @@
     },
     "order_by": {
       "name": "Nume",
+      "priority": "Priority",
       "progress": "Progres",
       "issues": "Număr de activități",
       "due_date": "Termen limită",

@@ -352,6 +352,7 @@
     },
     "order_by": {
       "name": "Назва",
+      "priority": "Priority",
       "progress": "Прогрес",
       "issues": "Кількість одиниць",
       "due_date": "Крайній термін",

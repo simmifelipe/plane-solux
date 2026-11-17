@@ -7,6 +7,8 @@
 export type TModuleOrderByOptions =
   | "name"
   | "-name"
+  | "priority"
+  | "-priority"
   | "progress"
   | "-progress"
   | "issues_length"
@@ -30,6 +32,7 @@ export type TModuleFilters = {
   members?: string[] | null;
   start_date?: string[] | null;
   status?: string[] | null;
+  priority?: string[] | null;
   target_date?: string[] | null;
 };
 

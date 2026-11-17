@@ -13,6 +13,7 @@ import {
   CloseOutline,
   LeadOutline,
   MembersOutline,
+  PriorityOutline,
   StartDateOutline,
   StateOutline,
   WorkItemsOutline,
@@ -33,6 +34,7 @@ import { Loader } from "@plane/blocks/skeleton";
 import { getDate, renderFormattedPayloadDate } from "@plane/utils";
 import { SidebarPropertyListItem } from "@/components/common/layout/sidebar/property-list-item";
 import { MemberSelect } from "@/components/dropdowns/member/member-select";
+import { PrioritySelect } from "@/components/dropdowns/priority/priority-select";
 import { CreateUpdateModuleLinkModal, ModuleAnalyticsProgress, ModuleLinksList } from "@/components/modules";
 import { ModuleStatusDropdown } from "@/components/modules/module-status-dropdown";
 import { ModuleQuickActions } from "@/components/modules/quick-actions";
@@ -51,6 +53,7 @@ const defaultValues: Partial<IModule> = {
   start_date: null,
   target_date: null,
   status: "backlog",
+  priority: "none",
 };
 
 type TModuleLinksCollapsibleProps = {
@@ -327,6 +330,24 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                     variant="select-ghost-md"
                     moduleDetails={{ ...moduleDetails, status: value ?? moduleDetails.status }}
                     handleModuleDetailsChange={submitChanges}
+                  />
+                )}
+              />
+            </SidebarPropertyListItem>
+            <SidebarPropertyListItem icon={PriorityOutline} label={t("common.priority")}>
+              <Controller
+                control={control}
+                name="priority"
+                render={({ field: { value, onChange } }) => (
+                  <PrioritySelect
+                    value={value ?? "none"}
+                    onChange={(val) => {
+                      onChange(val);
+                      void submitChanges({ priority: val });
+                    }}
+                    disabled={!isEditingAllowed || !!isArchived}
+                    variant="select-ghost-md"
+                    className="w-full"
                   />
                 )}
               />

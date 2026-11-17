@@ -352,6 +352,7 @@
     },
     "order_by": {
       "name": "Nome",
+      "priority": "Priorità",
       "progress": "Avanzamento",
       "issues": "Numero di elementi di lavoro",
       "due_date": "Scadenza",

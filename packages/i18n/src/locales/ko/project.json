@@ -352,6 +352,7 @@
     },
     "order_by": {
       "name": "이름",
+      "priority": "Priority",
       "progress": "진행",
       "issues": "작업 항목 수",
       "due_date": "마감일",

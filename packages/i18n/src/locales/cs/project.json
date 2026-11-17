@@ -352,6 +352,7 @@
     },
     "order_by": {
       "name": "Název",
+      "priority": "Priority",
       "progress": "Pokrok",
       "issues": "Počet položek",
       "due_date": "Termín",

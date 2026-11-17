@@ -41,6 +41,7 @@ class ModuleCreateSerializer(BaseSerializer):
             "start_date",
             "target_date",
             "status",
+            "priority",
             "lead",
             "members",
             "external_source",

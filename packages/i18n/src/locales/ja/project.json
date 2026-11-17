@@ -352,6 +352,7 @@
     },
     "order_by": {
       "name": "名前",
+      "priority": "Priority",
       "progress": "進捗",
       "issues": "作業項目数",
       "due_date": "期限",

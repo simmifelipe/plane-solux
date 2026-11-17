@@ -11,6 +11,10 @@ import type { IModule, TModuleDisplayFilters, TModuleFilters, TModuleOrderByOpti
 import { getDate } from "./datetime";
 import { satisfiesDateFilter } from "./filter";
 
+// Solar: urgent first when ordering modules by priority
+const MODULE_PRIORITY_RANK: Record<string, number> = { urgent: 0, high: 1, medium: 2, low: 3, none: 4 };
+const getModulePriorityRank = (m: IModule): number => MODULE_PRIORITY_RANK[m.priority ?? "none"] ?? 4;
+
 const collator = new Intl.Collator("en-US", { numeric: true, sensitivity: "base" });
 
 /**
@@ -32,6 +36,8 @@ export const orderModules = (modules: IModule[], orderByKey: TModuleOrderByOptio
 
   if (orderByKey === "name") orderedModules = [...modules].toSorted((a, b) => naturalSort(a.name, b.name));
   if (orderByKey === "-name") orderedModules = [...modules].toSorted((a, b) => naturalSort(b.name, a.name));
+  if (orderByKey === "priority") orderedModules = sortBy(modules, [(m) => getModulePriorityRank(m)]);
+  if (orderByKey === "-priority") orderedModules = sortBy(modules, [(m) => -getModulePriorityRank(m)]);
   if (["progress", "-progress"].includes(orderByKey))
     orderedModules = sortBy(modules, [
       (m) => {
@@ -68,6 +74,8 @@ export const shouldFilterModule = (
     const filterKey = key as keyof TModuleFilters;
     if (filterKey === "status" && filters.status && filters.status.length > 0)
       fallsInFilters = fallsInFilters && filters.status.includes(module.status?.toLowerCase() ?? "");
+    if (filterKey === "priority" && filters.priority && filters.priority.length > 0)
+      fallsInFilters = fallsInFilters && filters.priority.includes(module.priority ?? "none");
     if (filterKey === "lead" && filters.lead && filters.lead.length > 0)
       fallsInFilters = fallsInFilters && filters.lead.includes(`${module.lead_id}`);
     if (filterKey === "members" && filters.members && filters.members.length > 0) {

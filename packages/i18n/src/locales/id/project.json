@@ -352,6 +352,7 @@
     },
     "order_by": {
       "name": "Nama",
+      "priority": "Priority",
       "progress": "Kemajuan",
       "issues": "Jumlah item kerja",
       "due_date": "Tanggal jatuh tempo",

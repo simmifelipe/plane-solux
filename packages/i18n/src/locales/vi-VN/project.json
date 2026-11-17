@@ -352,6 +352,7 @@
     },
     "order_by": {
       "name": "Tên",
+      "priority": "Priority",
       "progress": "Tiến độ",
       "issues": "Số lượng mục công việc",
       "due_date": "Ngày hết hạn",

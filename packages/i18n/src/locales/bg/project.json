@@ -352,6 +352,7 @@
     },
     "order_by": {
       "name": "Име",
+      "priority": "Priority",
       "progress": "Напредък",
       "issues": "Брой работни елементи",
       "due_date": "Крайна дата",

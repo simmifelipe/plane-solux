@@ -83,6 +83,18 @@ class Module(ProjectBaseModel):
         default="planned",
         max_length=20,
     )
+    # Solar: priority of the "Demanda" (module), same scale as work items
+    priority = models.CharField(
+        choices=(
+            ("urgent", "Urgent"),
+            ("high", "High"),
+            ("medium", "Medium"),
+            ("low", "Low"),
+            ("none", "None"),
+        ),
+        default="none",
+        max_length=30,
+    )
     lead = models.ForeignKey("db.User", on_delete=models.SET_NULL, related_name="module_leads", null=True)
     members = models.ManyToManyField(
         settings.AUTH_USER_MODEL,

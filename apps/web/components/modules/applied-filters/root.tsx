@@ -13,7 +13,12 @@ import type { TModuleDisplayFilters, TModuleFilters } from "@plane/types";
 // components
 import { Header, EHeaderVariant } from "@plane/blocks/layout";
 import { replaceUnderscoreIfSnakeCase } from "@plane/utils";
-import { AppliedDateFilters, AppliedMembersFilters, AppliedStatusFilters } from "@/components/modules";
+import {
+  AppliedDateFilters,
+  AppliedMembersFilters,
+  AppliedPriorityFilters,
+  AppliedStatusFilters,
+} from "@/components/modules";
 import { APPLIED_FILTER_GROUP_CLASSNAME, RemovableChip } from "@/components/common/removable-chip";
 // helpers
 // types
@@ -48,6 +53,17 @@ export function ModuleAppliedFiltersList(props: Props) {
 
   const isEditingAllowed = alwaysAllowEditing;
 
+  // Solar: translated filter group labels
+  const FILTER_LABELS: Partial<Record<keyof TModuleFilters, string>> = {
+    status: t("common.status"),
+    priority: t("common.priority"),
+    lead: t("lead"),
+    members: t("members"),
+    start_date: t("start_date"),
+    target_date: t("end_date"),
+  };
+  const getFilterLabel = (key: keyof TModuleFilters) => FILTER_LABELS[key] ?? replaceUnderscoreIfSnakeCase(key);
+
   return (
     <Header variant={EHeaderVariant.TERNARY}>
       <div className="flex flex-wrap items-center gap-2">
@@ -61,12 +77,19 @@ export function ModuleAppliedFiltersList(props: Props) {
             <div key={filterKey} className={APPLIED_FILTER_GROUP_CLASSNAME}>
               <div className="flex flex-wrap items-center gap-1.5">
                 <span className="text-caption-sm-regular text-tertiary capitalize">
-                  {replaceUnderscoreIfSnakeCase(filterKey)}
+                  {getFilterLabel(filterKey)}
                 </span>
                 {filterKey === "status" && (
                   <AppliedStatusFilters
                     editable={isEditingAllowed}
                     handleRemove={(val) => handleRemoveFilter("status", val)}
+                    values={value}
+                  />
+                )}
+                {filterKey === "priority" && (
+                  <AppliedPriorityFilters
+                    editable={isEditingAllowed}
+                    handleRemove={(val) => handleRemoveFilter("priority", val)}
                     values={value}
                   />
                 )}
@@ -89,7 +112,7 @@ export function ModuleAppliedFiltersList(props: Props) {
                     type="button"
                     variant="ghost"
                     size="xs"
-                    aria-label={`${t("aria_labels.common.remove")}: ${replaceUnderscoreIfSnakeCase(filterKey)}`}
+                    aria-label={`${t("aria_labels.common.remove")}: ${getFilterLabel(filterKey)}`}
                     onClick={() => handleRemoveFilter(filterKey, null)}
                     icon={<Icon icon={CloseOutline} />}
                   />

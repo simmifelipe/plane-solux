@@ -12,6 +12,7 @@ import type { TModuleDisplayFilters, TModuleFilters } from "@plane/types";
 // local imports
 import { FilterLead } from "./lead";
 import { FilterMembers } from "./members";
+import { FilterPriority } from "./priority";
 import { FilterStartDate } from "./start-date";
 import { FilterStatus } from "./status";
 import { FilterTargetDate } from "./target-date";
@@ -54,6 +55,12 @@ export const ModuleFiltersSelection = observer(function ModuleFiltersSelection(p
           />
         </>
       )}
+
+      {/* priority */}
+      <FilterPriority
+        appliedFilters={filters.priority ?? null}
+        handleUpdate={(val) => handleFiltersUpdate("priority", val)}
+      />
 
       {/* lead */}
       <FilterLead

@@ -234,6 +234,7 @@ class ModuleSerializer(DynamicBaseSerializer):
             "start_date",
             "target_date",
             "status",
+            "priority",
             "lead_id",
             "member_ids",
             "view_props",
