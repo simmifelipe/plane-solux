@@ -9,24 +9,26 @@ import { CloudOffOutline, DotFilled } from "@makeplane/propel/icons";
 import { Tooltip } from "@makeplane/propel/components/tooltip";
 import { Badge } from "@makeplane/propel/components/badge";
 import { Icon } from "@makeplane/propel/components/icon";
+import { useTranslation } from "@plane/i18n";
 
 type Props = {
   syncStatus: "syncing" | "synced" | "error";
 };
 
+// values are i18n keys
 const BADGE_CONTENT = {
   syncing: {
-    label: "Syncing...",
-    tooltipLabel: "Syncing... Your changes are being synced with the server. You can continue making changes.",
+    label: "ui.syncing_ellipsis",
+    tooltipLabel: "ui.syncing_tooltip",
   },
   error: {
-    label: "Connection lost",
-    tooltipLabel:
-      "Connection lost. We're having trouble connecting to the websocket server. Your changes will be synced and saved every 10 seconds.",
+    label: "ui.connection_lost",
+    tooltipLabel: "ui.connection_lost_tooltip",
   },
 };
 
 export function PageSyncingBadge({ syncStatus }: Props) {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(syncStatus !== "synced");
 
   // Runs once per status change. The pending hide is cancelled if the status moves on (or the badge
@@ -49,13 +51,13 @@ export function PageSyncingBadge({ syncStatus }: Props) {
   const content = BADGE_CONTENT[syncStatus];
 
   return (
-    <Tooltip label={content.tooltipLabel} layout="stacked">
+    <Tooltip label={t(content.tooltipLabel)} layout="stacked">
       <span className="animate-quickFadeIn">
         <Badge
           variant={syncStatus === "syncing" ? "brand" : "danger"}
           size="sm"
           startIcon={<Icon icon={syncStatus === "syncing" ? DotFilled : CloudOffOutline} size="md" />}
-          label={content.label}
+          label={t(content.label)}
         />
       </span>
     </Tooltip>

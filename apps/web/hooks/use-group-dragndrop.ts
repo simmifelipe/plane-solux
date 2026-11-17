@@ -6,6 +6,7 @@
 
 import { useParams } from "next/navigation";
 import { setToast } from "@plane/blocks/toast";
+import { useTranslation } from "@plane/i18n";
 import type { SetToastProps } from "@plane/blocks/toast";
 import type { EIssuesStoreType, TIssue, TIssueGroupByOptions, TIssueOrderByOptions } from "@plane/types";
 import type { GroupDropLocation } from "@/components/issues/issue-layouts/utils";
@@ -35,6 +36,7 @@ export const useGroupIssuesDragNDrop = (
   subGroupBy?: TIssueGroupByOptions
 ) => {
   const { workspaceSlug } = useParams();
+  const { t } = useTranslation();
 
   const {
     issue: { getIssueById },
@@ -64,8 +66,8 @@ export const useGroupIssuesDragNDrop = (
   ) => {
     const errorToastProps: SetToastProps = {
       type: "error",
-      title: "Error!",
-      message: "Error while updating work item",
+      title: t("toast.error"),
+      message: t("ui.error_while_updating_work_item"),
     };
     const moduleKey = ISSUE_FILTER_DEFAULT_DATA["module"];
     const cycleKey = ISSUE_FILTER_DEFAULT_DATA["cycle"];
@@ -118,9 +120,9 @@ export const useGroupIssuesDragNDrop = (
       orderBy !== "sort_order"
     ).catch((err) => {
       setToast({
-        title: "Error!",
+        title: t("toast.error"),
         type: "error",
-        message: err?.detail ?? "Failed to perform this action",
+        message: err?.detail ?? t("ui.failed_to_perform_this_action"),
       });
     });
   };

@@ -104,8 +104,8 @@ export function ModuleAppliedFiltersList(props: Props) {
               <span className="text-caption-sm-regular text-tertiary capitalize">{t("modules")}</span>
               <RemovableChip
                 variant="soft"
-                label="Favorite"
-                ariaLabel="Favorite"
+                label={t("ui.favorite")}
+                ariaLabel={t("ui.favorite")}
                 onRemove={
                   isEditingAllowed
                     ? () =>

@@ -14,6 +14,14 @@ import { getDate, getFileURL, renderFormattedDate } from "@plane/utils";
 import { useTranslation } from "@plane/i18n";
 
 type RowData = IExportData;
+/** i18n keys for the export job statuses; unknown statuses are rendered as-is. */
+export const EXPORT_STATUS_I18N_KEYS: Record<string, string> = {
+  queued: "import_status.queued",
+  processing: "common.processing",
+  completed: "common.completed",
+  failed: "ui.export_status_failed",
+  expired: "workspace_settings.settings.api_tokens.expired",
+};
 const checkExpiry = (inputDateString: string) => {
   const currentDate = new Date();
   const expiryDate = getDate(inputDateString);
@@ -26,7 +34,7 @@ export const useExportColumns = () => {
   const columns = [
     {
       key: "Exported By",
-      content: "Exported By",
+      content: t("ui.exported_by"),
       tdRender: (rowData: RowData) => {
         const { avatar_url, display_name, email } = rowData.initiated_by_detail;
         return (
@@ -44,18 +52,20 @@ export const useExportColumns = () => {
     },
     {
       key: "Exported On",
-      content: "Exported On",
+      content: t("ui.exported_on"),
       tdRender: (rowData: RowData) => <span>{renderFormattedDate(rowData.created_at)}</span>,
     },
 
     {
       key: "Exported projects",
-      content: "Exported projects",
-      tdRender: (rowData: RowData) => <div className="text-body-xs-regular">{rowData.project.length} project(s)</div>,
+      content: t("ui.exported_projects"),
+      tdRender: (rowData: RowData) => (
+        <div className="text-body-xs-regular">{t("ui.n_projects", { count: rowData.project.length })}</div>
+      ),
     },
     {
       key: "Format",
-      content: "Format",
+      content: t("workspace_settings.settings.exports.format"),
       tdRender: (rowData: RowData) => (
         <span className="text-body-xs-regular">
           {rowData.provider === "csv"
@@ -70,7 +80,7 @@ export const useExportColumns = () => {
     },
     {
       key: "Status",
-      content: "Status",
+      content: t("common.status"),
       tdRender: (rowData: RowData) => (
         <Badge
           size="sm"
@@ -86,13 +96,15 @@ export const useExportColumns = () => {
                     : "neutral"
           }
           render={<span className="capitalize" />}
-          label={rowData.status}
+          label={
+            EXPORT_STATUS_I18N_KEYS[rowData.status] ? t(EXPORT_STATUS_I18N_KEYS[rowData.status]) : rowData.status
+          }
         />
       ),
     },
     {
       key: "Download",
-      content: "Download",
+      content: t("page_navigation_pane.tabs.assets.download_button"),
       tdRender: (rowData: RowData) =>
         checkExpiry(rowData.created_at) ? (
           <>

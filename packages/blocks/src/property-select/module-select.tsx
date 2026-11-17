@@ -10,6 +10,7 @@ import type { TPaginatedResponse } from "@plane/types";
 import { Select } from "../select/select";
 import type { SelectPaginationParams, SelectTooltip, SelectVariant } from "../select/types";
 import { ProjectIdentifierElement } from "./shared/project-identifier-element";
+import { useTranslation } from "@plane/i18n";
 
 /** Minimal module shape the dropdown needs — the client maps its richer record down to this. */
 export type ModuleOption = {
@@ -49,10 +50,15 @@ export type ModuleSelectProps =
       variant: SelectVariant;
     });
 
-function triggerLabel(selected: ModuleOption[], showCountOnMultiple: boolean, placeholder?: string): string {
+function triggerLabel(
+  selected: ModuleOption[],
+  showCountOnMultiple: boolean,
+  placeholder: string | undefined,
+  countLabel: (count: number) => string
+): string {
   if (selected.length === 0) return placeholder ?? "";
   if (selected.length === 1) return selected[0]?.name ?? "";
-  if (showCountOnMultiple) return `${selected.length} modules`;
+  if (showCountOnMultiple) return countLabel(selected.length);
   return selected.map((module) => module.name).join(", ");
 }
 
@@ -62,6 +68,7 @@ function triggerLabel(selected: ModuleOption[], showCountOnMultiple: boolean, pl
  * single-select (breadcrumb navigation, inline picker).
  */
 export function ModuleSelect(props: ModuleSelectProps) {
+  const { t } = useTranslation();
   if (!props.multiple) {
     const {
       getValues,
@@ -70,7 +77,7 @@ export function ModuleSelect(props: ModuleSelectProps) {
       variant,
       disabled = false,
       placeholder = "",
-      searchPlaceholder = "Search modules...",
+      searchPlaceholder = t("ui.search_modules"),
       onClose,
       className,
       showIdentifier = false,
@@ -124,7 +131,7 @@ export function ModuleSelect(props: ModuleSelectProps) {
     variant,
     disabled = false,
     placeholder = "",
-    searchPlaceholder = "Search modules...",
+    searchPlaceholder = t("ui.search_modules"),
     onClose,
     className,
     showIdentifier = false,
@@ -162,7 +169,7 @@ export function ModuleSelect(props: ModuleSelectProps) {
         tabIndex={tabIndex}
         className={className}
         prependIcon={(modules) => (!showCountOnMultiple && modules.length > 0 ? undefined : <ModuleOutline />)}
-        label={(modules) => triggerLabel(modules, showCountOnMultiple, placeholder)}
+        label={(modules) => triggerLabel(modules, showCountOnMultiple, placeholder, (count) => t("ui.n_modules", { count }))}
         tooltip={tooltip}
       >
         {(modules) => {
@@ -186,7 +193,7 @@ export function ModuleSelect(props: ModuleSelectProps) {
           ) : (
             (modules.length > 0 || !!placeholder) && (
               <span className="min-w-0 grow truncate text-left">
-                {triggerLabel(modules, showCountOnMultiple, placeholder)}
+                {triggerLabel(modules, showCountOnMultiple, placeholder, (count) => t("ui.n_modules", { count }))}
               </span>
             )
           );

@@ -24,6 +24,7 @@ import { useOutsideClickDetector } from "@plane/hooks";
 import { DROPDOWN_NAVIGATION_KEYS, getNextValidIndex } from "@/helpers/tippy";
 // types
 import type { TMentionHandler, TMentionSection, TMentionSuggestion } from "@/types";
+import { translateEditorText } from "@/helpers/translate";
 
 export type MentionsListDropdownProps = SuggestionProps<TMentionSection, TMentionSuggestion> &
   Pick<TMentionHandler, "searchCallback"> & {
@@ -169,7 +170,7 @@ export const MentionsListDropdown = forwardRef(function MentionsListDropdown(pro
         }
       >
         {isLoading ? (
-          <div className="p-2 text-center text-body-sm-regular text-placeholder">Loading...</div>
+          <div className="p-2 text-center text-body-sm-regular text-placeholder">{translateEditorText("Loading...")}</div>
         ) : sections.length ? (
           sections.map((section, sectionIndex) => (
             <SuggestionMenuGroup key={section.key}>
@@ -218,7 +219,7 @@ export const MentionsListDropdown = forwardRef(function MentionsListDropdown(pro
             </SuggestionMenuGroup>
           ))
         ) : (
-          <div className="p-2 text-center text-body-sm-regular text-placeholder">No results</div>
+          <div className="p-2 text-center text-body-sm-regular text-placeholder">{translateEditorText("No results")}</div>
         )}
       </SuggestionMenu>
     </>

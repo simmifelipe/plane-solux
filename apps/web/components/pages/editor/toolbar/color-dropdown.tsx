@@ -35,7 +35,7 @@ export const ColorDropdown = memo(function ColorDropdown(props: Props) {
   return (
     <Popover>
       {/* Propel's ToolbarMenuTrigger only wraps a Menu; this is its Popover twin until Propel ships one */}
-      <PopoverTrigger render={<ToolbarMenuTriggerButton aria-label="Color" />}>
+      <PopoverTrigger render={<ToolbarMenuTriggerButton aria-label={t("ui.color")} />}>
         <ToolbarMenuTriggerLabel>{t("ui.color")}</ToolbarMenuTriggerLabel>
         <span className="inline-flex transition-transform duration-200 group-data-popup-open:rotate-180">
           <Icon icon={ChevronDownOutline} tint="secondary" />

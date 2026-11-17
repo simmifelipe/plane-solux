@@ -9,6 +9,7 @@ import { combine } from "@atlaskit/pragmatic-drag-and-drop/combine";
 import { autoScrollForElements } from "@atlaskit/pragmatic-drag-and-drop-auto-scroll/element";
 import { observer } from "mobx-react";
 // plane constants
+import { useTranslation } from "@plane/i18n";
 import { ALL_ISSUES } from "@plane/constants";
 // types
 import type {
@@ -80,6 +81,7 @@ export const List = observer(function List(props: IList) {
     collapsedGroups,
     isEpic = false,
   } = props;
+  const { t } = useTranslation();
 
   const storeType = useIssueStoreType();
   // plane web hooks
@@ -92,6 +94,7 @@ export const List = observer(function List(props: IList) {
     includeNone: true,
     isWorkspaceLevel: isWorkspaceLevel(storeType),
     isEpic: isEpic,
+    t,
   });
 
   // Enable Auto Scroll for Main Kanban

@@ -164,7 +164,7 @@ const errorCodeMessages: {
   // sign in
   [EAuthenticationErrorCodes.EMAIL_DOMAIN_NOT_ALLOWED]: {
     title: `Domínio de e-mail não permitido`,
-    message: () => `Use sua conta Google corporativa (@gruposolar.com.br, @naturovos.com.br ou @uevo.com.br).`,
+    message: () => `Use seu e-mail corporativo (@gruposolar.com.br, @naturovos.com.br ou @uevo.com.br).`,
   },
   [EAuthenticationErrorCodes.BOT_USER_LOGIN_FORBIDDEN]: {
     title: `Sign in not allowed`,

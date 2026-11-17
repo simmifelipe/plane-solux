@@ -55,10 +55,10 @@ export const PageDetailsHeader = observer(function PageDetailsHeader() {
       if (!_page?.id) return;
       return {
         key: _page.id,
-        label: getPageName(_page.name),
+        label: getPageName(_page.name, t("wiki_collections.list.untitled")),
         content: (
           <div className="flex items-center justify-between gap-2">
-            <SwitcherLabel logo_props={_page.logo_props} name={getPageName(_page.name)} LabelIcon={PagesOutline} />
+            <SwitcherLabel logo_props={_page.logo_props} name={getPageName(_page.name, t("wiki_collections.list.untitled"))} LabelIcon={PagesOutline} />
             <PageAccessIcon {..._page} />
           </div>
         ),
@@ -96,7 +96,7 @@ export const PageDetailsHeader = observer(function PageDetailsHeader() {
                   onChange={(value: string) => {
                     router.push(`/${workspaceSlug}/projects/${projectId}/pages/${value}`);
                   }}
-                  label={getPageName(page?.name)}
+                  label={getPageName(page?.name, t("wiki_collections.list.untitled"))}
                   icon={<SwitcherIcon logo_props={page.logo_props} LabelIcon={PagesOutline} size={16} />}
                   placeholder={t("pages")}
                   searchPlaceholder={t("common.search.label")}

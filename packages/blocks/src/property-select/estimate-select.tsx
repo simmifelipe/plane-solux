@@ -11,6 +11,7 @@ import type { TPaginatedResponse } from "@plane/types";
 // local imports
 import type { SelectPaginationParams, SelectTooltip, SelectVariant } from "../select/types";
 import { Select } from "../select/select";
+import { useTranslation } from "@plane/i18n";
 
 /** Minimal estimate point shape the dropdown needs — the client resolves the id and pre-formats the display value. */
 export type EstimateOption = {
@@ -52,13 +53,14 @@ export type EstimateSelectProps = {
  * estimate-specific markup (formatting, e.g. time-based estimates, is resolved by the client).
  */
 export function EstimateSelect(props: EstimateSelectProps) {
+  const { t } = useTranslation();
   const {
     getValues,
     value,
     onChange,
     disabled = false,
     placeholder = "",
-    searchPlaceholder = "Search estimates...",
+    searchPlaceholder = t("ui.search_estimates"),
     onClose,
     variant,
     className,
@@ -69,7 +71,7 @@ export function EstimateSelect(props: EstimateSelectProps) {
   } = props;
   // derived values
 
-  const resolvedClearLabel = clearLabel ?? (placeholder || "No estimate");
+  const resolvedClearLabel = clearLabel ?? (placeholder || t("project_settings.estimates.no_estimate"));
   const clearOption = useMemo<EstimateOption>(
     () => ({ id: CLEAR_OPTION_ID, displayValue: resolvedClearLabel }),
     [resolvedClearLabel]

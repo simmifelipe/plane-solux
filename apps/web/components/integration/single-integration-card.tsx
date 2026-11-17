@@ -34,16 +34,17 @@ type Props = {
   integration: IAppIntegration;
 };
 
+/** descriptions are i18n keys */
 const integrationDetails: { [key: string]: any } = {
   github: {
     logo: GithubLogo,
-    installed: "Activate GitHub on individual projects to sync with specific repositories.",
-    notInstalled: "Connect with GitHub with your Plane workspace to sync project work items.",
+    installed: "ui.github_integration_installed_description",
+    notInstalled: "ui.github_integration_not_installed_description",
   },
   slack: {
     logo: SlackLogo,
-    installed: "Activate Slack on individual projects to sync with specific channels.",
-    notInstalled: "Connect with Slack with your Plane workspace to sync project work items.",
+    installed: "ui.slack_integration_installed_description",
+    notInstalled: "ui.slack_integration_not_installed_description",
   },
 };
 
@@ -94,7 +95,7 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
         setToast({
           type: "success",
           title: t("ui.deleted_successfully"),
-          message: `${integration.title} integration deleted successfully.`,
+          message: t("ui.integration_deleted_successfully", { name: integration.title }),
         });
       })
       .catch(() => {
@@ -103,7 +104,7 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
         setToast({
           type: "error",
           title: t("toast.error"),
-          message: `${integration.title} integration could not be deleted. Please try again.`,
+          message: t("ui.integration_could_not_be_deleted", { name: integration.title }),
         });
       });
   };
@@ -132,8 +133,8 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
           <p className="text-body-xs-regular text-secondary">
             {workspaceIntegrations
               ? isInstalled
-                ? integrationDetails[integration.provider].installed
-                : integrationDetails[integration.provider].notInstalled
+                ? t(integrationDetails[integration.provider].installed)
+                : t(integrationDetails[integration.provider].notInstalled)
               : "Loading..."}
           </p>
         </div>
@@ -142,7 +143,7 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
       {workspaceIntegrations ? (
         isInstalled ? (
           <Tooltip
-            label={!isUserAdmin ? "You don't have permission to perform this" : ""}
+            label={!isUserAdmin ? t("ui.you_don_t_have_permission_to_perform_this") : ""}
             layout="stacked"
             disabled={isUserAdmin || isMobile}
           >
@@ -157,12 +158,12 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
               }}
               disabled={!isUserAdmin}
               loading={deletingIntegration}
-              label={deletingIntegration ? "Uninstalling..." : "Uninstall"}
+              label={deletingIntegration ? t("oauth_bridge_integration.uninstalling") : t("oauth_bridge_integration.uninstall")}
             />
           </Tooltip>
         ) : (
           <Tooltip
-            label={!isUserAdmin ? "You don't have permission to perform this" : ""}
+            label={!isUserAdmin ? t("ui.you_don_t_have_permission_to_perform_this") : ""}
             layout="stacked"
             disabled={isUserAdmin || isMobile}
           >
@@ -176,7 +177,7 @@ export const SingleIntegrationCard = observer(function SingleIntegrationCard({ i
                 startAuth();
               }}
               loading={isInstalling}
-              label={isInstalling ? "Installing..." : "Install"}
+              label={isInstalling ? t("ui.installing") : t("common.install")}
             />
           </Tooltip>
         )

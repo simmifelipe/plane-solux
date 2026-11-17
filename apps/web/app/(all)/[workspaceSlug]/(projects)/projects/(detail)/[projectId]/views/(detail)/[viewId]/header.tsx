@@ -180,7 +180,7 @@ export const ProjectViewIssuesHeader = observer(function ProjectViewIssuesHeader
 
         {viewDetails?.access === EViewAccess.PRIVATE ? (
           <div className="cursor-default text-tertiary">
-            <Tooltip label={"Private"}>
+            <Tooltip label={t("common.access.private")}>
               <LockOutline className="h-4 w-4" />
             </Tooltip>
           </div>

@@ -129,7 +129,7 @@ export function ProjectAppliedFiltersList(props: Props) {
         )}
       </Header.LeftItem>
       <Header.RightItem>
-        <Tooltip label={`${filteredProjects} of ${totalProjects} projects match the applied filters.`} layout="stacked">
+        <Tooltip label={t("ui.projects_match_applied_filters", { filtered: filteredProjects, total: totalProjects })} layout="stacked">
           <span className="rounded-full bg-layer-1 px-2.5 py-1 text-body-xs-medium">
             {filteredProjects}/{totalProjects}
           </span>

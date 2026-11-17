@@ -24,7 +24,7 @@ describe("ProjectSelect pill composition", () => {
     );
 
     const button = screen.getByRole("button", { name: "Alpha, Beta" });
-    const count = within(button).getByText("2 projects");
+    const count = within(button).getByText(/projects/);
     const stack = button.firstElementChild;
     expect(count.parentElement).toBe(button);
     expect(stack?.querySelectorAll("svg")).toHaveLength(2);

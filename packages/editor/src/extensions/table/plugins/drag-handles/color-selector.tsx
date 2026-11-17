@@ -14,6 +14,7 @@ import { DeactivatedOutline, PaletteOutline } from "@makeplane/propel/icons";
 // constants
 import { COLORS_LIST } from "@/constants/common";
 import { CORE_EXTENSIONS } from "@/constants/extension";
+import { translateEditorText } from "@/helpers/translate";
 
 // TODO: implement text color selector
 
@@ -46,10 +47,10 @@ export function TableDragHandleDropdownColorSelector(props: Props) {
   const { editor, onSelect } = props;
 
   return (
-    <Collapsible defaultOpen hug icon={<Icon icon={PaletteOutline} />} trigger="Color">
+    <Collapsible defaultOpen hug icon={<Icon icon={PaletteOutline} />} trigger={translateEditorText("Color")}>
       <div className="pb-2">
         {/* <div className="space-y-1.5">
-          <p className="text-11 text-tertiary font-semibold">Text colors</p>
+          <p className="text-11 text-tertiary font-semibold">{translateEditorText("Text colors")}</p>
           <div className="flex items-center flex-wrap gap-2">
             {COLORS_LIST.map((color) => (
               <button
@@ -71,16 +72,16 @@ export function TableDragHandleDropdownColorSelector(props: Props) {
             </button>
           </div>
         </div> */}
-        <div role="group" aria-label="Background colors">
+        <div role="group" aria-label={translateEditorText("Background colors")}>
           <MenuLabel>
-            <MenuLabelTitle>Background colors</MenuLabelTitle>
+            <MenuLabelTitle>{translateEditorText("Background colors")}</MenuLabelTitle>
           </MenuLabel>
           <div className="flex flex-wrap items-center gap-2 px-2 pt-1">
             {COLORS_LIST.map((color) => (
               <button
                 key={color.key}
                 type="button"
-                aria-label={`${color.label} background color`}
+                aria-label={translateEditorText("{color} background color", { color: color.label })}
                 className="size-6 shrink-0 cursor-pointer rounded-sm border-xs border-subtle transition-opacity outline-none hover:opacity-60 focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1"
                 style={{
                   backgroundColor: color.backgroundColor,
@@ -95,7 +96,7 @@ export function TableDragHandleDropdownColorSelector(props: Props) {
               type="button"
               variant="secondary"
               size="sm"
-              aria-label="Clear background color"
+              aria-label={translateEditorText("Clear background color")}
               onClick={() => {
                 handleBackgroundColorChange(editor, null);
                 onSelect(null);

@@ -139,7 +139,7 @@ export const AccountTypeColumn = observer(function AccountTypeColumn(props: Acco
         <Controller
           name="role"
           control={control}
-          rules={{ required: "Role is required." }}
+          rules={{ required: t("ui.role_is_required") }}
           render={() => (
             <div className="w-32">
               <Select<TRoleOption>
@@ -155,7 +155,7 @@ export const AccountTypeColumn = observer(function AccountTypeColumn(props: Acco
                     setToast({
                       type: "error",
                       title: t("toast.error"),
-                      message: errorString ?? "An error occurred while updating member role. Please try again.",
+                      message: errorString ?? t("ui.error_updating_member_role"),
                     });
                   });
                 }}

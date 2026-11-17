@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 // plane imports
 import type { EditorRefApi } from "@plane/editor";
+import { useTranslation } from "@plane/i18n";
 import type { TSticky } from "@plane/types";
 import { cn, isCommentEmpty } from "@plane/utils";
 import { StickyEditor } from "@/components/editor/sticky-editor";
@@ -33,6 +34,7 @@ export function StickyInput(props: TProps) {
   const { stickyData, workspaceSlug, handleUpdate, stickyId, handleDelete, handleChange, showToolbar } = props;
   // refs
   const editorRef = useRef<EditorRefApi>(null);
+  const { t } = useTranslation();
   // navigation
   const pathname = usePathname();
   // store hooks
@@ -83,7 +85,7 @@ export function StickyInput(props: TProps) {
             placeholder={(_, value) => {
               const isContentEmpty = isCommentEmpty(value);
               if (!isContentEmpty) return "";
-              return "Click to type here";
+              return t("ui.click_to_type_here");
             }}
             containerClassName={cn(
               "vertical-scrollbar scrollbar-sm max-h-[540px] min-h-[256px] w-full overflow-y-scroll p-4 text-body-sm-regular",

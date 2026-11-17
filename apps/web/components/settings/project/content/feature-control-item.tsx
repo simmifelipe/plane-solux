@@ -44,14 +44,14 @@ export const ProjectSettingsFeatureControlItem = observer(function ProjectSettin
     const updateProjectPromise = updateProject(workspaceSlug, projectId, settingsPayload);
 
     setPromiseToast(updateProjectPromise, {
-      loading: "Updating project feature...",
+      loading: t("project_settings.features.toasts.loading"),
       success: {
         title: t("toast.success"),
-        message: () => "Project feature updated successfully.",
+        message: () => t("project_settings.features.toasts.success"),
       },
       error: {
         title: t("toast.error"),
-        message: () => "Something went wrong while updating project feature. Please try again.",
+        message: () => t("project_settings.features.toasts.error"),
       },
     });
     void updateProjectPromise.then(() => {
@@ -69,7 +69,7 @@ export const ProjectSettingsFeatureControlItem = observer(function ProjectSettin
           checked={value}
           onCheckedChange={handleSubmit}
           disabled={disabled}
-          aria-label={typeof title === "string" ? title : "Toggle project feature"}
+          aria-label={typeof title === "string" ? title : t("ui.toggle_project_feature")}
         />
       }
     />

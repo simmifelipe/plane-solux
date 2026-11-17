@@ -10,6 +10,7 @@ import type { ComponentType, SVGProps } from "react";
 // local imports
 import { ECustomImageAttributeNames, ECustomImageStatus } from "./types";
 import type { TCustomImageAlignment, Pixel, TCustomImageAttributes } from "./types";
+import { translateEditorText } from "@/helpers/translate";
 
 export const DEFAULT_CUSTOM_IMAGE_ATTRIBUTES: TCustomImageAttributes = {
   [ECustomImageAttributeNames.SOURCE]: null,
@@ -44,17 +45,23 @@ export const IMAGE_ALIGNMENT_OPTIONS: {
   icon: ComponentType<SVGProps<SVGSVGElement>>;
 }[] = [
   {
-    label: "Left",
+    get label() {
+      return translateEditorText("Left");
+    },
     value: "left",
     icon: AlignLeftOutline,
   },
   {
-    label: "Center",
+    get label() {
+      return translateEditorText("Center");
+    },
     value: "center",
     icon: AlignCenterOutline,
   },
   {
-    label: "Right",
+    get label() {
+      return translateEditorText("Right");
+    },
     value: "right",
     icon: AlignRightOutline,
   },

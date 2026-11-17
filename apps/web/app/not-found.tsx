@@ -13,7 +13,7 @@ import type { Route } from "./+types/not-found";
 import { useTranslation } from "@plane/i18n";
 
 export const meta: Route.MetaFunction = () => [
-  { title: "404 - Page Not Found" },
+  { title: "404 - Página não encontrada" },
   { name: "robots", content: "noindex, nofollow" },
 ];
 

@@ -69,10 +69,10 @@ export function ArchiveCycleModal(props: Props) {
       handleSubmit={handleArchiveCycle}
       isSubmitting={isArchiving}
       variant="primary"
-      title={`Archive cycle ${cycleName ?? ""}`}
-      content="Are you sure you want to archive the cycle? All your archives can be restored later."
-      primaryButtonText={{ loading: "Archiving", default: "Archive" }}
-      secondaryButtonText="Cancel"
+      title={t("ui.archive_cycle_name", { name: cycleName ?? "" })}
+      content={t("ui.archive_cycle_confirm")}
+      primaryButtonText={{ loading: t("common.archiving"), default: t("common.archive") }}
+      secondaryButtonText={t("cancel")}
     />
   );
 }

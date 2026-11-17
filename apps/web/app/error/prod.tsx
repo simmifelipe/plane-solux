@@ -15,12 +15,12 @@ import { useTranslation } from "@plane/i18n";
 const linkMap = [
   {
     key: "mail_to",
-    label: "Contact Support",
+    label: "ui.contact_support",
     value: "mailto:support@plane.so",
   },
   {
     key: "status",
-    label: "Status Page",
+    label: "ui.status_page",
     value: "https://status.plane.so/",
   },
   {
@@ -46,7 +46,7 @@ export function ProdErrorComponent({ onGoHome, onReload }: ProdErrorComponentPro
           align="center"
           assetKey="server-error"
           assetClassName="size-40"
-          title="🚧 Looks like something went wrong!"
+          title={`🚧 ${t("ui.looks_like_something_went_wrong")}`}
           description={t("ui.we_track_these_errors_automatically_and_working")}
           customButton={
             <div className="flex flex-col items-center gap-4">
@@ -59,12 +59,12 @@ export function ProdErrorComponent({ onGoHome, onReload }: ProdErrorComponentPro
                     href={link.value}
                     target="_blank"
                     rel="noopener noreferrer"
-                    label={link.label}
+                    label={link.label.startsWith("ui.") ? t(link.label) : link.label}
                   />
                 ))}
               </div>
               <div className="flex flex-col gap-4 sm:flex-row">
-                <Button variant="primary" size="lg" stretch="auto" label="Reload" onClick={onReload} />
+                <Button variant="primary" size="lg" stretch="auto" label={t("ui.reload")} onClick={onReload} />
                 <Button
                   variant="secondary"
                   size="lg"

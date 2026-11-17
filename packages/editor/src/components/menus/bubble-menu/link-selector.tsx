@@ -21,6 +21,7 @@ import { isValidHttpUrl } from "@/helpers/common";
 import { setLinkEditor, unsetLinkEditor } from "@/helpers/editor-commands";
 import { FloatingMenuRoot } from "../floating-menu/root";
 import { useFloatingMenu } from "../floating-menu/use-floating-menu";
+import { translateEditorText } from "@/helpers/translate";
 
 type Props = {
   editor: Editor;
@@ -77,11 +78,11 @@ export function BubbleMenuLinkSelector(props: Props) {
             size="md"
             ref={inputRef}
             type="url"
-            aria-label="Link URL"
+            aria-label={translateEditorText("Link URL")}
             aria-invalid={error || undefined}
             aria-describedby={error ? errorId : undefined}
             data-invalid={error ? "" : undefined}
-            placeholder="Enter or paste a link"
+            placeholder={translateEditorText("Enter or paste a link")}
             onClick={(e) => e.stopPropagation()}
             defaultValue={editor.getAttributes("link").href || ""}
             onKeyDown={(e) => {
@@ -99,7 +100,7 @@ export function BubbleMenuLinkSelector(props: Props) {
               type="button"
               variant="ghost"
               size="sm"
-              aria-label="Remove link"
+              aria-label={translateEditorText("Remove link")}
               showTooltip={false}
               icon={<Icon icon={DeleteOutline} tint="danger" />}
               onClick={(e) => {
@@ -113,7 +114,7 @@ export function BubbleMenuLinkSelector(props: Props) {
               type="button"
               variant="ghost"
               size="sm"
-              aria-label="Apply link"
+              aria-label={translateEditorText("Apply link")}
               showTooltip={false}
               icon={<Icon icon={TickOutline} />}
               onClick={(e) => {

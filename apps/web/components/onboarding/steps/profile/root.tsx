@@ -180,7 +180,7 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
             className="flex rounded-full"
             type="button"
             onClick={() => setIsImageUploadModalOpen(true)}
-            aria-label={userAvatar ? "Change image" : "Upload image"}
+            aria-label={userAvatar ? t("ui.change_image") : t("ui.upload_image_2")}
           >
             <Avatar
               size="2xl"
@@ -198,7 +198,7 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
             onClick={() => setIsImageUploadModalOpen(true)}
             icon={<Icon icon={ImageOutline} />}
             iconPosition="start"
-            label={userAvatar ? "Change image" : "Upload image"}
+            label={userAvatar ? t("ui.change_image") : t("ui.upload_image_2")}
           />
         </div>
         <div className="flex w-full flex-col gap-6">
@@ -207,7 +207,7 @@ export const ProfileSetupStep = observer(function ProfileSetupStep({ handleStepC
             control={control}
             name="first_name"
             rules={{
-              required: "Name is required",
+              required: t("name_is_required"),
               validate: validatePersonName,
               maxLength: {
                 value: 50,

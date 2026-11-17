@@ -12,6 +12,7 @@ import { ToolbarButton } from "@makeplane/propel/elements/toolbar";
 import { Tooltip } from "@makeplane/propel/components/tooltip";
 // local imports
 import { ImageFullScreenModal } from "./modal";
+import { translateEditorText } from "@/helpers/translate";
 
 type Props = {
   image: {
@@ -49,7 +50,7 @@ export function ImageFullScreenActionRoot(props: Props) {
         width={width}
         toggleFullScreenMode={setIsFullScreenEnabled}
       />
-      <Tooltip label="View in full screen" disabled={isTouchDevice}>
+      <Tooltip label={translateEditorText("View in full screen")} disabled={isTouchDevice}>
         <ToolbarButton
           ref={openerRef}
           type="button"
@@ -60,7 +61,7 @@ export function ImageFullScreenActionRoot(props: Props) {
             e.stopPropagation();
             setIsFullScreenEnabled(true);
           }}
-          aria-label="View image in full screen"
+          aria-label={translateEditorText("View image in full screen")}
         >
           <Icon icon={FullScreenOutline} />
         </ToolbarButton>

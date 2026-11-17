@@ -71,14 +71,14 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
     );
 
     setPromiseToast(addToFavoritePromise, {
-      loading: "Adding module to favorites...",
+      loading: t("ui.adding_module_to_favorites"),
       success: {
         title: t("toast.success"),
-        message: () => "Module added to favorites.",
+        message: () => t("ui.module_added_to_favorites"),
       },
       error: {
         title: t("toast.error"),
-        message: () => "Couldn't add the module to favorites. Please try again.",
+        message: () => t("ui.couldn_t_add_module_to_favorites"),
       },
     });
   };
@@ -95,14 +95,14 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
     );
 
     setPromiseToast(removeFromFavoritePromise, {
-      loading: "Removing module from favorites...",
+      loading: t("ui.removing_module_from_favorites"),
       success: {
         title: t("toast.success"),
-        message: () => "Module removed from favorites.",
+        message: () => t("ui.module_removed_from_favorites"),
       },
       error: {
         title: t("toast.error"),
-        message: () => "Couldn't remove the module from favorites. Please try again.",
+        message: () => t("ui.couldn_t_remove_module_from_favorites"),
       },
     });
   };
@@ -122,7 +122,7 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
         setToast({
           type: "error",
           title: t("toast.error"),
-          message: err?.detail ?? "Module could not be updated. Please try again.",
+          message: err?.detail ?? t("ui.module_could_not_be_updated"),
         });
       });
   };

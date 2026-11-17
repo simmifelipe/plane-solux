@@ -236,16 +236,15 @@ export function ExistingIssuesListModal(props: Props) {
             </SelectionDialogSelected>
           )}
           <SelectionDialogList>
-            {/* TODO: Translate here */}
             {searchTerm !== "" && (
               <h5 className="px-3 py-1 text-body-xs-regular text-secondary">
-                Search results for{" "}
+                {t("ui.search_results_for")}{" "}
                 <span className="text-primary">
                   {'"'}
                   {searchTerm}
                   {'"'}
                 </span>{" "}
-                in project:
+                {t("ui.in_project")}
               </h5>
             )}
 

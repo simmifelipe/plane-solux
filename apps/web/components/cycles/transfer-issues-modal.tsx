@@ -78,7 +78,7 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
       setToast({
         type: "error",
         title: t("error"),
-        message: error.error || "Unable to fetch cycle details",
+        message: error.error || t("ui.unable_to_fetch_cycle_details"),
       });
     });
   };
@@ -161,7 +161,7 @@ export const TransferIssuesModal = observer(function TransferIssuesModal(props: 
                   </div>
                 )
               ) : (
-                <p className="text-center text-secondary">Loading...</p>
+                <p className="text-center text-secondary">{t("ui.loading_ellipsis")}</p>
               )}
             </div>
           </DialogBody>

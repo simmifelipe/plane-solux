@@ -56,9 +56,10 @@ export const ActiveCycleProgress = observer(function ActiveCycleProgress(props: 
           <h3 className="text-body-sm-semibold text-tertiary">{t("project_cycles.active_cycle.progress")}</h3>
           {cycle.total_issues > 0 && (
             <span className="flex gap-1 rounded-xs px-3 py-1 text-body-xs-medium whitespace-nowrap text-placeholder">
-              {`${cycle.completed_issues + cycle.cancelled_issues}/${cycle.total_issues - cycle.cancelled_issues} ${
-                cycle.completed_issues + cycle.cancelled_issues > 1 ? "Work items" : "Work item"
-              } closed`}
+              {t("ui.n_of_total_work_items_closed", {
+                count: cycle.completed_issues + cycle.cancelled_issues,
+                total: cycle.total_issues - cycle.cancelled_issues,
+              })}
             </span>
           )}
         </div>
@@ -88,9 +89,7 @@ export const ActiveCycleProgress = observer(function ActiveCycleProgress(props: 
                       />
                       <span className="w-16 font-medium text-tertiary capitalize">{group}</span>
                     </div>
-                    <span className="text-tertiary">{`${groupedIssues[group]} ${
-                      groupedIssues[group] > 1 ? "Work items" : "Work item"
-                    }`}</span>
+                    <span className="text-tertiary">{t("ui.n_work_items", { count: groupedIssues[group] })}</span>
                   </div>
                 </div>
               )}

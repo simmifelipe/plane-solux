@@ -19,11 +19,10 @@ export function MaintenanceMessage() {
     <>
       <div className="flex flex-col gap-2.5">
         <h1 className="text-left text-h5-semibold text-primary">
-          &#x1F6A7; Looks like Plane didn&apos;t start up correctly!
+          &#x1F6A7; {t("ui.plane_did_not_start_correctly")}
         </h1>
         <span className="text-left text-body-sm-medium text-secondary">
-          Some services might have failed to start. Please check your container logs to identify and resolve the issue.
-          If you&apos;re stuck, reach out to our support team for more help.
+          {t("ui.plane_did_not_start_correctly_description")}
         </span>
       </div>
       <div className="mt-1 flex items-center justify-start gap-6">

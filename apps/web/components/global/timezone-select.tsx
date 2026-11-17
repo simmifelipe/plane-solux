@@ -66,7 +66,7 @@ export const TimezoneSelect = observer(function TimezoneSelect(props: TTimezoneS
     error = false,
     errorMessage,
     fieldLabel,
-    label = "Select a timezone",
+    label: labelProp,
     size = "lg",
     width,
     className = "",
@@ -74,6 +74,7 @@ export const TimezoneSelect = observer(function TimezoneSelect(props: TTimezoneS
   } = props;
   // hooks
   const { t } = useTranslation();
+  const label = labelProp ?? t("automations.trigger.schedule.timezone_placeholder");
   const { contains } = useFilter();
   const { disabled: isDisabled, timezones } = useTimezone();
   // derived values

@@ -38,6 +38,7 @@ import type { IEditorPropsExtended, TEditorCommands, TExtensions } from "@/types
 // local imports
 import { TextAlignmentSelector } from "./alignment-selector";
 import { BubbleMenuLinkSelector } from "./link-selector";
+import { translateEditorText } from "@/helpers/translate";
 
 // Explicit so the drag handler can address the plugin; BubbleMenu otherwise generates a unique key.
 const bubbleMenuPluginKey = new PluginKey("editorBubbleMenu");
@@ -224,7 +225,7 @@ export function EditorBubbleMenu(props: Props) {
     >
       {!isSelecting && (
         <div ref={menuRef} className="horizontal-scrollbar scrollbar-xs flex overflow-x-scroll">
-          <Toolbar size="sm" elevation="raised" role="group" aria-label="Formatting toolbar">
+          <Toolbar size="sm" elevation="raised" role="group" aria-label={translateEditorText("Formatting toolbar")}>
             <div className="h-(--control-height-sm) px-2">
               <BubbleMenuNodeSelector editor={editor} />
             </div>
@@ -245,7 +246,7 @@ export function EditorBubbleMenu(props: Props) {
               </>
             )}
             <ToolbarSeparator aria-hidden="true" />
-            <ToolbarGroup role="group" aria-label="Text formatting">
+            <ToolbarGroup role="group" aria-label={translateEditorText("Text formatting")}>
               {basicFormattingOptions.map((item) => (
                 <ToolbarButton
                   key={item.key}

@@ -265,10 +265,7 @@ export const CustomizeNavigationDialog = observer(function CustomizeNavigationDi
           <DialogHeader>
             <DialogHeading>
               <DialogTitle>{t("customize_navigation")}</DialogTitle>
-              <DialogDescription>
-                Selected items will always stay visible in your sidebar. You can still find the others anytime from the
-                More menu. These changes are personal to you and won&apos;t affect anyone else on your workspace.
-              </DialogDescription>
+              <DialogDescription>{t("ui.customize_navigation_description")}</DialogDescription>
             </DialogHeading>
           </DialogHeader>
 

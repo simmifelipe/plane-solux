@@ -23,6 +23,7 @@ import { findTable, getSelectedRows } from "@/extensions/table/table/utilities/h
 // local imports
 import { duplicateRows } from "../actions";
 import { TableDragHandleDropdownColorSelector } from "../color-selector";
+import { translateEditorText } from "@/helpers/translate";
 
 const DROPDOWN_ITEMS: {
   key: string;
@@ -32,19 +33,25 @@ const DROPDOWN_ITEMS: {
 }[] = [
   {
     key: "insert-above",
-    label: "Insert above",
+    get label() {
+      return translateEditorText("Insert above");
+    },
     icon: TopArrowOutline,
     action: (editor) => editor.chain().focus().addRowBefore().run(),
   },
   {
     key: "insert-below",
-    label: "Insert below",
+    get label() {
+      return translateEditorText("Insert below");
+    },
     icon: ArrowDownOutline,
     action: (editor) => editor.chain().focus().addRowAfter().run(),
   },
   {
     key: "duplicate",
-    label: "Duplicate",
+    get label() {
+      return translateEditorText("Duplicate");
+    },
     icon: CopyOutline,
     action: (editor) => {
       const table = findTable(editor.state.selection);
@@ -59,13 +66,17 @@ const DROPDOWN_ITEMS: {
   },
   {
     key: "clear-contents",
-    label: "Clear contents",
+    get label() {
+      return translateEditorText("Clear contents");
+    },
     icon: CloseOutline,
     action: (editor) => editor.chain().focus().clearSelectedCells().run(),
   },
   {
     key: "delete",
-    label: "Delete",
+    get label() {
+      return translateEditorText("Delete");
+    },
     icon: DeleteOutline,
     action: (editor) => editor.chain().focus().deleteRow().run(),
   },
@@ -91,7 +102,7 @@ export function RowOptionsDropdown(props: Props) {
         }}
       >
         <MenuItemContent>
-          <MenuItemTitle>Header row</MenuItemTitle>
+          <MenuItemTitle>{translateEditorText("Header row")}</MenuItemTitle>
         </MenuItemContent>
         <MenuItemTrailing>
           <Icon icon={ToggleFilled} tint="secondary" />

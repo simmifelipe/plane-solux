@@ -15,15 +15,15 @@ import { useInstance } from "@/hooks/store/use-instance";
 
 const authContentMap = {
   [EAuthModes.SIGN_IN]: {
-    pageTitle: "Sign up",
+    pageTitle: "ui.auth_sign_up_action",
     text: "auth.common.new_to_plane",
-    linkText: "Sign up",
+    linkText: "ui.auth_sign_up_action",
     linkHref: "/sign-up",
   },
   [EAuthModes.SIGN_UP]: {
-    pageTitle: "Sign in",
+    pageTitle: "ui.auth_sign_in_action",
     text: "auth.common.already_have_an_account",
-    linkText: "Sign in",
+    linkText: "ui.auth_sign_in_action",
     linkHref: "/sign-in",
   },
 };

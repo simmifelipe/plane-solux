@@ -15,6 +15,7 @@ import { Select } from "../select/select";
 import type { SelectPaginationParams, SelectTooltip, SelectTriggerSize, SelectVariant } from "../select/types";
 import { splitSelectVariant } from "../select/utils";
 import { cn, getAvatarName } from "@plane/utils";
+import { useTranslation } from "@plane/i18n";
 
 /** Minimal member shape the dropdown needs — the client maps its richer record down to this. */
 export type MemberOption = {
@@ -135,13 +136,14 @@ export type MemberSelectProps = MemberSelectCommonProps &
 function triggerLabel(
   selected: MemberOption[],
   showCountOnMultiple: boolean,
-  placeholder?: string,
-  multipleLabel?: (count: number) => string
+  placeholder: string | undefined,
+  multipleLabel: ((count: number) => string) | undefined,
+  countLabel: (count: number) => string
 ): string {
   if (selected.length === 0) return placeholder ?? "";
   if (selected.length === 1) return selected[0]?.display_name ?? "";
   if (multipleLabel) return multipleLabel(selected.length);
-  if (showCountOnMultiple) return `${selected.length} members`;
+  if (showCountOnMultiple) return countLabel(selected.length);
   // Join-names variant: only the first few selected are resolved (the rest are count-only stubs), so list
   // those names and summarise the remainder rather than rendering blanks for the unresolved ids.
   const names = selected
@@ -162,6 +164,7 @@ function triggerLabel(
  * selection never materialises hundreds of avatar nodes.
  */
 export function MemberSelect(props: MemberSelectProps) {
+  const { t } = useTranslation();
   const {
     getValues,
     disabled = false,
@@ -174,7 +177,7 @@ export function MemberSelect(props: MemberSelectProps) {
     filterOption,
     testId,
     tabIndex,
-    suspendedLabel = "Suspended",
+    suspendedLabel = t("ui.suspended"),
     multipleLabel,
   } = props;
   const clearable = !props.multiple && !!props.clearable;
@@ -189,7 +192,7 @@ export function MemberSelect(props: MemberSelectProps) {
   const isSearchInput = kind === "search-input";
   // `search-input`'s box IS the trigger (no separate label), so `placeholder` doubles as its empty
   // text unless the caller sets a distinct `searchPlaceholder`.
-  const searchPlaceholder = searchPlaceholderProp ?? (isSearchInput ? placeholder : undefined) ?? "Search members...";
+  const searchPlaceholder = searchPlaceholderProp ?? (isSearchInput ? placeholder : undefined) ?? t("ui.search_members");
 
   // A single-member pill uses a 16px face to match its sibling glyphs. Multi-member stacks keep 20px
   // faces so their remaining-count badge has room. `avatar-group-*` maps its size onto the face and is not a Select
@@ -215,7 +218,7 @@ export function MemberSelect(props: MemberSelectProps) {
   const selectedList = props.multiple ? props.value : props.value ? [props.value] : [];
   const selectedIds = new Set(selectedList.map((member) => member.id));
 
-  const clearLabel = !props.multiple ? (props.clearLabel ?? (placeholder || "No assignee")) : "No assignee";
+  const clearLabel = !props.multiple ? (props.clearLabel ?? (placeholder || t("no_assignee"))) : t("no_assignee");
   const clearOption = useMemo<MemberOption>(
     () => ({ id: CLEAR_OPTION_ID, display_name: clearLabel, avatar_url: null }),
     [clearLabel]
@@ -275,7 +278,7 @@ export function MemberSelect(props: MemberSelectProps) {
       prependIcon={(members) =>
         members.length === 0 ? props.multiple ? <AssigneeOutline /> : <UserAltOutline /> : undefined
       }
-      label={(members) => triggerLabel(members, showCountOnMultiple, placeholder, multipleLabel)}
+      label={(members) => triggerLabel(members, showCountOnMultiple, placeholder, multipleLabel, (count) => t("ui.n_members", { count }))}
       tooltip={tooltip}
     >
       {(members) => (
@@ -295,7 +298,7 @@ export function MemberSelect(props: MemberSelectProps) {
           )}
           {showLabel && (members.length > 0 || !!placeholder) && (
             <span className="min-w-0 grow truncate text-left">
-              {triggerLabel(members, showCountOnMultiple, placeholder, multipleLabel)}
+              {triggerLabel(members, showCountOnMultiple, placeholder, multipleLabel, (count) => t("ui.n_members", { count }))}
             </span>
           )}
         </>

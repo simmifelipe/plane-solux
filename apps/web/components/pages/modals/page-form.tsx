@@ -135,7 +135,7 @@ export function PageForm(props: Props) {
                 placeholder={t("title")}
                 error={
                   isTitleLengthMoreThan255Character
-                    ? "Max length of the name should be less than 255 characters"
+                    ? t("ui.name_max_length_255")
                     : undefined
                 }
                 tabIndex={getIndex("name")}
@@ -173,7 +173,7 @@ export function PageForm(props: Props) {
           size="md"
           stretch="auto"
           type="submit"
-          label={isSubmitting ? "Creating" : "Create Page"}
+          label={isSubmitting ? t("common.creating") : t("ui.create_page")}
           loading={isSubmitting}
           disabled={isTitleLengthMoreThan255Character}
           tabIndex={getIndex("submit")}

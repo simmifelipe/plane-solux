@@ -189,7 +189,7 @@ export const InboxIssueActionsMobileHeader = observer(function InboxIssueActions
                     handleActionWithPermission(
                       isProjectAdmin,
                       () => setSelectDuplicateIssue(true),
-                      "Only project admins can mark work items as duplicate"
+                      t("ui.only_project_admins_can_mark_as_duplicate")
                     )
                   }
                 />
@@ -203,7 +203,7 @@ export const InboxIssueActionsMobileHeader = observer(function InboxIssueActions
                     handleActionWithPermission(
                       isProjectAdmin,
                       () => setAcceptIssueModal(true),
-                      "Only project admins can accept work items"
+                      t("ui.only_project_admins_can_accept_work_items")
                     )
                   }
                 />
@@ -216,7 +216,7 @@ export const InboxIssueActionsMobileHeader = observer(function InboxIssueActions
                     handleActionWithPermission(
                       isProjectAdmin,
                       () => setDeclineIssueModal(true),
-                      "Only project admins can deny work items"
+                      t("ui.only_project_admins_can_deny_work_items")
                     )
                   }
                 />

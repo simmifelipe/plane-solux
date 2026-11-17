@@ -9,28 +9,30 @@ import { Tab, Tabs, TabsList } from "@makeplane/propel/components/tabs";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 // types
+import { useTranslation } from "@plane/i18n";
 import type { IProject } from "@plane/types";
 // hooks
 import { useProject } from "@/hooks/store/use-project";
 
 const ARCHIVES_TAB_LIST: {
   key: string;
+  /** i18n key */
   label: string;
   shouldRender: (projectDetails: IProject) => boolean;
 }[] = [
   {
     key: "issues",
-    label: "Work items",
+    label: "common.work_items",
     shouldRender: () => true,
   },
   {
     key: "cycles",
-    label: "Cycles",
+    label: "common.cycles",
     shouldRender: (projectDetails) => projectDetails.cycle_view,
   },
   {
     key: "modules",
-    label: "Modules",
+    label: "common.modules",
     shouldRender: (projectDetails) => projectDetails.module_view,
   },
 ];
@@ -41,6 +43,7 @@ export const ArchiveTabsList = observer(function ArchiveTabsList() {
   const pathname = usePathname();
   // store hooks
   const { getProjectById } = useProject();
+  const { t } = useTranslation();
 
   // derived values
   if (!projectId) return null;
@@ -60,7 +63,7 @@ export const ArchiveTabsList = observer(function ArchiveTabsList() {
                 <Tab
                   key={tab.key}
                   value={tab.key}
-                  label={tab.label}
+                  label={t(tab.label)}
                   nativeButton={false}
                   render={<Link href={`/${workspaceSlug}/projects/${projectId}/archives/${tab.key}`} />}
                 />

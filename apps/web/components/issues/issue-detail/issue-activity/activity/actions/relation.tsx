@@ -5,6 +5,7 @@
  */
 
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 // types
 import type { TIssueRelationTypes } from "@plane/types";
 // hooks
@@ -19,6 +20,7 @@ type TIssueRelationActivity = { activityId: string; ends: "top" | "bottom" | und
 
 export const IssueRelationActivity = observer(function IssueRelationActivity(props: TIssueRelationActivity) {
   const { activityId, ends } = props;
+  const { t } = useTranslation();
   // hooks
   const {
     activity: { getActivityById },
@@ -35,7 +37,7 @@ export const IssueRelationActivity = observer(function IssueRelationActivity(pro
       activityId={activityId}
       ends={ends}
     >
-      {activityContent}
+      {activityContent && `${t(activityContent)} `}
       {activity.old_value === "" ? (
         <span className="font-medium text-primary">{activity.new_value}.</span>
       ) : (

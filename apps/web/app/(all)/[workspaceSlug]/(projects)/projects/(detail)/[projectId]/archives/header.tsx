@@ -35,17 +35,17 @@ const PROJECT_ARCHIVES_BREADCRUMB_LIST: {
   };
 } = {
   issues: {
-    label: "Work items",
+    label: "common.work_items",
     href: "/issues",
     icon: WorkItemsOutline,
   },
   cycles: {
-    label: "Cycles",
+    label: "common.cycles",
     href: "/cycles",
     icon: CyclesOutline,
   },
   modules: {
-    label: "Modules",
+    label: "common.modules",
     href: "/modules",
     icon: ModuleOutline,
   },
@@ -93,7 +93,7 @@ export const ProjectArchivesHeader = observer(function ProjectArchivesHeader(pro
               <Breadcrumbs.Item
                 component={
                   <BreadcrumbLink
-                    label={activeTabBreadcrumbDetail.label}
+                    label={t(activeTabBreadcrumbDetail.label)}
                     icon={<activeTabBreadcrumbDetail.icon className="h-4 w-4 text-tertiary" />}
                   />
                 }
@@ -102,7 +102,7 @@ export const ProjectArchivesHeader = observer(function ProjectArchivesHeader(pro
           </Breadcrumbs>
           {activeTab === "issues" && issueCount && issueCount > 0 ? (
             <Tooltip
-              label={`There are ${issueCount} ${issueCount > 1 ? "work items" : "work item"} in project's archived`}
+              label={t("ui.archived_work_items_count_tooltip", { count: issueCount })}
               layout="stacked"
               side="bottom"
               disabled={isMobile}

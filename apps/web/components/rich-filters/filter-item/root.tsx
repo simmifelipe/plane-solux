@@ -17,6 +17,7 @@ import type {
   TAllAvailableOperatorsForDisplay,
 } from "@plane/types";
 import { Select } from "@plane/blocks/select";
+import { useTranslation } from "@plane/i18n";
 import { getOperatorForPayload } from "@plane/utils";
 // local imports
 import { FilterValueInput } from "../filter-value-input/root";
@@ -25,6 +26,13 @@ import { FilterItemContainer } from "./container";
 import { InvalidFilterItem } from "./invalid";
 import { FilterItemLoader } from "./loader";
 import { FilterItemProperty } from "./property";
+
+// English operator labels (from @plane/constants) mapped to i18n keys
+const OPERATOR_LABEL_I18N_KEYS: Record<string, string> = {
+  is: "ui.filter_operator_is",
+  "is any of": "ui.filter_operator_is_any_of",
+  between: "ui.filter_operator_between",
+};
 
 export interface IFilterItemProps<P extends TFilterProperty, E extends TExternalFilter> {
   condition: TFilterConditionNodeForDisplay<P, TFilterValue>;
@@ -37,12 +45,16 @@ export const FilterItem = observer(function FilterItem<P extends TFilterProperty
   props: IFilterItemProps<P, E>
 ) {
   const { condition, filter, isDisabled = false, showTransition = true } = props;
+  // hooks
+  const { t } = useTranslation();
+  const translateOperatorLabel = (label: string) =>
+    OPERATOR_LABEL_I18N_KEYS[label] ? t(OPERATOR_LABEL_I18N_KEYS[label]) : label;
   // derived values
   const filterConfig = condition?.property ? filter.configManager.getConfigByProperty(condition.property) : undefined;
   const operatorOptions =
     filterConfig?.getAllDisplayOperatorOptionsByValue(condition.value as TFilterValue)?.map((option) => ({
       value: option.value,
-      label: option.label,
+      label: translateOperatorLabel(option.label),
     })) ?? [];
   const selectedOperatorFieldConfig = filterConfig?.getOperatorConfig(condition.operator);
   const selectedOperatorOption = filterConfig?.getDisplayOperatorByValue(
@@ -105,7 +117,7 @@ export const FilterItem = observer(function FilterItem<P extends TFilterProperty
       >
         {/* A pill segment of the condition, chevron-less like the segments either side of it. */}
         <Select.Trigger variant="pill-lg" appendIcon={null} className="max-w-none text-body-xs-regular">
-          {filterConfig.getLabelForOperator(selectedOperatorOption)}
+          {translateOperatorLabel(filterConfig.getLabelForOperator(selectedOperatorOption))}
         </Select.Trigger>
       </Select>
 

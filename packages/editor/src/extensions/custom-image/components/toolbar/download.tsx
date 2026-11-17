@@ -9,6 +9,7 @@ import { DownloadOutline } from "@makeplane/propel/icons";
 import { Icon } from "@makeplane/propel/components/icon";
 import { ToolbarButton } from "@makeplane/propel/elements/toolbar";
 import { Tooltip } from "@makeplane/propel/components/tooltip";
+import { translateEditorText } from "@/helpers/translate";
 
 type Props = {
   src: string;
@@ -18,13 +19,13 @@ export function ImageDownloadAction(props: Props) {
   const { src } = props;
 
   return (
-    <Tooltip label="Download">
+    <Tooltip label={translateEditorText("Download")}>
       <ToolbarButton
         type="button"
         size="sm"
         labeled={false}
         onClick={() => window.open(src, "_blank")}
-        aria-label="Download image"
+        aria-label={translateEditorText("Download image")}
       >
         <Icon icon={DownloadOutline} />
       </ToolbarButton>

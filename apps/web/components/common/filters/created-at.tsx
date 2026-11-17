@@ -23,7 +23,7 @@ export const FilterCreatedDate = observer(function FilterCreatedDate(props: Prop
   return (
     <DateFilterSubmenu
       label={t("workspace_projects.sort.created_at")}
-      options={DATE_BEFORE_FILTER_OPTIONS}
+      options={DATE_BEFORE_FILTER_OPTIONS.map((option) => ({ ...option, name: t(option.i18n_name) }))}
       appliedFilters={appliedFilters}
       onToggleOption={handleUpdate}
       onSelectCustomRange={handleUpdate}

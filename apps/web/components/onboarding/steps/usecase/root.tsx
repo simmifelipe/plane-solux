@@ -7,7 +7,7 @@
 import { observer } from "mobx-react";
 import { Controller, useForm } from "react-hook-form";
 // plane imports
-import { USE_CASES } from "@plane/constants";
+import { USE_CASE_I18N_KEYS, USE_CASES } from "@plane/constants";
 import { Button } from "@makeplane/propel/components/button";
 import { TickOutline } from "@makeplane/propel/icons";
 import { setToast } from "@plane/blocks/toast";
@@ -98,8 +98,8 @@ export const UseCaseSetupStep = observer(function UseCaseSetupStep({ handleStepC
           control={control}
           name="use_case"
           rules={{
-            required: "Please select at least one option",
-            validate: (value) => (value && value.length > 0) || "Please select at least one option",
+            required: t("ui.please_select_at_least_one_option"),
+            validate: (value) => (value && value.length > 0) || t("ui.please_select_at_least_one_option"),
           }}
           render={({ field: { value, onChange } }) => (
             <div className="flex flex-col gap-3">
@@ -149,7 +149,7 @@ export const UseCaseSetupStep = observer(function UseCaseSetupStep({ handleStepC
                         "text-primary": !isSelected,
                       })}
                     >
-                      {useCase}
+                      {USE_CASE_I18N_KEYS[useCase] ? t(USE_CASE_I18N_KEYS[useCase]) : useCase}
                     </span>
                   </button>
                 );
@@ -170,7 +170,7 @@ export const UseCaseSetupStep = observer(function UseCaseSetupStep({ handleStepC
           disabled={isButtonDisabled}
           label={t("common.continue")}
         />
-        <Button variant="ghost" onClick={handleSkip} stretch="full" size="lg" label="Skip" />
+        <Button variant="ghost" onClick={handleSkip} stretch="full" size="lg" label={t("ui.skip")} />
       </div>
     </form>
   );

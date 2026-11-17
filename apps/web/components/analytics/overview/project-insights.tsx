@@ -56,7 +56,7 @@ const ProjectInsights = observer(function ProjectInsights() {
   return (
     <AnalyticsSectionWrapper
       title={`${t("workspace_analytics.project_insights")}`}
-      subtitle={selectedDurationLabel}
+      subtitle={selectedDurationLabel ? t(selectedDurationLabel) : selectedDurationLabel}
       className="lg:col-span-3"
     >
       {isLoadingProjectInsight ? (
@@ -79,7 +79,7 @@ const ProjectInsights = observer(function ProjectInsights() {
                 radars={[
                   {
                     key: "count",
-                    name: "Count",
+                    name: t("ui.count"),
                     fill: "var(--text-color-accent-primary)",
                     stroke: "var(--text-color-accent-primary)",
                     fillOpacity: 0.6,

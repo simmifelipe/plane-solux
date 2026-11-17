@@ -29,7 +29,7 @@ export const PageOfflineBadge = observer(function PageOfflineBadge({ page }: Pro
 
   return (
     <Tooltip label={t("ui.you_are_offline_you_can_continue_making")} layout="stacked">
-      <Badge variant="neutral" size="sm" startIcon={<Icon icon={WebDisabledOutline} />} label="Offline" />
+      <Badge variant="neutral" size="sm" startIcon={<Icon icon={WebDisabledOutline} />} label={t("ui.offline")} />
     </Tooltip>
   );
 });

@@ -89,10 +89,11 @@ export const shouldFilterPage = (page: TPage, filters: TPageFilterProps | undefi
 /**
  * @description returns the name of the project after checking for untitled page
  * @param {string | undefined} name
+ * @param {string} untitledLabel - label for pages without a name (pass a translated string)
  * @returns {string}
  */
-export const getPageName = (name: string | undefined) => {
+export const getPageName = (name: string | undefined, untitledLabel: string = "Untitled") => {
   if (name === undefined) return "";
-  if (!name || name.trim() === "") return "Untitled";
+  if (!name || name.trim() === "") return untitledLabel;
   return name;
 };

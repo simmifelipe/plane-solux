@@ -14,6 +14,7 @@ import type { TCustomImageAlignment } from "../../types";
 import { ImageAlignmentAction } from "./alignment";
 import { ImageDownloadAction } from "./download";
 import { ImageFullScreenActionRoot } from "./full-screen";
+import { translateEditorText } from "@/helpers/translate";
 
 type Props = {
   alignment: TCustomImageAlignment;
@@ -44,7 +45,7 @@ export function ImageToolbarRoot(props: Props) {
           }
         )}
       >
-        <Toolbar size="sm" elevation="raised" role="group" aria-label="Image controls">
+        <Toolbar size="sm" elevation="raised" role="group" aria-label={translateEditorText("Image controls")}>
           {!isTouchDevice && <ImageDownloadAction src={downloadSrc} />}
           {isEditable && (
             <ImageAlignmentAction

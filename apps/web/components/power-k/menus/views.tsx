@@ -26,7 +26,7 @@ export const PowerKViewsMenu = observer(function PowerKViewsMenu({ views, onSele
       getValue={(view) => view.name}
       getLabel={(view) => view.name}
       onSelect={onSelect}
-      emptyText="No views found"
+      emptyText="ui.no_views_found"
     />
   );
 });

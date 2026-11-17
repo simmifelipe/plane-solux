@@ -140,13 +140,13 @@ export const IssueDescriptionEditor = observer(function IssueDescriptionEditor(p
           setToast({
             type: "error",
             title: t("toast.error"),
-            message: error || "You have reached the maximum number of requests of 50 requests per month per user.",
+            message: error || t("ui.ai_request_limit_reached"),
           });
         else
           setToast({
             type: "error",
             title: t("toast.error"),
-            message: error || "Some error occurred. Please try again.",
+            message: error || t("common.error.message"),
           });
       })
       .finally(() => setIAmFeelingLucky(false));
@@ -254,10 +254,11 @@ export const IssueDescriptionEditor = observer(function IssueDescriptionEditor(p
                 tabIndex={getIndex("feeling_lucky")}
               >
                 {iAmFeelingLucky ? (
-                  "Generating response"
+                  t("ui.generating_response")
                 ) : (
                   <>
-                    <AiStar1Outline className="h-3.5 w-3.5" />I{"'"}m feeling lucky
+                    <AiStar1Outline className="h-3.5 w-3.5" />
+                    {t("ui.i_m_feeling_lucky")}
                   </>
                 )}
               </button>

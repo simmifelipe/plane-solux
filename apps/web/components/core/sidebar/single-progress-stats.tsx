@@ -5,6 +5,7 @@
  */
 
 import React from "react";
+import { useTranslation } from "@plane/i18n";
 
 type TSingleProgressStatsProps = {
   title: any;
@@ -15,6 +16,7 @@ type TSingleProgressStatsProps = {
 };
 
 export function SingleProgressStats({ title, completed, total, onClick, selected = false }: TSingleProgressStatsProps) {
+  const { t } = useTranslation();
   return (
     <div
       className={`flex w-full items-center justify-between gap-4 rounded-xs p-1 text-body-xs-regular ${
@@ -37,7 +39,7 @@ export function SingleProgressStats({ title, completed, total, onClick, selected
       <div className="min-w-0 flex-1">{title}</div>
       <div className="flex shrink-0 items-center justify-end gap-1 px-2 whitespace-nowrap tabular-nums">
         <span>{isNaN(Math.round((completed / total) * 100)) ? "0" : Math.round((completed / total) * 100)}%</span>
-        <span>of {total}</span>
+        <span>{t("ui.of_total", { total })}</span>
       </div>
     </div>
   );

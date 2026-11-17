@@ -20,15 +20,15 @@ type TPageTabNavigation = {
 const pageTabs: { key: TPageNavigationTabs; label: string }[] = [
   {
     key: "public",
-    label: "Public",
+    label: "ui.pages_public",
   },
   {
     key: "private",
-    label: "Private",
+    label: "ui.pages_private",
   },
   {
     key: "archived",
-    label: "Archived",
+    label: "ui.pages_archived",
   },
 ];
 
@@ -48,7 +48,7 @@ export function PageTabNavigation(props: TPageTabNavigation) {
             <Tab
               key={tab.key}
               value={tab.key}
-              label={tab.label}
+              label={t(tab.label)}
               nativeButton={false}
               render={
                 <Link

@@ -79,7 +79,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
       setToast({
         type: "error",
         title: t("toast.error"),
-        message: error?.toString() ?? "Something went wrong. Please try again.",
+        message: error?.toString() ?? t("something_went_wrong_please_try_again"),
       });
       throw new Error("Error in uploading file.", { cause: error });
     } finally {
@@ -141,7 +141,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
                         </button>
                         <img
                           src={image ? URL.createObjectURL(image) : value ? getFileURL(value) : ""}
-                          alt="image"
+                          alt={t("ui.image")}
                           className="absolute top-0 left-0 h-full w-full rounded-md object-cover"
                         />
                       </>
@@ -149,7 +149,7 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
                       <div>
                         <UserOutline className="mx-auto h-16 w-16 text-secondary" />
                         <span className="mt-2 block text-body-xs-medium text-secondary">
-                          {isDragActive ? "Drop image here to upload" : "Drag & drop image here"}
+                          {isDragActive ? t("ui.drop_image_here_to_upload") : t("ui.drag_drop_image_here")}
                         </span>
                       </div>
                     )}
@@ -160,8 +160,8 @@ export const UserImageUploadModal = observer(function UserImageUploadModal(props
                 {fileRejections.length > 0 && (
                   <p className="text-body-xs-regular text-danger-primary">
                     {fileRejections[0].errors[0].code === "file-too-large"
-                      ? "The image size cannot exceed 5 MB."
-                      : "Please upload a file in a valid format."}
+                      ? t("ui.image_size_cannot_exceed_5mb")
+                      : t("ui.please_upload_valid_format")}
                   </p>
                 )}
               </div>

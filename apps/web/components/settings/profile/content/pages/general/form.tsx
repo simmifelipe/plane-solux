@@ -141,7 +141,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
       setToast({
         type: "error",
         title: t("toast.error"),
-        message: error instanceof Error ? error.message : "Failed to process cover image",
+        message: error instanceof Error ? error.message : t("ui.failed_to_process_cover_image"),
       });
       setIsLoading(false);
       return;
@@ -177,14 +177,14 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
       .finally(() => setIsLoading(false));
 
     setPromiseToast(updatePromise, {
-      loading: "Updating...",
+      loading: t("ui.updating_ellipsis"),
       success: {
         title: t("toast.success"),
-        message: () => `Profile updated successfully.`,
+        message: () => t("ui.profile_updated_successfully"),
       },
       error: {
         title: t("toast.error"),
-        message: () => `There was some error in updating your profile. Please try again.`,
+        message: () => t("ui.error_updating_profile"),
       },
     });
   };
@@ -216,7 +216,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
             <CoverImage
               src={userCover}
               className="absolute inset-0 size-full"
-              alt={currentUser?.first_name ?? "Cover image"}
+              alt={currentUser?.first_name ?? t("cover_image")}
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/70" />
             <div className="absolute inset-x-4 bottom-4 z-5 flex h-10 items-end justify-between gap-2">
@@ -258,7 +258,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
               control={control}
               name="first_name"
               rules={{
-                required: "Please enter first name",
+                required: t("ui.please_enter_first_name"),
                 validate: validatePersonName,
               }}
               render={({ field: { value, onChange, ref } }) => (
@@ -308,7 +308,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
               control={control}
               name="display_name"
               rules={{
-                required: "Display name is required.",
+                required: t("ui.display_name_is_required"),
                 validate: validateDisplayName,
               }}
               render={({ field: { value, onChange, ref } }) => (
@@ -334,7 +334,7 @@ export const GeneralProfileSettingsForm = observer(function GeneralProfileSettin
                 control={control}
                 name="email"
                 rules={{
-                  required: "Email is required.",
+                  required: t("account_settings.profile.change_email_modal.form.email.errors.required"),
                 }}
                 render={({ field: { value, ref } }) => (
                   <InputField

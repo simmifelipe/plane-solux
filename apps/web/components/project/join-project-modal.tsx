@@ -75,9 +75,9 @@ export function JoinProjectModal(props: TJoinProjectModalProps) {
           </DialogHeader>
           <DialogBody>
             <p>
-              Are you sure you want to join the project{" "}
-              <span className="font-semibold break-words">{project?.name}</span>? Please click the &apos;Join
-              Project&apos; button below to continue.
+              {t("ui.join_project_confirm_prefix")}{" "}
+              <span className="font-semibold break-words">{project?.name}</span>
+              {t("ui.join_project_confirm_suffix")}
             </p>
           </DialogBody>
         </DialogMain>
@@ -87,7 +87,7 @@ export function JoinProjectModal(props: TJoinProjectModalProps) {
             variant="primary"
             size="md"
             stretch="auto"
-            label={isJoiningLoading ? "Joining..." : "Join Project"}
+            label={isJoiningLoading ? t("ui.joining") : t("project_empty_state.no_access.cta_primary")}
             onClick={handleJoin}
             loading={isJoiningLoading}
           />

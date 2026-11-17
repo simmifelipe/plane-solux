@@ -80,7 +80,7 @@ export const CustomThemeImportConfigButton = observer(function CustomThemeImport
       setToast({
         type: "error",
         title: t("error"),
-        message: error instanceof Error ? error.message : "Failed to import theme configuration",
+        message: error instanceof Error ? error.message : t("ui.failed_to_import_theme_configuration"),
       });
     } finally {
       // Reset file input

@@ -52,7 +52,7 @@ export const AuthRoot = observer(function AuthRoot(props: TAuthRoot) {
   // translation
   const { t } = useTranslation();
   // derived values
-  const oAuthActionText = authMode === EAuthModes.SIGN_UP ? "Sign up" : "Sign in";
+  const oAuthActionText = authMode === EAuthModes.SIGN_UP ? t("ui.auth_sign_up_action") : t("ui.auth_sign_in_action");
   const { isOAuthEnabled, oAuthOptions } = useOAuthConfig(oAuthActionText);
   const isEmailBasedAuthEnabled = config?.is_email_password_enabled || config?.is_magic_login_enabled;
   const noAuthMethodsAvailable = !isOAuthEnabled && !isEmailBasedAuthEnabled;
@@ -63,7 +63,7 @@ export const AuthRoot = observer(function AuthRoot(props: TAuthRoot) {
 
   useEffect(() => {
     if (error_code && authMode) {
-      const errorhandler = authErrorHandler(error_code?.toString() as EAuthenticationErrorCodes);
+      const errorhandler = authErrorHandler(error_code?.toString() as EAuthenticationErrorCodes, t);
       if (errorhandler) {
         // password error handler
         if ([EAuthenticationErrorCodes.AUTHENTICATION_FAILED_SIGN_UP].includes(errorhandler.code)) {
@@ -109,8 +109,8 @@ export const AuthRoot = observer(function AuthRoot(props: TAuthRoot) {
     return (
       <AuthContainer>
         <AuthHeaderBase
-          header="No authentication methods available"
-          subHeader="Please contact your administrator to enable authentication for your instance."
+          header={t("ui.auth_no_methods_available")}
+          subHeader={t("ui.auth_no_methods_available_description")}
         />
       </AuthContainer>
     );

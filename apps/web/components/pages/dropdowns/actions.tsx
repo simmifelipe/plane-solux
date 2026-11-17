@@ -101,7 +101,7 @@ export const PageActions = observer(function PageActions(props: Props) {
           action: () => {
             pageOperations.toggleLock();
           },
-          title: is_locked ? "Unlock" : "Lock",
+          title: is_locked ? t("power_k.contextual_actions.page.unlock") : t("power_k.contextual_actions.page.lock"),
           icon: is_locked ? UnlockedOutline : LockedOutline,
           shouldRender: canCurrentUserLockPage,
         },
@@ -110,7 +110,10 @@ export const PageActions = observer(function PageActions(props: Props) {
           action: () => {
             pageOperations.toggleAccess();
           },
-          title: access === EPageAccess.PUBLIC ? "Make private" : "Make public",
+          title:
+            access === EPageAccess.PUBLIC
+              ? t("power_k.contextual_actions.page.make_private")
+              : t("power_k.contextual_actions.page.make_public"),
           icon: access === EPageAccess.PUBLIC ? LockOutline : GlobeOutline,
           shouldRender: canCurrentUserChangeAccess && !archived_at,
         },

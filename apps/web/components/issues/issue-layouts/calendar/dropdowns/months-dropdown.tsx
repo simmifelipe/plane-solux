@@ -38,25 +38,25 @@ export const CalendarMonthsDropdown = observer(function CalendarMonthsDropdown(p
   const getWeekLayoutHeader = (): string => {
     const allDaysOfActiveWeek = issueCalendarView.allDaysOfActiveWeek;
 
-    if (!allDaysOfActiveWeek) return "Week view";
+    if (!allDaysOfActiveWeek) return t("ui.week_view");
 
     const daysList = Object.keys(allDaysOfActiveWeek);
 
     const firstDay = getDate(daysList[0]);
     const lastDay = getDate(daysList[daysList.length - 1]);
 
-    if (!firstDay || !lastDay) return "Week view";
+    if (!firstDay || !lastDay) return t("ui.week_view");
 
     if (firstDay.getMonth() === lastDay.getMonth() && firstDay.getFullYear() === lastDay.getFullYear())
-      return `${MONTHS_LIST[firstDay.getMonth() + 1].title} ${firstDay.getFullYear()}`;
+      return `${t(MONTHS_LIST[firstDay.getMonth() + 1].i18n_title)} ${firstDay.getFullYear()}`;
 
     if (firstDay.getFullYear() !== lastDay.getFullYear()) {
-      return `${MONTHS_LIST[firstDay.getMonth() + 1].shortTitle} ${firstDay.getFullYear()} - ${
-        MONTHS_LIST[lastDay.getMonth() + 1].shortTitle
+      return `${t(MONTHS_LIST[firstDay.getMonth() + 1].i18n_short_title)} ${firstDay.getFullYear()} - ${
+        t(MONTHS_LIST[lastDay.getMonth() + 1].i18n_short_title)
       } ${lastDay.getFullYear()}`;
     } else
-      return `${MONTHS_LIST[firstDay.getMonth() + 1].shortTitle} - ${
-        MONTHS_LIST[lastDay.getMonth() + 1].shortTitle
+      return `${t(MONTHS_LIST[firstDay.getMonth() + 1].i18n_short_title)} - ${
+        t(MONTHS_LIST[lastDay.getMonth() + 1].i18n_short_title)
       } ${lastDay.getFullYear()}`;
   };
 
@@ -76,7 +76,7 @@ export const CalendarMonthsDropdown = observer(function CalendarMonthsDropdown(p
             className="rounded-xs text-h5-semibold outline-none focus-visible:ring-2 focus-visible:ring-accent-strong"
           >
             {calendarLayout === "month"
-              ? `${MONTHS_LIST[activeMonthDate.getMonth() + 1].title} ${activeMonthDate.getFullYear()}`
+              ? `${t(MONTHS_LIST[activeMonthDate.getMonth() + 1].i18n_title)} ${activeMonthDate.getFullYear()}`
               : getWeekLayoutHeader()}
           </button>
         }
@@ -111,8 +111,8 @@ export const CalendarMonthsDropdown = observer(function CalendarMonthsDropdown(p
               <Toggle
                 key={month.shortTitle}
                 size="xs"
-                label={month.shortTitle}
-                aria-label={`${month.title} ${activeMonthDate.getFullYear()}`}
+                label={t(month.i18n_short_title)}
+                aria-label={`${t(month.i18n_title)} ${activeMonthDate.getFullYear()}`}
                 pressed={activeMonthDate.getMonth() === index}
                 onClick={() => {
                   const newDate = new Date(activeMonthDate.getFullYear(), index, 1);

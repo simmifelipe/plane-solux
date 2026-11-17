@@ -25,6 +25,7 @@ import { Spinner } from "@plane/blocks/spinner";
 import { renderFormattedPayloadDate, cn } from "@plane/utils";
 // constants
 import { MONTHS_LIST } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 // helpers
 // hooks
 import { useIssues } from "@/hooks/store/use-issues";
@@ -94,6 +95,8 @@ export const CalendarChart = observer(function CalendarChart(props: Props) {
   } = props;
   // states
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  // translation
+  const { t } = useTranslation();
   //refs
   const scrollableContainerRef = useRef<HTMLDivElement | null>(null);
   // store hooks
@@ -206,9 +209,11 @@ export const CalendarChart = observer(function CalendarChart(props: Props) {
             {/* mobile view */}
             <div className="md:hidden">
               <p className="p-4 text-h5-semibold">
-                {`${selectedDate.getDate()} ${
-                  MONTHS_LIST[selectedDate.getMonth() + 1].title
-                }, ${selectedDate.getFullYear()}`}
+                {t("ui.calendar_full_date", {
+                  day: selectedDate.getDate(),
+                  month: t(MONTHS_LIST[selectedDate.getMonth() + 1].i18n_title),
+                  year: selectedDate.getFullYear(),
+                })}
               </p>
               <CalendarIssueBlocks
                 date={selectedDate}
@@ -234,9 +239,11 @@ export const CalendarChart = observer(function CalendarChart(props: Props) {
         {/* mobile view */}
         <div className="md:hidden">
           <p className="p-4 text-h5-semibold">
-            {`${selectedDate.getDate()} ${
-              MONTHS_LIST[selectedDate.getMonth() + 1].title
-            }, ${selectedDate.getFullYear()}`}
+            {t("ui.calendar_full_date", {
+              day: selectedDate.getDate(),
+              month: t(MONTHS_LIST[selectedDate.getMonth() + 1].i18n_title),
+              year: selectedDate.getFullYear(),
+            })}
           </p>
           <CalendarIssueBlocks
             date={selectedDate}

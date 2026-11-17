@@ -10,6 +10,7 @@ import { Logo } from "@plane/blocks/emoji-icon-picker";
 import { PagesOutline } from "@makeplane/propel/icons";
 // plane import
 import type { TActivityEntityData, TPageEntityData } from "@plane/types";
+import { useTranslation } from "@plane/i18n";
 import { calculateTimeAgo, getFileURL, getPageName } from "@plane/utils";
 import { ListItem } from "@/components/core/list";
 // hooks
@@ -27,6 +28,7 @@ export function RecentPage(props: BlockProps) {
   const router = useRouter();
   // store hooks
   const { getUserDetails } = useMember();
+  const { t } = useTranslation();
   // derived values
   const pageDetails = activity.entity_data as TPageEntityData;
 
@@ -41,7 +43,7 @@ export function RecentPage(props: BlockProps) {
     <ListItem
       key={activity.id}
       itemLink={pageLink}
-      title={getPageName(pageDetails?.name)}
+      title={getPageName(pageDetails?.name, t("wiki_collections.list.untitled"))}
       prependTitleElement={
         <div className="flex flex-shrink-0 items-center gap-1.5">
           <div className="grid size-4 flex-shrink-0 place-items-center">

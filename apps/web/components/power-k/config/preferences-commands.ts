@@ -34,8 +34,8 @@ export const usePowerKPreferencesCommands = (): TPowerKCommandConfig[] => {
         .then(() => {
           setToast({
             type: "success",
-            title: "Theme updated",
-            message: "Reloading to apply changes...",
+            title: t("ui.theme_updated"),
+            message: t("ui.reloading_to_apply_changes"),
           });
           // reload the page after showing the toast
           window.location.reload();
@@ -51,7 +51,7 @@ export const usePowerKPreferencesCommands = (): TPowerKCommandConfig[] => {
         });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setTheme, updateUserTheme]
+    [setTheme, updateUserTheme, t]
   );
 
   const handleUpdateTimezone = useCallback(

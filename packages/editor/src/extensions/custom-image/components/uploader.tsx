@@ -21,6 +21,7 @@ import { useUploader, useDropZone, uploadFirstFileAndInsertRemaining } from "@/h
 import { ECustomImageStatus } from "../types";
 import { getImageComponentImageFileMap } from "../utils";
 import type { CustomImageNodeViewProps } from "./node-view";
+import { translateEditorText } from "@/helpers/translate";
 
 type CustomImageUploaderProps = CustomImageNodeViewProps & {
   failedToLoadImage: boolean;
@@ -185,18 +186,18 @@ export function CustomImageUploader(props: CustomImageUploaderProps) {
   const getDisplayMessage = useCallback(() => {
     const isUploading = isImageBeingUploaded;
     if (isErrorState) {
-      return "Error loading image";
+      return translateEditorText("Error loading image");
     }
 
     if (isUploading) {
-      return "Uploading...";
+      return translateEditorText("Uploading...");
     }
 
     if (draggedInside && editor.isEditable) {
-      return "Drop image here";
+      return translateEditorText("Drop image here");
     }
 
-    return "Add an image";
+    return translateEditorText("Add an image");
   }, [draggedInside, editor.isEditable, isErrorState, isImageBeingUploaded]);
 
   const handleRetryClick = useCallback(
@@ -240,7 +241,7 @@ export function CustomImageUploader(props: CustomImageUploaderProps) {
       <div className="flex-1 text-body-sm-medium">{getDisplayMessage()}</div>
       {!failedToLoadImage && editor.isEditable && !hasDuplicationFailed && (
         <Button
-          label="Choose image"
+          label={translateEditorText("Choose image")}
           variant="secondary"
           size="sm"
           stretch="auto"
@@ -252,8 +253,8 @@ export function CustomImageUploader(props: CustomImageUploaderProps) {
       )}
       {hasDuplicationFailed && editor.isEditable && (
         <Button
-          label="Retry"
-          aria-label="Retry duplication"
+          label={translateEditorText("Retry")}
+          aria-label={translateEditorText("Retry duplication")}
           variant="secondary"
           size="sm"
           stretch="auto"

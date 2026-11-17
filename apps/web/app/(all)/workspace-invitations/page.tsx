@@ -132,7 +132,7 @@ function WorkspaceInvitationPage() {
                     variant="primary"
                     size="lg"
                     stretch="auto"
-                    label={!currentUser ? "Sign in to continue" : "Continue to home"}
+                    label={!currentUser ? t("ui.sign_in_to_continue") : t("ui.continue_to_home")}
                     nativeButton={false}
                     render={<Link href="/" />}
                   />

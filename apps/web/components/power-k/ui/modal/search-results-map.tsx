@@ -31,6 +31,7 @@ export type TPowerKSearchResultGroupDetails = {
   iconNode?: (item: any) => React.ReactNode;
   itemName: (item: any) => React.ReactNode;
   path: (item: any, projectId: string | undefined) => string;
+  /** i18n key */
   title: string;
 };
 
@@ -45,7 +46,7 @@ export const POWER_K_SEARCH_RESULTS_GROUPS_MAP: Record<TPowerKSearchResultsKeys,
     ),
     path: (cycle: IWorkspaceDefaultSearchResult) =>
       `/${cycle?.workspace__slug}/projects/${cycle?.project_id}/cycles/${cycle?.id}`,
-    title: "Cycles",
+    title: "common.cycles",
   },
   issue: {
     iconNode: (workItem: IWorkspaceIssueSearchResult) => (
@@ -66,7 +67,7 @@ export const POWER_K_SEARCH_RESULTS_GROUPS_MAP: Record<TPowerKSearchResultsKeys,
         projectIdentifier: workItem.project__identifier,
         sequenceId: workItem?.sequence_id,
       }),
-    title: "Work items",
+    title: "common.work_items",
   },
   issue_view: {
     icon: WorkItemsOutline,
@@ -78,7 +79,7 @@ export const POWER_K_SEARCH_RESULTS_GROUPS_MAP: Record<TPowerKSearchResultsKeys,
     ),
     path: (view: IWorkspaceDefaultSearchResult) =>
       `/${view?.workspace__slug}/projects/${view?.project_id}/views/${view?.id}`,
-    title: "Views",
+    title: "common.views",
   },
   module: {
     icon: ModuleOutline,
@@ -90,7 +91,7 @@ export const POWER_K_SEARCH_RESULTS_GROUPS_MAP: Record<TPowerKSearchResultsKeys,
     ),
     path: (module: IWorkspaceDefaultSearchResult) =>
       `/${module?.workspace__slug}/projects/${module?.project_id}/modules/${module?.id}`,
-    title: "Modules",
+    title: "common.modules",
   },
   page: {
     icon: DocumentationOutline,
@@ -107,18 +108,18 @@ export const POWER_K_SEARCH_RESULTS_GROUPS_MAP: Record<TPowerKSearchResultsKeys,
         ? `/${page?.workspace__slug}/projects/${redirectProjectId}/pages/${page?.id}`
         : `/${page?.workspace__slug}/wiki/${page?.id}`;
     },
-    title: "Pages",
+    title: "common.pages",
   },
   project: {
     icon: ProjectsOutline,
     itemName: (project: IWorkspaceProjectSearchResult) => project?.name,
     path: (project: IWorkspaceProjectSearchResult) => `/${project?.workspace__slug}/projects/${project?.id}/issues/`,
-    title: "Projects",
+    title: "common.projects",
   },
   workspace: {
     icon: GridOutline,
     itemName: (workspace: IWorkspaceSearchResult) => workspace?.name,
     path: (workspace: IWorkspaceSearchResult) => `/${workspace?.slug}/`,
-    title: "Workspaces",
+    title: "common.workspaces",
   },
 };

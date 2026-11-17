@@ -46,6 +46,7 @@ import {
 import { showCellContent } from "../utils";
 import { RowOptionsDropdown } from "./dropdown";
 import { calculateRowDropIndex, constructRowDragPreview, getTableRowNodesInfo } from "./utils";
+import { translateEditorText } from "@/helpers/translate";
 
 export type RowDragHandleProps = {
   editor: Editor;
@@ -230,7 +231,7 @@ export function RowDragHandle(props: RowDragHandleProps) {
           {...getReferenceProps()}
           type="button"
           onMouseDown={handleMouseDown}
-          aria-label="Row options"
+          aria-label={translateEditorText("Row options")}
           className={cn(
             "rounded-sm border border-strong-1 bg-layer-1 py-1 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-inset",
             {

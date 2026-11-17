@@ -26,17 +26,17 @@ const CYCLE_VIEW_LAYOUTS: {
   {
     key: "list",
     icon: ListOutline,
-    title: "List layout",
+    title: "project_modules.layout.list",
   },
   {
     key: "board",
     icon: GridOutline,
-    title: "Gallery layout",
+    title: "project_modules.layout.board",
   },
   {
     key: "gantt",
     icon: TimelineOutline,
-    title: "Timeline layout",
+    title: "project_modules.layout.timeline",
   },
 ];
 
@@ -71,7 +71,7 @@ export const CyclesListMobileHeader = observer(function CyclesListMobileHeader()
             return (
               <MenuItem
                 key={layout.key}
-                label={layout.title}
+                label={t(layout.title)}
                 icon={<Icon icon={<layout.icon className="size-3" />} />}
                 onClick={() => {
                   updateDisplayFilters(currentProjectDetails!.id, {

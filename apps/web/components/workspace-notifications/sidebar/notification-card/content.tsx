@@ -6,6 +6,7 @@
 
 import type { ReactNode } from "react";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import type { TNotification } from "@plane/types";
 import {
   cn,
@@ -43,66 +44,88 @@ export type TNotificationContentMap = {
   [key: string]: TNotificationContentHandler;
 };
 
+// Renders a translated fragment; lets the module-level map below stay plain data
+function NotificationText({ i18nKey }: { i18nKey: string }) {
+  const { t } = useTranslation();
+  return <>{t(i18nKey)}</>;
+}
+
+const nt = (i18nKey: string) => <NotificationText i18nKey={i18nKey} />;
+
+// Fields/verbs of the fallback action ("<verb> <field>") that have translations
+const NOTIFICATION_FALLBACK_FIELDS = [
+  "name",
+  "state",
+  "priority",
+  "description",
+  "estimate_point",
+  "estimate_time",
+  "cycles",
+  "modules",
+  "link",
+];
+const NOTIFICATION_FALLBACK_VERBS = ["created", "updated", "deleted", "added", "removed"];
+
 // Base notification content map for core fields
 export const BASE_NOTIFICATION_CONTENT_MAP: TNotificationContentMap = {
   duplicate: ({ verb }) => ({
     action:
       verb === "created"
-        ? "marked that this work item is a duplicate of"
-        : "marked that this work item is not a duplicate",
+        ? nt("ui.notif_marked_duplicate_of")
+        : nt("ui.notif_marked_not_duplicate"),
     value: null,
     showConnector: false,
   }),
   assignees: ({ newValue, oldValue }) => ({
-    action: newValue !== "" ? "added assignee" : "removed assignee",
+    action: newValue !== "" ? nt("ui.notif_added_assignee") : nt("ui.notif_removed_assignee"),
     value: newValue !== "" ? newValue : oldValue,
     showConnector: false,
   }),
   start_date: ({ newValue }) => ({
-    action: newValue !== "" ? "set start date" : "removed the start date",
+    action: newValue !== "" ? nt("ui.notif_set_start_date") : nt("ui.notif_removed_start_date"),
     value: renderFormattedDate(newValue),
     showConnector: false,
   }),
   target_date: ({ newValue }) => ({
-    action: newValue !== "" ? "set due date" : "removed the due date",
+    action: newValue !== "" ? nt("ui.notif_set_due_date") : nt("ui.notif_removed_due_date"),
     value: renderFormattedDate(newValue),
     showConnector: false,
   }),
   labels: ({ newValue, oldValue }) => ({
-    action: newValue !== "" ? "added label" : "removed label",
+    action: newValue !== "" ? nt("ui.notif_added_label") : nt("ui.notif_removed_label"),
     value: newValue !== "" ? newValue : oldValue,
     showConnector: false,
   }),
   parent: ({ newValue, oldValue }) => ({
-    action: newValue !== "" ? "added parent" : "removed parent",
+    action: newValue !== "" ? nt("ui.notif_added_parent") : nt("ui.notif_removed_parent"),
     value: newValue !== "" ? newValue : oldValue,
     showConnector: false,
   }),
   relates_to: () => ({
-    action: "marked that this work item is related to",
+    action: nt("ui.notif_marked_related_to"),
     value: null,
     showConnector: true,
   }),
   comment: ({ newValue }, renderCommentBox?: boolean) => ({
-    action: "commented",
+    action: nt("ui.notif_commented"),
     value: renderCommentBox ? null : sanitizeCommentForNotification(newValue),
     showConnector: false,
   }),
   archived_at: ({ newValue }) => ({
-    action: newValue === "restore" ? "restored the work item" : "archived the work item",
+    action: newValue === "restore" ? nt("ui.notif_restored_work_item") : nt("ui.notif_archived_work_item"),
     value: null,
     showConnector: false,
   }),
   None: () => ({
     action: null,
-    value: "the work item and assigned it to you.",
+    value: nt("ui.notif_work_item_assigned_to_you"),
     showConnector: false,
   }),
   // Fields below only define value - action falls through to default handler
   attachment: () => ({
     action: null,
-    value: "the work item",
-    showConnector: true,
+    value: nt("ui.notif_to_the_work_item"),
+    showConnector: false,
   }),
   description: ({ newValue }) => ({
     value: stripAndTruncateHTML(newValue || "", 55),
@@ -162,6 +185,7 @@ export function NotificationContent({
   renderCommentBox?: boolean;
   isUnread?: boolean;
 }) {
+  const { t } = useTranslation();
   const { data, triggered_by_details: triggeredBy } = notification;
   const emphasisClassName = isUnread ? "font-semibold" : "font-medium";
   const notificationField = data?.issue_activity.field;
@@ -192,6 +216,12 @@ export function NotificationContent({
     // Check if action is explicitly defined in map (including null)
     if (contentDetails && "action" in contentDetails) return contentDetails.action;
     // Fallback to default action handler for fields not in map or without action defined
+    if (
+      verb &&
+      NOTIFICATION_FALLBACK_VERBS.includes(verb) &&
+      NOTIFICATION_FALLBACK_FIELDS.includes(notificationField)
+    )
+      return `${t(`ui.notif_verb_${verb}`)} ${t(`ui.notif_field_${notificationField}`)}`;
     return renderAdditionalAction(notificationField, verb);
   };
 
@@ -213,7 +243,7 @@ export function NotificationContent({
       <span className="text-tertiary">{renderAction()} </span>
       {verb !== "deleted" && (
         <>
-          {showConnector && <span className="text-tertiary">to </span>}
+          {showConnector && <span className="text-tertiary">{t("ui.notif_connector_to")} </span>}
           <span className={cn("text-primary", emphasisClassName)}>{renderValue()}</span>
           {notificationField === "comment" && renderCommentBox && (
             <div className="origin-left scale-75">

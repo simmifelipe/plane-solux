@@ -11,6 +11,7 @@ import { Avatar } from "@makeplane/propel/components/avatar";
 import { Icon } from "@makeplane/propel/components/icon";
 import { Tooltip } from "@makeplane/propel/components/tooltip";
 import { FavoriteStar } from "@plane/blocks/common";
+import { useTranslation } from "@plane/i18n";
 import { renderFormattedDate, getFileURL } from "@plane/utils";
 // hooks
 import { useMember } from "@/hooks/store/use-member";
@@ -30,6 +31,7 @@ type Props = {
 
 export const BlockItemAction = observer(function BlockItemAction(props: Props) {
   const { page, parentRef, storeType } = props;
+  const { t } = useTranslation();
   // store hooks
   const { getUserDetails } = useMember();
   // page operations
@@ -44,13 +46,13 @@ export const BlockItemAction = observer(function BlockItemAction(props: Props) {
     <>
       {/* page access */}
       <div className="grid size-(--control-height-sm) cursor-default place-items-center text-icon-secondary [--node-size:var(--control-glyph-sm)]">
-        <Tooltip label={access === 0 ? "Public" : "Private"}>
+        <Tooltip label={access === 0 ? t("ui.page_access_public") : t("ui.page_access_private")}>
           <Icon icon={access === 0 ? GlobeOutline : LockOutline} />
         </Tooltip>
       </div>
       {/* page details */}
       <div className="grid size-6 cursor-default place-items-center">
-        <Tooltip label={`Owned by: ${ownerDetails?.display_name ?? ""}`} layout="stacked">
+        <Tooltip label={t("ui.owned_by_name", { name: ownerDetails?.display_name ?? "" })} layout="stacked">
           <Avatar
             alt={ownerDetails?.display_name}
             fallback={ownerDetails?.display_name?.[0]?.toUpperCase()}
@@ -61,7 +63,7 @@ export const BlockItemAction = observer(function BlockItemAction(props: Props) {
       </div>
       {/* page info */}
       <div className="grid size-(--control-height-sm) cursor-default place-items-center text-icon-secondary [--node-size:var(--control-glyph-sm)]">
-        <Tooltip label={`Created on ${renderFormattedDate(created_at)}`} layout="stacked">
+        <Tooltip label={t("ui.page_created_on_date", { date: renderFormattedDate(created_at) ?? "" })} layout="stacked">
           <Icon icon={InfoOutline} />
         </Tooltip>
       </div>

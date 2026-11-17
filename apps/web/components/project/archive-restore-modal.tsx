@@ -57,7 +57,7 @@ export function ArchiveRestoreProjectModal(props: Props) {
         setToast({
           type: "success",
           title: t("issue.archive.success.label"),
-          message: `${projectDetails.name} has been archived successfully`,
+          message: t("ui.project_archived_successfully", { name: projectDetails.name }),
         });
         onClose();
         router.push(`/${workspaceSlug}/projects/`);
@@ -80,7 +80,7 @@ export function ArchiveRestoreProjectModal(props: Props) {
         setToast({
           type: "success",
           title: t("issue.restore.success.title"),
-          message: `You can find ${projectDetails.name} in your projects.`,
+          message: t("ui.project_find_in_your_projects", { name: projectDetails.name }),
         });
         onClose();
         router.push(`/${workspaceSlug}/projects/`);
@@ -108,15 +108,15 @@ export function ArchiveRestoreProjectModal(props: Props) {
           <DialogHeader>
             <DialogHeading>
               <DialogTitle>
-                {archive ? "Archive" : "Restore"} {projectDetails.name}
+                {archive ? t("archive") : t("restore")} {projectDetails.name}
               </DialogTitle>
             </DialogHeading>
           </DialogHeader>
           <DialogBody>
             <p className="text-body-xs-regular text-secondary">
               {archive
-                ? "This project and its work items, cycles, modules, and pages will be archived. Its work items won't appear in search. Only project admins can restore the project."
-                : "Restoring a project will activate it and make it visible to all members of the project. Are you sure you want to continue?"}
+                ? t("ui.archive_project_description")
+                : t("ui.restore_project_description")}
             </p>
           </DialogBody>
         </DialogMain>
@@ -126,7 +126,15 @@ export function ArchiveRestoreProjectModal(props: Props) {
             variant="primary"
             size="md"
             stretch="auto"
-            label={archive ? (isLoading ? "Archiving" : "Archive") : isLoading ? "Restoring" : "Restore"}
+            label={
+              archive
+                ? isLoading
+                  ? t("common.archiving")
+                  : t("archive")
+                : isLoading
+                  ? t("page_navigation_pane.tabs.version_history.restoring")
+                  : t("restore")
+            }
             onClick={archive ? handleArchiveProject : handleRestoreProject}
             loading={isLoading}
           />

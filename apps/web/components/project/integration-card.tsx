@@ -27,11 +27,11 @@ type Props = {
 const integrationDetails: { [key: string]: any } = {
   github: {
     logo: GithubLogo,
-    description: "Select GitHub repository to enable sync.",
+    description: "ui.github_integration_description",
   },
   slack: {
     logo: SlackLogo,
-    description: "Get regular updates and control which notification you want to receive.",
+    description: "ui.slack_integration_description",
   },
 };
 
@@ -71,7 +71,7 @@ export function IntegrationCard({ integration }: Props) {
         setToast({
           type: "success",
           title: t("toast.success"),
-          message: `${login}/${name} repository synced with the project successfully.`,
+          message: t("ui.repository_synced_successfully", { repository: `${login}/${name}` }),
         });
       })
       .catch((err) => {
@@ -99,7 +99,7 @@ export function IntegrationCard({ integration }: Props) {
             <div>
               <h3 className="flex items-center gap-4 text-body-xs-medium">{integration.integration_detail.title}</h3>
               <p className="text-body-xs-regular tracking-tight text-secondary">
-                {integrationDetails[integration.integration_detail.provider].description}
+                {t(integrationDetails[integration.integration_detail.provider].description)}
               </p>
             </div>
           </div>
@@ -114,7 +114,7 @@ export function IntegrationCard({ integration }: Props) {
               label={
                 syncedGithubRepository && syncedGithubRepository.length > 0
                   ? `${syncedGithubRepository[0].repo_detail.owner}/${syncedGithubRepository[0].repo_detail.name}`
-                  : "Select Repository"
+                  : t("ui.select_repository")
               }
               onChange={handleChange}
             />

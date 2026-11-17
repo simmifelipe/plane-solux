@@ -83,9 +83,9 @@ export const DeletePageModal = observer(function DeletePageModal(props: TConfirm
       title={t("ui.delete_page")}
       content={
         <>
-          Are you sure you want to delete page-{" "}
-          <span className="font-medium break-words break-all text-primary">{getPageName(name)}</span> ? The Page will be
-          deleted permanently. This action cannot be undone.
+          {t("ui.delete_page_confirm_prefix")}{" "}
+          <span className="font-medium break-words break-all text-primary">{getPageName(name, t("wiki_collections.list.untitled"))}</span>
+          {t("ui.delete_page_confirm_suffix")}
         </>
       }
     />

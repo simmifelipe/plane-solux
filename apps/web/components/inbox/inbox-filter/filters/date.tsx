@@ -7,6 +7,7 @@
 import { observer } from "mobx-react";
 // plane imports
 import { PAST_DURATION_FILTER_OPTIONS } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import type { TInboxIssueFilterDateKeys } from "@plane/types";
 // components
 import { DateFilterSubmenu, isCustomDateFilterValue } from "@/components/common/filters/date-filter-submenu";
@@ -19,16 +20,17 @@ type Props = {
 };
 
 export const FilterDate = observer(function FilterDate(props: Props) {
-  const { filterKey, label = "Created date" } = props;
+  const { filterKey, label } = props;
   // hooks
+  const { t } = useTranslation();
   const { inboxFilters, handleInboxIssueFilters } = useProjectInbox();
   // derived values
   const filterValue: string[] = inboxFilters?.[filterKey] || [];
 
   return (
     <DateFilterSubmenu
-      label={label}
-      options={PAST_DURATION_FILTER_OPTIONS}
+      label={label ?? t("workspace_projects.sort.created_at")}
+      options={PAST_DURATION_FILTER_OPTIONS.map((option) => ({ ...option, name: t(option.i18n_name) }))}
       appliedFilters={filterValue}
       // intake keeps a single date value: picking a preset replaces whatever was applied
       onToggleOption={(value) => handleInboxIssueFilters(filterKey, filterValue.includes(value) ? [] : [value])}

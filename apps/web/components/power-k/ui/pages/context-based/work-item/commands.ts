@@ -95,12 +95,12 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
       await updateEntity(workspaceSlug.toString(), entityDetails.project_id, entityDetails.id, formData).catch(() => {
         setToast({
           type: "error",
-          title: "Error!",
-          message: `${isEpic ? "Epic" : "Work item"} could not be updated. Please try again.`,
+          title: t("toast.error"),
+          message: isEpic ? t("ui.epic_could_not_be_updated") : t("ui.work_item_could_not_be_updated"),
         });
       });
     },
-    [entityDetails, isEpic, updateEntity, workspaceSlug]
+    [entityDetails, isEpic, updateEntity, workspaceSlug, t]
   );
 
   const handleUpdateAssignee = useCallback(
@@ -325,8 +325,10 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
         } catch {
           setToast({
             type: "error",
-            title: "Error!",
-            message: `${entityDetails.is_epic ? "Epic" : "Work item"} could not be updated. Please try again.`,
+            title: t("toast.error"),
+            message: entityDetails.is_epic
+              ? t("ui.epic_could_not_be_updated")
+              : t("ui.work_item_could_not_be_updated"),
           });
         }
       },
@@ -357,8 +359,10 @@ export const usePowerKWorkItemContextBasedCommands = (): TPowerKCommandConfig[] 
         } catch {
           setToast({
             type: "error",
-            title: "Error!",
-            message: `${entityDetails.is_epic ? "Epic" : "Work item"} could not be updated. Please try again.`,
+            title: t("toast.error"),
+            message: entityDetails.is_epic
+              ? t("ui.epic_could_not_be_updated")
+              : t("ui.work_item_could_not_be_updated"),
           });
         }
       },

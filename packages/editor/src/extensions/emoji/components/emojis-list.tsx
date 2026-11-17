@@ -18,6 +18,7 @@ import {
 // plane imports
 import { useOutsideClickDetector } from "@plane/hooks";
 import { cn } from "@plane/utils";
+import { translateEditorText } from "@/helpers/translate";
 
 export type EmojiItem = {
   name: string;
@@ -181,7 +182,7 @@ export const EmojisListDropdown = forwardRef(function EmojisListDropdown(
             })}
           </SuggestionMenuGroup>
         ) : (
-          <div className="p-2 text-center text-body-sm-regular text-placeholder">No emojis found</div>
+          <div className="p-2 text-center text-body-sm-regular text-placeholder">{translateEditorText("No emojis found")}</div>
         )}
       </SuggestionMenu>
     </>

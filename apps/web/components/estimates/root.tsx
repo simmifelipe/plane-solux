@@ -110,15 +110,14 @@ export const EstimateRoot = observer(function EstimateRoot(props: TEstimateRoot)
                 title={t("ui.archived_estimates")}
                 description={
                   <>
-                    Estimates have gone through a change, these are the estimates you had in your older versions which
-                    were not in use. Read more about them&nbsp;
+                    {t("ui.archived_estimates_description")}&nbsp;
                     <AnchorButton
                       variant="primary"
                       size="sm"
                       href="https://docs.plane.so/core-concepts/projects/run-project#estimate"
                       target="_blank"
                       rel="noreferrer"
-                      label="here."
+                      label={t("ui.here_period")}
                     />
                   </>
                 }

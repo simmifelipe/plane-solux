@@ -65,7 +65,7 @@ export function CycleSelect(props: CycleSelectProps) {
     onChange,
     disabled = false,
     placeholder = "",
-    searchPlaceholder = "Search cycles...",
+    searchPlaceholder: searchPlaceholderProp,
     onClose,
     variant,
     className,
@@ -77,6 +77,7 @@ export function CycleSelect(props: CycleSelectProps) {
   } = props;
   // translation
   const { t } = useTranslation();
+  const searchPlaceholder = searchPlaceholderProp ?? t("ui.search_cycles");
   // derived values
 
   const resolvedClearLabel = clearLabel ?? (placeholder || t("cycle.no_cycle"));

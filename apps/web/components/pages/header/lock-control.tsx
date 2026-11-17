@@ -117,7 +117,7 @@ export const PageLockControl = observer(function PageLockControl({ page }: Props
           stretch="auto"
           disabled
           icon={<Icon icon={UnlockedOutline} />}
-          label="Unlocked"
+          label={t("ui.unlocked")}
         />
       )}
     </>

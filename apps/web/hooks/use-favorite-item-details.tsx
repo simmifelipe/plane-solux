@@ -7,6 +7,7 @@
 // plane imports
 import type { IFavorite } from "@plane/types";
 // components
+import { useTranslation } from "@plane/i18n";
 import { getPageName } from "@plane/utils";
 import {
   FavoriteItemIcon,
@@ -34,6 +35,7 @@ export const useFavoriteItemDetails = (workspaceSlug: string, favorite: IFavorit
   const { getProjectById } = useProject();
   const { getCycleById } = useCycle();
   const { getModuleById } = useModule();
+  const { t } = useTranslation();
   // additional details
   const { getAdditionalFavoriteItemDetails } = useAdditionalFavoriteItemDetails();
   // derived values
@@ -56,7 +58,7 @@ export const useFavoriteItemDetails = (workspaceSlug: string, favorite: IFavorit
       itemIcon = <FavoriteItemIcon type="project" logo={currentProjectDetails?.logo_props || favoriteItemLogoProps} />;
       break;
     case "page":
-      itemTitle = getPageName(pageDetail?.name ?? favoriteItemName);
+      itemTitle = getPageName(pageDetail?.name ?? favoriteItemName, t("wiki_collections.list.untitled"));
       itemIcon = <FavoriteItemIcon type="page" logo={pageDetail?.logo_props ?? favoriteItemLogoProps} />;
       break;
     case "view":

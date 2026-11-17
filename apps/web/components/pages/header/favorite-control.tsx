@@ -9,6 +9,7 @@ import { StarFilled, StarOutline } from "@makeplane/propel/icons";
 // ui
 import { IconButton } from "@makeplane/propel/components/icon-button";
 import { Icon } from "@makeplane/propel/components/icon";
+import { useTranslation } from "@plane/i18n";
 // hooks
 import { usePageOperations } from "@/hooks/use-page-operations";
 // store
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export const PageFavoriteControl = observer(function PageFavoriteControl({ page }: Props) {
+  const { t } = useTranslation();
   // derived values
   const { is_favorite, canCurrentUserFavoritePage } = page;
   // page operations
@@ -36,7 +38,7 @@ export const PageFavoriteControl = observer(function PageFavoriteControl({ page 
       onClick={() => {
         pageOperations.toggleFavorite();
       }}
-      aria-label={is_favorite ? "Remove favorite" : "Add to favorites"}
+      aria-label={is_favorite ? t("remove_from_favorites") : t("add_to_favorites")}
     />
   );
 });

@@ -9,6 +9,7 @@ import { useCallback, useState } from "react";
 import { observer } from "mobx-react";
 // plane imports
 import { estimateCount } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { Button } from "@makeplane/propel/components/button";
 import { Icon } from "@makeplane/propel/components/icon";
 import { AddOutline } from "@makeplane/propel/icons";
@@ -47,6 +48,8 @@ export const EstimatePointCreateRoot = observer(function EstimatePointCreateRoot
     estimatePointError,
     handleEstimatePointError,
   } = props;
+  const { t } = useTranslation();
+  const estimateTypeLabel = t(`project_settings.estimates.systems.${estimateType}.label`);
   // states
   const [estimatePointCreate, setEstimatePointCreate] = useState<TEstimatePointsObject[] | undefined>(undefined);
 
@@ -111,7 +114,7 @@ export const EstimatePointCreateRoot = observer(function EstimatePointCreateRoot
   if (!workspaceSlug || !projectId) return <></>;
   return (
     <div className="flex flex-col gap-2 px-1">
-      <div className="text-body-xs-medium text-secondary capitalize">{estimateType}</div>
+      <div className="text-body-xs-medium text-secondary capitalize">{estimateTypeLabel}</div>
 
       <div>
         <Sortable
@@ -171,7 +174,7 @@ export const EstimatePointCreateRoot = observer(function EstimatePointCreateRoot
             variant="ghost"
             size="sm"
             stretch="auto"
-            label={`Add ${estimateType}`}
+            label={t("ui.add_estimate_type", { type: estimateTypeLabel.toLowerCase() })}
             icon={<Icon icon={AddOutline} />}
             iconPosition="start"
             onClick={handleCreate}

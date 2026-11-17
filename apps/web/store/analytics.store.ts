@@ -63,7 +63,8 @@ export class BaseAnalyticsStore implements IBaseAnalyticsStore {
   }
 
   get selectedDurationLabel() {
-    return ANALYTICS_DURATION_FILTER_OPTIONS.find((item) => item.value === this.selectedDuration)?.name ?? null;
+    // returns the i18n key of the selected duration; translate it at render time
+    return ANALYTICS_DURATION_FILTER_OPTIONS.find((item) => item.value === this.selectedDuration)?.i18n_name ?? null;
   }
 
   updateSelectedProjects = (projects: string[]) => {

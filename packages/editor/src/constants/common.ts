@@ -30,6 +30,7 @@ import {
 } from "@makeplane/propel/icons";
 import { MonospaceIcon, SansSerifIcon, SerifIcon } from "@plane/blocks/icons";
 import type { TCommandExtraProps, TEditorCommands, TEditorFontStyle } from "@/types";
+import { translateEditorText } from "@/helpers/translate";
 
 export type TEditorTypes = "lite" | "document" | "sticky";
 
@@ -49,20 +50,22 @@ export type ToolbarMenuItem<T extends TEditorCommands = TEditorCommands> = {
 };
 
 export const TYPOGRAPHY_ITEMS: ToolbarMenuItem<"text" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6">[] = [
-  { itemKey: "text", renderKey: "text", name: "Text", icon: TextOutline, editors: ["document"] },
-  { itemKey: "h1", renderKey: "h1", name: "Heading 1", icon: H1Outline, editors: ["document"] },
-  { itemKey: "h2", renderKey: "h2", name: "Heading 2", icon: H2Outline, editors: ["document"] },
-  { itemKey: "h3", renderKey: "h3", name: "Heading 3", icon: H3Outline, editors: ["document"] },
-  { itemKey: "h4", renderKey: "h4", name: "Heading 4", icon: H4Outline, editors: ["document"] },
-  { itemKey: "h5", renderKey: "h5", name: "Heading 5", icon: H5Outline, editors: ["document"] },
-  { itemKey: "h6", renderKey: "h6", name: "Heading 6", icon: H6Outline, editors: ["document"] },
+  { itemKey: "text", renderKey: "text", get name() { return translateEditorText("Text"); }, icon: TextOutline, editors: ["document"] },
+  { itemKey: "h1", renderKey: "h1", get name() { return translateEditorText("Heading 1"); }, icon: H1Outline, editors: ["document"] },
+  { itemKey: "h2", renderKey: "h2", get name() { return translateEditorText("Heading 2"); }, icon: H2Outline, editors: ["document"] },
+  { itemKey: "h3", renderKey: "h3", get name() { return translateEditorText("Heading 3"); }, icon: H3Outline, editors: ["document"] },
+  { itemKey: "h4", renderKey: "h4", get name() { return translateEditorText("Heading 4"); }, icon: H4Outline, editors: ["document"] },
+  { itemKey: "h5", renderKey: "h5", get name() { return translateEditorText("Heading 5"); }, icon: H5Outline, editors: ["document"] },
+  { itemKey: "h6", renderKey: "h6", get name() { return translateEditorText("Heading 6"); }, icon: H6Outline, editors: ["document"] },
 ];
 
 export const TEXT_ALIGNMENT_ITEMS: ToolbarMenuItem<"text-align">[] = [
   {
     itemKey: "text-align",
     renderKey: "text-align-left",
-    name: "Left align",
+    get name() {
+      return translateEditorText("Left align");
+    },
     icon: AlignLeftOutline,
     shortcut: ["Cmd", "Shift", "L"],
     editors: ["lite", "document"],
@@ -73,7 +76,9 @@ export const TEXT_ALIGNMENT_ITEMS: ToolbarMenuItem<"text-align">[] = [
   {
     itemKey: "text-align",
     renderKey: "text-align-center",
-    name: "Center align",
+    get name() {
+      return translateEditorText("Center align");
+    },
     icon: AlignCenterOutline,
     shortcut: ["Cmd", "Shift", "E"],
     editors: ["lite", "document"],
@@ -84,7 +89,9 @@ export const TEXT_ALIGNMENT_ITEMS: ToolbarMenuItem<"text-align">[] = [
   {
     itemKey: "text-align",
     renderKey: "text-align-right",
-    name: "Right align",
+    get name() {
+      return translateEditorText("Right align");
+    },
     icon: AlignRightOutline,
     shortcut: ["Cmd", "Shift", "R"],
     editors: ["lite", "document"],
@@ -98,7 +105,9 @@ const BASIC_MARK_ITEMS: ToolbarMenuItem<"bold" | "italic" | "underline" | "strik
   {
     itemKey: "bold",
     renderKey: "bold",
-    name: "Bold",
+    get name() {
+      return translateEditorText("Bold");
+    },
     icon: BoldOutline,
     shortcut: ["Cmd", "B"],
     editors: ["lite", "document"],
@@ -106,7 +115,9 @@ const BASIC_MARK_ITEMS: ToolbarMenuItem<"bold" | "italic" | "underline" | "strik
   {
     itemKey: "italic",
     renderKey: "italic",
-    name: "Italic",
+    get name() {
+      return translateEditorText("Italic");
+    },
     icon: ItalicOutline,
     shortcut: ["Cmd", "I"],
     editors: ["lite", "document"],
@@ -114,7 +125,9 @@ const BASIC_MARK_ITEMS: ToolbarMenuItem<"bold" | "italic" | "underline" | "strik
   {
     itemKey: "underline",
     renderKey: "underline",
-    name: "Underline",
+    get name() {
+      return translateEditorText("Underline");
+    },
     icon: UnderlineOutline,
     shortcut: ["Cmd", "U"],
     editors: ["lite", "document"],
@@ -122,7 +135,9 @@ const BASIC_MARK_ITEMS: ToolbarMenuItem<"bold" | "italic" | "underline" | "strik
   {
     itemKey: "strikethrough",
     renderKey: "strikethrough",
-    name: "Strikethrough",
+    get name() {
+      return translateEditorText("Strikethrough");
+    },
     icon: StrikethroughOutline,
     shortcut: ["Cmd", "Shift", "S"],
     editors: ["lite", "document"],
@@ -133,7 +148,9 @@ const LIST_ITEMS: ToolbarMenuItem<"bulleted-list" | "numbered-list" | "to-do-lis
   {
     itemKey: "bulleted-list",
     renderKey: "bulleted-list",
-    name: "Bulleted list",
+    get name() {
+      return translateEditorText("Bulleted list");
+    },
     icon: ListOutline,
     shortcut: ["Cmd", "Shift", "7"],
     editors: ["lite", "document"],
@@ -141,7 +158,9 @@ const LIST_ITEMS: ToolbarMenuItem<"bulleted-list" | "numbered-list" | "to-do-lis
   {
     itemKey: "numbered-list",
     renderKey: "numbered-list",
-    name: "Numbered list",
+    get name() {
+      return translateEditorText("Numbered list");
+    },
     icon: NumberedListOutline,
     shortcut: ["Cmd", "Shift", "8"],
     editors: ["lite", "document"],
@@ -149,7 +168,9 @@ const LIST_ITEMS: ToolbarMenuItem<"bulleted-list" | "numbered-list" | "to-do-lis
   {
     itemKey: "to-do-list",
     renderKey: "to-do-list",
-    name: "To-do list",
+    get name() {
+      return translateEditorText("To-do list");
+    },
     icon: ToDoOutline,
     shortcut: ["Cmd", "Shift", "9"],
     editors: ["lite", "document"],
@@ -157,13 +178,13 @@ const LIST_ITEMS: ToolbarMenuItem<"bulleted-list" | "numbered-list" | "to-do-lis
 ];
 
 export const USER_ACTION_ITEMS: ToolbarMenuItem<"quote" | "code">[] = [
-  { itemKey: "quote", renderKey: "quote", name: "Quote", icon: QuoteOutline, editors: ["lite", "document"] },
-  { itemKey: "code", renderKey: "code", name: "Code", icon: CodeOutline, editors: ["lite", "document"] },
+  { itemKey: "quote", renderKey: "quote", get name() { return translateEditorText("Quote"); }, icon: QuoteOutline, editors: ["lite", "document"] },
+  { itemKey: "code", renderKey: "code", get name() { return translateEditorText("Code"); }, icon: CodeOutline, editors: ["lite", "document"] },
 ];
 
 export const COMPLEX_ITEMS: ToolbarMenuItem<"table" | "image">[] = [
-  { itemKey: "table", renderKey: "table", name: "Table", icon: TableEditorOutline, editors: ["document"] },
-  { itemKey: "image", renderKey: "image", name: "Image", icon: ImageOutline, editors: ["lite", "document"] },
+  { itemKey: "table", renderKey: "table", get name() { return translateEditorText("Table"); }, icon: TableEditorOutline, editors: ["document"] },
+  { itemKey: "image", renderKey: "image", get name() { return translateEditorText("Image"); }, icon: ImageOutline, editors: ["lite", "document"] },
 ];
 
 export const IMAGE_ITEM = COMPLEX_ITEMS.find((item): item is ToolbarMenuItem<"image"> => item.itemKey === "image")!;
@@ -201,49 +222,65 @@ export const COLORS_LIST: {
 }[] = [
   {
     key: "gray",
-    label: "Gray",
+    get label() {
+      return translateEditorText("Gray");
+    },
     textColor: "var(--editor-colors-gray-text)",
     backgroundColor: "var(--editor-colors-gray-background)",
   },
   {
     key: "peach",
-    label: "Peach",
+    get label() {
+      return translateEditorText("Peach");
+    },
     textColor: "var(--editor-colors-peach-text)",
     backgroundColor: "var(--editor-colors-peach-background)",
   },
   {
     key: "pink",
-    label: "Pink",
+    get label() {
+      return translateEditorText("Pink");
+    },
     textColor: "var(--editor-colors-pink-text)",
     backgroundColor: "var(--editor-colors-pink-background)",
   },
   {
     key: "orange",
-    label: "Orange",
+    get label() {
+      return translateEditorText("Orange");
+    },
     textColor: "var(--editor-colors-orange-text)",
     backgroundColor: "var(--editor-colors-orange-background)",
   },
   {
     key: "green",
-    label: "Green",
+    get label() {
+      return translateEditorText("Green");
+    },
     textColor: "var(--editor-colors-green-text)",
     backgroundColor: "var(--editor-colors-green-background)",
   },
   {
     key: "light-blue",
-    label: "Light blue",
+    get label() {
+      return translateEditorText("Light blue");
+    },
     textColor: "var(--editor-colors-light-blue-text)",
     backgroundColor: "var(--editor-colors-light-blue-background)",
   },
   {
     key: "dark-blue",
-    label: "Dark blue",
+    get label() {
+      return translateEditorText("Dark blue");
+    },
     textColor: "var(--editor-colors-dark-blue-text)",
     backgroundColor: "var(--editor-colors-dark-blue-background)",
   },
   {
     key: "purple",
-    label: "Purple",
+    get label() {
+      return translateEditorText("Purple");
+    },
     textColor: "var(--editor-colors-purple-text)",
     backgroundColor: "var(--editor-colors-purple-background)",
   },

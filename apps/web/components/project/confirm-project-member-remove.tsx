@@ -79,7 +79,11 @@ export const ConfirmProjectMemberRemove = observer(function ConfirmProjectMember
               </div>
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <DialogHeading>
-                  <DialogTitle>{isCurrentUser ? "Leave project?" : `Remove ${data?.display_name}?`}</DialogTitle>
+                  <DialogTitle>
+                    {isCurrentUser
+                      ? t("ui.leave_project_question")
+                      : t("ui.remove_member_question", { name: data?.display_name ?? "" })}
+                  </DialogTitle>
                 </DialogHeading>
               </div>
             </div>
@@ -88,13 +92,14 @@ export const ConfirmProjectMemberRemove = observer(function ConfirmProjectMember
             <p className="text-body-xs-regular text-secondary">
               {isCurrentUser ? (
                 <>
-                  Are you sure you want to leave the <span className="font-bold">{currentProjectDetails?.name}</span>{" "}
-                  project? You will be able to join the project if invited again or if it{"'"}s public.
+                  {t("ui.leave_project_confirm_prefix")}{" "}
+                  <span className="font-bold">{currentProjectDetails?.name}</span>
+                  {t("ui.leave_project_confirm_suffix")}
                 </>
               ) : (
                 <>
-                  Are you sure you want to remove member- <span className="font-bold">{data?.display_name}</span>? They
-                  will no longer have access to this project. This action cannot be undone.
+                  {t("ui.remove_member_confirm_prefix")} <span className="font-bold">{data?.display_name}</span>
+                  {t("ui.remove_member_from_project_confirm_suffix")}
                 </>
               )}
             </p>
@@ -107,7 +112,13 @@ export const ConfirmProjectMemberRemove = observer(function ConfirmProjectMember
             size="md"
             stretch="auto"
             label={
-              isCurrentUser ? (isDeleteLoading ? "Leaving..." : "Leave") : isDeleteLoading ? "Removing..." : "Remove"
+              isCurrentUser
+                ? isDeleteLoading
+                  ? t("leaving")
+                  : t("leave")
+                : isDeleteLoading
+                  ? t("removing")
+                  : t("remove")
             }
             onClick={handleDeletion}
             loading={isDeleteLoading}

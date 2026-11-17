@@ -81,7 +81,7 @@ export function CreateUpdateModuleLinkModal(props: Props) {
       setToast({
         type: "error",
         title: t("toast.error"),
-        message: error?.data?.error ?? "Some error occurred. Please try again.",
+        message: error?.data?.error ?? t("common.error.message"),
       });
     }
   };

@@ -159,7 +159,7 @@ export const CalendarDayTile = observer(function CalendarDayTile(props: Props) {
               : "font-medium" // if week layout, highlight all days
           } ${isWeekend ? "bg-layer-1" : "bg-layer-transparent"} `}
         >
-          {date.date.getDate() === 1 && <span>{MONTHS_LIST[date.date.getMonth() + 1].shortTitle}</span>}
+          {date.date.getDate() === 1 && <span>{t(MONTHS_LIST[date.date.getMonth() + 1].i18n_short_title)}</span>}
           {isToday ? (
             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent-primary text-on-color">
               {date.date.getDate()}

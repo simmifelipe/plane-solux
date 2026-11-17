@@ -9,47 +9,48 @@ import { useTranslation } from "@plane/i18n";
 
 export const STICKY_COLORS_LIST: {
   key: string;
+  /** i18n key */
   label: string;
   backgroundColor: string;
 }[] = [
   {
     key: "gray",
-    label: "Gray",
+    label: "ui.sticky_color_gray",
     backgroundColor: "var(--editor-colors-gray-background)",
   },
   {
     key: "peach",
-    label: "Peach",
+    label: "ui.sticky_color_peach",
     backgroundColor: "var(--editor-colors-peach-background)",
   },
   {
     key: "pink",
-    label: "Pink",
+    label: "ui.sticky_color_pink",
     backgroundColor: "var(--editor-colors-pink-background)",
   },
   {
     key: "orange",
-    label: "Orange",
+    label: "ui.sticky_color_orange",
     backgroundColor: "var(--editor-colors-orange-background)",
   },
   {
     key: "green",
-    label: "Green",
+    label: "ui.sticky_color_green",
     backgroundColor: "var(--editor-colors-green-background)",
   },
   {
     key: "light-blue",
-    label: "Light blue",
+    label: "ui.sticky_color_light_blue",
     backgroundColor: "var(--editor-colors-light-blue-background)",
   },
   {
     key: "dark-blue",
-    label: "Dark blue",
+    label: "ui.sticky_color_dark_blue",
     backgroundColor: "var(--editor-colors-dark-blue-background)",
   },
   {
     key: "purple",
-    label: "Purple",
+    label: "ui.sticky_color_purple",
     backgroundColor: "var(--editor-colors-purple-background)",
   },
 ];
@@ -69,7 +70,7 @@ export function ColorPalette(props: TProps) {
           <button
             key={color.key}
             type="button"
-            aria-label={color.label}
+            aria-label={t(color.label)}
             onClick={() => {
               handleUpdate({
                 background_color: color.key,

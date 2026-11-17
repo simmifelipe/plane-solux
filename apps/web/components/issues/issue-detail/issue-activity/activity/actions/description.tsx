@@ -5,6 +5,7 @@
  */
 
 import { observer } from "mobx-react";
+import { useTranslation } from "@plane/i18n";
 import { AlignLeftOutline } from "@makeplane/propel/icons";
 // hooks
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
@@ -15,6 +16,7 @@ type TIssueDescriptionActivity = { activityId: string; showIssue?: boolean; ends
 
 export const IssueDescriptionActivity = observer(function IssueDescriptionActivity(props: TIssueDescriptionActivity) {
   const { activityId, showIssue = true, ends } = props;
+  const { t } = useTranslation();
   // hooks
   const {
     activity: { getActivityById },
@@ -30,8 +32,8 @@ export const IssueDescriptionActivity = observer(function IssueDescriptionActivi
       ends={ends}
     >
       <>
-        updated the description
-        {showIssue ? ` of ` : ``}
+        {t("ui.activity_updated_description")}
+        {showIssue ? ` ${t("ui.activity_of")} ` : ``}
         {showIssue && <IssueLink activityId={activityId} />}.
       </>
     </IssueActivityBlockComponent>

@@ -23,7 +23,7 @@ export const FilterStartDate = observer(function FilterStartDate(props: Props) {
   return (
     <DateFilterSubmenu
       label={t("start_date")}
-      options={DATE_AFTER_FILTER_OPTIONS}
+      options={DATE_AFTER_FILTER_OPTIONS.map((option) => ({ ...option, name: t(option.i18n_name) }))}
       appliedFilters={appliedFilters}
       onToggleOption={handleUpdate}
       onSelectCustomRange={handleUpdate}

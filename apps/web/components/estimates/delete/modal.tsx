@@ -92,9 +92,8 @@ export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: 
           {/* estimate steps */}
           <DialogBody tabIndex={0}>
             <div className="text-body-sm-regular text-secondary">
-              Deleting the estimate <span className="font-bold text-primary">{estimate?.name}</span>
-              &nbsp;system will remove it from all work items permanently. This action cannot be undone. If you add
-              estimates again, you will need to update all the work items.
+              {t("ui.delete_estimate_confirm_prefix")} <span className="font-bold text-primary">{estimate?.name}</span>
+              &nbsp;{t("ui.delete_estimate_confirm_suffix")}
             </div>
           </DialogBody>
         </DialogMain>
@@ -114,7 +113,7 @@ export const DeleteEstimateModal = observer(function DeleteEstimateModal(props: 
             onClick={handleDeleteEstimate}
             disabled={buttonLoader}
             stretch="auto"
-            label={buttonLoader ? "Deleting" : "Delete Estimate"}
+            label={buttonLoader ? t("deleting") : t("ui.delete_estimate")}
           />
         </DialogActions>
       </DialogContent>

@@ -105,12 +105,16 @@ export const isWorkspaceLevel = (type: EIssuesStoreType) =>
     ? true
     : false;
 
+const CYCLE_COMPLETED_DROP_ERROR = "Work item cannot be moved to completed cycles";
+
 type TGetGroupByColumns = {
   groupBy: GroupByColumnTypes | null;
   includeNone: boolean;
   isWorkspaceLevel: boolean;
   isEpic?: boolean;
   projectId?: string;
+  /** translation function; when given, the built-in group names ("None", "All work items"...) are translated */
+  t?: (key: string, params?: Record<string, unknown>) => string;
 };
 
 // NOTE: Type of groupBy is different compared to what's being passed from the components.
@@ -122,13 +126,18 @@ export const getGroupByColumns = ({
   isWorkspaceLevel,
   isEpic = false,
   projectId,
+  t,
 }: TGetGroupByColumns): IGroupByColumn[] | undefined => {
   // If no groupBy is specified and includeNone is true, return "All Issues" group
   if (!groupBy && includeNone) {
     return [
       {
         id: "All Issues",
-        name: `All ${isEpic ? "Epics" : "work items"}`,
+        name: t
+          ? isEpic
+            ? t("ui.all_epics")
+            : t("default_global_view.all_issues")
+          : `All ${isEpic ? "Epics" : "work items"}`,
         payload: {},
         icon: undefined,
       },
@@ -156,7 +165,24 @@ export const getGroupByColumns = ({
   };
 
   // Get and return the columns for the specified group by option
-  return groupByColumnMap[groupBy]?.({ isWorkspaceLevel, projectId });
+  const columns = groupByColumnMap[groupBy]?.({ isWorkspaceLevel, projectId });
+  if (!t || !columns) return columns;
+  // translate the built-in group names / messages
+  return columns.map((column) => ({
+    ...column,
+    name:
+      column.id === "None" && column.name === "None"
+        ? t("common.none")
+        : groupBy === "priority"
+          ? t(ISSUE_PRIORITIES.find((priority) => priority.key === column.id)?.i18n_title ?? column.name)
+          : groupBy === "state_detail.group"
+            ? t(`workspace_projects.state.${column.id}`)
+            : column.name,
+    dropErrorMessage:
+      column.dropErrorMessage === CYCLE_COMPLETED_DROP_ERROR
+        ? t("ui.work_item_cannot_be_moved_to_completed_cycles")
+        : column.dropErrorMessage,
+  }));
 };
 
 const getProjectColumns = (): IGroupByColumn[] | undefined => {
@@ -200,7 +226,7 @@ const getCycleColumns = (): IGroupByColumn[] | undefined => {
       icon: <CycleGroupIcon cycleGroup={cycleStatus} className="h-3.5 w-3.5" />,
       payload: { cycle_id: cycle.id },
       isDropDisabled,
-      dropErrorMessage: isDropDisabled ? "Work item cannot be moved to completed cycles" : undefined,
+      dropErrorMessage: isDropDisabled ? CYCLE_COMPLETED_DROP_ERROR : undefined,
     });
   });
   cycles.push({
@@ -727,7 +753,8 @@ export function getApproximateCardHeight(displayProperties: IIssueDisplayPropert
  */
 export const getBlockViewDetails = (
   block: { start_date: string | undefined | null; target_date: string | undefined | null } | undefined | null,
-  backgroundColor: string
+  backgroundColor: string,
+  t?: (key: string, params?: Record<string, unknown>) => string
 ) => {
   const isBlockVisibleOnChart = block?.start_date || block?.target_date;
   const isBlockComplete = block?.start_date && block?.target_date;
@@ -739,14 +766,23 @@ export const getBlockViewDetails = (
 
   if (isBlockVisibleOnChart && !isBlockComplete) {
     if (block?.start_date) {
-      message = `From ${renderFormattedDate(block.start_date)}`;
+      message = t
+        ? t("ui.from_date", { date: renderFormattedDate(block.start_date) ?? "" })
+        : `From ${renderFormattedDate(block.start_date)}`;
       blockStyle.maskImage = `linear-gradient(to right, ${backgroundColor} 50%, transparent 95%)`;
     } else if (block?.target_date) {
-      message = `Till ${renderFormattedDate(block.target_date)}`;
+      message = t
+        ? t("ui.till_date", { date: renderFormattedDate(block.target_date) ?? "" })
+        : `Till ${renderFormattedDate(block.target_date)}`;
       blockStyle.maskImage = `linear-gradient(to left, ${backgroundColor} 50%, transparent 95%)`;
     }
   } else if (isBlockComplete) {
-    message = `${renderFormattedDate(block?.start_date)} to ${renderFormattedDate(block?.target_date)}`;
+    message = t
+      ? t("ui.date_range", {
+          start: renderFormattedDate(block?.start_date) ?? "",
+          end: renderFormattedDate(block?.target_date) ?? "",
+        })
+      : `${renderFormattedDate(block?.start_date)} to ${renderFormattedDate(block?.target_date)}`;
   }
 
   return {

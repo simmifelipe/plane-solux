@@ -68,8 +68,11 @@ export function GeneratedTokenDetails(props: Props) {
       <DialogActions>
         <DialogInfo>
           {tokenDetails.expired_at
-            ? `Expires ${renderFormattedDate(tokenDetails.expired_at)} at ${renderFormattedTime(tokenDetails.expired_at)}`
-            : "Never expires"}
+            ? t("ui.expires_on_at", {
+                date: renderFormattedDate(tokenDetails.expired_at) ?? "",
+                time: renderFormattedTime(tokenDetails.expired_at) ?? "",
+              })
+            : t("workspace_settings.settings.api_tokens.never_expires")}
         </DialogInfo>
         <Button variant="secondary" size="sm" stretch="auto" label={t("close")} onClick={handleClose} />
       </DialogActions>

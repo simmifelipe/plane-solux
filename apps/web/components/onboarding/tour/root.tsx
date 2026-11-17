@@ -39,42 +39,39 @@ const TOUR_STEPS: {
 }[] = [
   {
     key: "work-items",
-    title: "Plan with work items",
-    description:
-      "The work item is the building block of the Plane. Most concepts in Plane are either associated with work items and their properties.",
+    title: "ui.tour_work_items_title",
+    description: "ui.tour_work_items_description",
     image: IssuesTour,
     nextStep: "cycles",
   },
   {
     key: "cycles",
-    title: "Move with cycles",
-    description:
-      "Cycles help you and your team to progress faster, similar to the sprints commonly used in agile development.",
+    title: "ui.tour_cycles_title",
+    description: "ui.tour_cycles_description",
     image: CyclesTour,
     prevStep: "work-items",
     nextStep: "modules",
   },
   {
     key: "modules",
-    title: "Break into modules",
-    description: "Modules break your big thing into Projects or Features, to help you organize better.",
+    title: "ui.tour_modules_title",
+    description: "ui.tour_modules_description",
     image: ModulesTour,
     prevStep: "cycles",
     nextStep: "views",
   },
   {
     key: "views",
-    title: "Views",
-    description:
-      "Create custom filters to display only the work items that matter to you. Save and share your filters in just a few clicks.",
+    title: "views",
+    description: "ui.tour_views_description",
     image: ViewsTour,
     prevStep: "modules",
     nextStep: "pages",
   },
   {
     key: "pages",
-    title: "Document with pages",
-    description: "Use Pages to quickly jot down work items when you're in a meeting or starting a day.",
+    title: "ui.tour_pages_title",
+    description: "ui.tour_pages_description",
     image: PagesTour,
     prevStep: "views",
   },
@@ -102,11 +99,12 @@ export const TourRoot = observer(function TourRoot(props: TOnboardingTourProps) 
             </div>
             <div className="flex flex-col overflow-y-auto p-6">
               <h3 className="font-semibold sm:text-h5-regular">
-                Welcome to Plane, {currentUser?.first_name} {currentUser?.last_name}
+                {t("ui.welcome_to_plane_user", {
+                  name: `${currentUser?.first_name ?? ""} ${currentUser?.last_name ?? ""}`.trim(),
+                })}
               </h3>
               <p className="mt-3 text-body-xs-regular text-secondary">
-                We{"'"}re glad that you decided to try out Plane. You can now manage your projects with ease. Get
-                started by creating a project.
+                {t("ui.tour_welcome_description")}
               </p>
               <div className="flex h-full items-end">
                 <div className="mt-12 flex items-center gap-6">
@@ -149,11 +147,11 @@ export const TourRoot = observer(function TourRoot(props: TOnboardingTourProps) 
                 currentStepIndex % 2 === 0 ? "justify-end" : "justify-start"
               }`}
             >
-              <img src={currentStep?.image} className="h-full w-full object-cover" alt={currentStep?.title} />
+              <img src={currentStep?.image} className="h-full w-full object-cover" alt={currentStep ? t(currentStep.title) : undefined} />
             </div>
             <div className="flex h-1/2 flex-col overflow-y-auto p-4 sm:h-2/5">
-              <h3 className="font-semibold sm:text-h5-regular">{currentStep?.title}</h3>
-              <p className="mt-3 text-body-xs-regular text-secondary">{currentStep?.description}</p>
+              <h3 className="font-semibold sm:text-h5-regular">{currentStep ? t(currentStep.title) : null}</h3>
+              <p className="mt-3 text-body-xs-regular text-secondary">{currentStep ? t(currentStep.description) : null}</p>
               <div className="mt-3 flex h-full items-end justify-between gap-4">
                 <div className="flex items-center gap-4">
                   {currentStep?.prevStep && (

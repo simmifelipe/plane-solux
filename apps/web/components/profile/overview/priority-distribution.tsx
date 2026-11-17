@@ -38,7 +38,12 @@ export function ProfilePriorityDistribution({ userProfile }: Props) {
               margin={{ top: 20, right: 30, bottom: 5, left: 0 }}
               data={userProfile.priority_distribution.map((priority) => ({
                 key: priority.priority ?? "None",
-                name: capitalizeFirstLetter(priority.priority ?? "None"),
+                name:
+                  !priority.priority || priority.priority === "none"
+                    ? t("common.none")
+                    : ["urgent", "high", "medium", "low"].includes(priority.priority)
+                      ? t(`issue.priority.${priority.priority}`)
+                      : capitalizeFirstLetter(priority.priority),
                 count: priority.priority_count,
               }))}
               bars={[

@@ -32,12 +32,24 @@ export const AnalyticsSelectParams = observer(function AnalyticsSelectParams(pro
   const { t } = useTranslation();
   const { control, params, classNames, isEpic } = props;
   const xAxisOptions = useMemo(
-    () => ANALYTICS_X_AXIS_VALUES.filter((option) => option.value !== params.group_by),
-    [params.group_by]
+    () =>
+      ANALYTICS_X_AXIS_VALUES.filter((option) => option.value !== params.group_by).map((option) => ({
+        ...option,
+        label: t(option.i18n_label),
+      })),
+    [params.group_by, t]
   );
   const groupByOptions = useMemo(
-    () => ANALYTICS_X_AXIS_VALUES.filter((option) => option.value !== params.x_axis),
-    [params.x_axis]
+    () =>
+      ANALYTICS_X_AXIS_VALUES.filter((option) => option.value !== params.x_axis).map((option) => ({
+        ...option,
+        label: t(option.i18n_label),
+      })),
+    [params.x_axis, t]
+  );
+  const yAxisOptions = useMemo(
+    () => ANALYTICS_Y_AXIS_VALUES.map((option) => ({ ...option, label: t(option.i18n_label) })),
+    [t]
   );
 
   return (
@@ -52,7 +64,7 @@ export const AnalyticsSelectParams = observer(function AnalyticsSelectParams(pro
               onChange={(val: ChartYAxisMetric | null) => {
                 onChange(val);
               }}
-              options={ANALYTICS_Y_AXIS_VALUES}
+              options={yAxisOptions}
               hiddenOptions={[
                 ChartYAxisMetric.ESTIMATE_POINT_COUNT,
                 isEpic ? ChartYAxisMetric.WORK_ITEM_COUNT : ChartYAxisMetric.EPIC_WORK_ITEM_COUNT,
@@ -73,7 +85,7 @@ export const AnalyticsSelectParams = observer(function AnalyticsSelectParams(pro
                 <div className="flex items-center gap-2">
                   <CalendarOutline className="h-3 w-3" />
                   <span className={cn("text-secondary", value && "text-primary")}>
-                    {xAxisOptions.find((v) => v.value === value)?.label || "Add Property"}
+                    {xAxisOptions.find((v) => v.value === value)?.label || t("settings_empty_state.work_item_type_properties.cta_secondary")}
                   </span>
                 </div>
               }
@@ -94,7 +106,7 @@ export const AnalyticsSelectParams = observer(function AnalyticsSelectParams(pro
                 <div className="flex items-center gap-2">
                   <PreferencesOutline className="h-3 w-3" />
                   <span className={cn("text-secondary", value && "text-primary")}>
-                    {groupByOptions.find((v) => v.value === value)?.label || "Add Property"}
+                    {groupByOptions.find((v) => v.value === value)?.label || t("settings_empty_state.work_item_type_properties.cta_secondary")}
                   </span>
                 </div>
               }

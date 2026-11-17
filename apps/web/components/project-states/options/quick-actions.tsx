@@ -35,9 +35,9 @@ export const StateQuickActions = observer(function StateQuickActions(props: TSta
   // derived values
   const isDeleteDisabled = !!state.default || totalStates === 1;
   const deleteDisabledReason = state.default
-    ? "Cannot delete the default state."
+    ? t("ui.cannot_delete_default_state")
     : totalStates === 1
-      ? "Cannot have an empty group."
+      ? t("ui.cannot_have_empty_group")
       : undefined;
 
   const handleMarkAsDefault = async () => {
@@ -64,8 +64,8 @@ export const StateQuickActions = observer(function StateQuickActions(props: TSta
         title: t("toast.error"),
         message:
           errorStatus.status === 400
-            ? "This state contains some work items within it, please move them to some other state to delete this state."
-            : "State could not be deleted. Please try again.",
+            ? t("ui.this_state_contains_some_work_items_within")
+            : t("ui.state_could_not_be_deleted_please_try"),
       });
     } finally {
       setIsDeleting(false);
@@ -82,8 +82,8 @@ export const StateQuickActions = observer(function StateQuickActions(props: TSta
         title={t("ui.delete_state")}
         content={
           <>
-            Are you sure you want to delete state- <span className="font-medium text-primary">{state?.name}</span>? All
-            of the data related to the state will be permanently removed. This action cannot be undone.
+            {t("ui.delete_state_confirm_prefix")} <span className="font-medium text-primary">{state?.name}</span>
+            {t("ui.delete_state_confirm_suffix")}
           </>
         }
       />
@@ -104,7 +104,7 @@ export const StateQuickActions = observer(function StateQuickActions(props: TSta
           {!state.default && (
             <MenuItem
               icon={<Icon icon={DefaultTabOutline} />}
-              label={isMarkingAsDefault ? "Marking as default" : "Mark as default"}
+              label={isMarkingAsDefault ? t("ui.marking_as_default") : t("ui.mark_as_default")}
               disabled={isMarkingAsDefault}
               onClick={() => void handleMarkAsDefault()}
             />

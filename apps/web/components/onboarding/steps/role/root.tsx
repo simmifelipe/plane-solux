@@ -32,14 +32,15 @@ type Props = {
   handleStepChange: (step: EOnboardingSteps, skipInvites?: boolean) => void;
 };
 
+// label is an i18n key
 const ROLES = [
-  { id: "product-manager", label: "Product Manager", icon: CubeOutline },
-  { id: "engineering-manager", label: "Engineering Manager", icon: ViewsOutline },
-  { id: "designer", label: "Designer", icon: PenToolOutline },
-  { id: "developer", label: "Developer", icon: MonitorOutline },
-  { id: "founder-executive", label: "Founder/Executive", icon: RocketOutline },
-  { id: "operations-manager", label: "Operations Manager", icon: RefreshOutline },
-  { id: "others", label: "Others", icon: CubeOutline },
+  { id: "product-manager", label: "ui.onboarding_role_product_manager", icon: CubeOutline },
+  { id: "engineering-manager", label: "ui.onboarding_role_engineering_manager", icon: ViewsOutline },
+  { id: "designer", label: "ui.onboarding_role_designer", icon: PenToolOutline },
+  { id: "developer", label: "ui.onboarding_role_developer", icon: MonitorOutline },
+  { id: "founder-executive", label: "ui.onboarding_role_founder_executive", icon: RocketOutline },
+  { id: "operations-manager", label: "ui.onboarding_role_operations_manager", icon: RefreshOutline },
+  { id: "others", label: "ui.onboarding_role_others", icon: CubeOutline },
 ];
 
 const defaultValues = {
@@ -107,7 +108,7 @@ export const RoleSetupStep = observer(function RoleSetupStep({ handleStepChange 
           control={control}
           name="role"
           rules={{
-            required: "This field is required",
+            required: t("common.errors.required"),
           }}
           render={({ field: { value, onChange } }) => (
             <div className="flex flex-col gap-2">
@@ -153,7 +154,7 @@ export const RoleSetupStep = observer(function RoleSetupStep({ handleStepChange 
                         "text-primary": !isSelected,
                       })}
                     >
-                      {role.label}
+                      {t(role.label)}
                     </span>
                   </button>
                 );
@@ -179,7 +180,7 @@ export const RoleSetupStep = observer(function RoleSetupStep({ handleStepChange 
           stretch="full"
           size="lg"
           render={<button type="button" />}
-          label="Skip"
+          label={t("ui.skip")}
         />
       </div>
     </form>

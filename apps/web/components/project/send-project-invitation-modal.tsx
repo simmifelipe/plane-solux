@@ -199,7 +199,7 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
                       <Controller
                         control={control}
                         name={`members.${index}.member_id`}
-                        rules={{ required: "Please select a member" }}
+                        rules={{ required: t("ui.please_select_a_member") }}
                         render={({ field: { value, onChange } }) => (
                           <MemberSelect
                             value={value || null}
@@ -222,7 +222,7 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
                         <Controller
                           name={`members.${index}.role`}
                           control={control}
-                          rules={{ required: "Select Role" }}
+                          rules={{ required: t("ui.select_role") }}
                           render={({ field: { value, onChange } }) => {
                             const roleOptions = getRoleOptions(watch(`members.${index}.member_id`));
                             return (
@@ -240,10 +240,10 @@ export const SendProjectInvitationModal = observer(function SendProjectInvitatio
                                   <Select.Trigger<TRoleOption>
                                     variant="pill-md"
                                     appendIcon={<ChevronDownOutline />}
-                                    tooltip={{ emptyContent: "Select role" }}
+                                    tooltip={{ emptyContent: t("ui.select_role") }}
                                   >
                                     <span className="min-w-0 grow truncate text-left capitalize">
-                                      {value ? ROLE[value] : "Select role"}
+                                      {value ? ROLE[value] : t("ui.select_role")}
                                     </span>
                                   </Select.Trigger>
                                 </Select>

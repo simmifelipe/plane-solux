@@ -80,22 +80,27 @@ export enum EPastDurationFilters {
 
 export const PAST_DURATION_FILTER_OPTIONS: {
   name: string;
+  i18n_name: string;
   value: string;
 }[] = [
   {
     name: "Today",
+    i18n_name: "common.today",
     value: EPastDurationFilters.TODAY,
   },
   {
     name: "Yesterday",
+    i18n_name: "ui.yesterday",
     value: EPastDurationFilters.YESTERDAY,
   },
   {
     name: "Last 7 days",
+    i18n_name: "ui.last_7_days",
     value: EPastDurationFilters.LAST_7_DAYS,
   },
   {
     name: "Last 30 days",
+    i18n_name: "ui.last_30_days",
     value: EPastDurationFilters.LAST_30_DAYS,
   },
 ];

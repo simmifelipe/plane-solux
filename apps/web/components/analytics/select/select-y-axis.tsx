@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
 import { EEstimateSystem } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { ProjectsOutline } from "@makeplane/propel/icons";
 import type { ChartYAxisMetric } from "@plane/types";
 // plane package imports
@@ -26,6 +27,7 @@ type Props = {
 
 export const SelectYAxis = observer(function SelectYAxis({ value, onChange, hiddenOptions, options }: Props) {
   // hooks
+  const { t } = useTranslation();
   const { projectId } = useParams();
   const { areEstimateEnabledByProjectId, currentActiveEstimateId, estimateById } = useProjectEstimates();
 
@@ -67,7 +69,7 @@ export const SelectYAxis = observer(function SelectYAxis({ value, onChange, hidd
       <Select.Trigger variant="select-md" className="w-auto">
         <div className="flex items-center gap-2">
           <ProjectsOutline className="h-3 w-3" />
-          <span>{selected?.label ?? "Add Metric"}</span>
+          <span>{selected?.label ?? t("ui.add_metric")}</span>
         </div>
       </Select.Trigger>
     </Select>

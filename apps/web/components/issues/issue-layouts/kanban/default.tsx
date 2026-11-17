@@ -19,6 +19,7 @@ import type {
   TIssueOrderByOptions,
 } from "@plane/types";
 // constants
+import { useTranslation } from "@plane/i18n";
 import { ContentWrapper } from "@plane/blocks/layout";
 import { cn } from "@plane/utils";
 // components
@@ -106,6 +107,7 @@ export const KanBan = observer(function KanBan(props: IKanBan) {
     isLastSubGroup = false,
     isEpic = false,
   } = props;
+  const { t } = useTranslation();
   // i18n
   // store hooks
   const storeType = useIssueStoreType();
@@ -120,6 +122,7 @@ export const KanBan = observer(function KanBan(props: IKanBan) {
     includeNone: true,
     isWorkspaceLevel: isWorkspaceLevel(storeType),
     isEpic: isEpic,
+    t,
   });
 
   if (!list) return null;

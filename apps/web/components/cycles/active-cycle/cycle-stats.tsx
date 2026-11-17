@@ -155,7 +155,7 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                               tooltip
                             />
                             {issue.target_date && (
-                              <Tooltip label={`Target Date: ${renderFormattedDate(issue.target_date) ?? ""}`}>
+                              <Tooltip label={`${t("target_date")}: ${renderFormattedDate(issue.target_date) ?? ""}`}>
                                 <div className="flex h-full cursor-pointer items-center gap-1.5 truncate rounded-sm bg-layer-1 px-2 py-0.5 text-caption-md-regular group-hover:bg-layer-1-hover">
                                   <CompletedAtOutline className="h-3 w-3 flex-shrink-0" />
                                   <span className="truncate text-caption-sm-regular">
@@ -231,7 +231,7 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                         title={
                           <div className="flex items-center gap-2">
                             <div className="h-5 w-5 rounded-full border-2 border-subtle bg-layer-1">
-                              <img src={userImage} height="100%" width="100%" className="rounded-full" alt="User" />
+                              <img src={userImage} height="100%" width="100%" className="rounded-full" alt={t("ui.user")} />
                             </div>
                             <span>{t("no_assignee")}</span>
                           </div>
@@ -271,7 +271,7 @@ export const ActiveCycleStats = observer(function ActiveCycleStats(props: Active
                           }}
                         />
                         <span className="truncate text-caption-sm-regular text-ellipsis">
-                          {label.label_name ?? "No labels"}
+                          {label.label_name ?? t("ui.no_labels")}
                         </span>
                       </div>
                     }

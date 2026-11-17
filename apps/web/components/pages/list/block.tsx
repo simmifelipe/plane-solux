@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { Logo } from "@plane/blocks/emoji-icon-picker";
 import { PagesOutline } from "@makeplane/propel/icons";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { getPageName } from "@plane/utils";
 // components
 import { ListItem } from "@/components/core/list";
@@ -34,6 +35,7 @@ export const PageListBlock = observer(function PageListBlock(props: TPageListBlo
     storeType,
   });
   const { isMobile } = usePlatformOS();
+  const { t } = useTranslation();
   // handle page check
   if (!page) return null;
   // derived values
@@ -50,7 +52,7 @@ export const PageListBlock = observer(function PageListBlock(props: TPageListBlo
           )}
         </span>
       }
-      title={getPageName(name)}
+      title={getPageName(name, t("wiki_collections.list.untitled"))}
       leftElementClassName="gap-2"
       itemLink={getRedirectionLink()}
       actionableItems={<BlockItemAction page={page} parentRef={parentRef} storeType={storeType} />}

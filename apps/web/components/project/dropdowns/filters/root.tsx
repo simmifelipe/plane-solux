@@ -63,7 +63,7 @@ export const ProjectFiltersSelection = observer(function ProjectFiltersSelection
       {/* created date */}
       <DateFilterSubmenu
         label={t("workspace_projects.sort.created_at")}
-        options={PROJECT_CREATED_AT_FILTER_OPTIONS}
+        options={PROJECT_CREATED_AT_FILTER_OPTIONS.map((option) => ({ ...option, name: t(option.i18n_name) }))}
         appliedFilters={filters.created_at}
         onToggleOption={(val) => handleFiltersUpdate("created_at", val)}
         onSelectCustomRange={(val) => handleFiltersUpdate("created_at", val)}

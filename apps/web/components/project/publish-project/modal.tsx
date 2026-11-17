@@ -56,12 +56,13 @@ const defaultValues: Partial<TProjectPublishSettings> = {
 
 type TViewOption = {
   key: TProjectPublishLayouts;
+  /** i18n key */
   label: string;
 };
 
 const VIEW_OPTIONS: TViewOption[] = [
-  { key: "list", label: "List" },
-  { key: "kanban", label: "Kanban" },
+  { key: "list", label: "issue.layouts.list" },
+  { key: "kanban", label: "ui.kanban" },
 ];
 
 export const PublishProjectModal = observer(function PublishProjectModal(props: Props) {
@@ -216,7 +217,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                     variant="danger"
                     size="md"
                     stretch="auto"
-                    label={isUnPublishing ? "Unpublishing" : "Unpublish"}
+                    label={isUnPublishing ? t("ui.unpublishing") : t("ui.unpublish")}
                     onClick={() => void handleUnPublishProject(watch("id") ?? "")}
                     loading={isUnPublishing}
                   />
@@ -270,7 +271,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                           <span className="absolute inline-flex size-full animate-ping rounded-full bg-accent-primary opacity-75" />
                           <span className="relative inline-flex size-1.5 rounded-full bg-accent-primary" />
                         </span>
-                        This project is now live on web
+                        {t("ui.project_live_on_web")}
                       </p>
                     </>
                   )}
@@ -298,14 +299,14 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                                 });
                               }}
                               getOptionValue={(option) => option.key}
-                              getOptionLabel={(option) => option.label}
+                              getOptionLabel={(option) => t(option.label)}
                               showSearch={false}
                               pinSelected={false}
                             >
                               <Select.Trigger<TViewOption> variant="select-ghost-md">
                                 {(options) => (
                                   <span className="min-w-0 grow truncate text-left">
-                                    {options.map((o) => o.label).join(", ")}
+                                    {options.map((o) => t(o.label)).join(", ")}
                                   </span>
                                 )}
                               </Select.Trigger>
@@ -371,7 +372,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
               <DialogInfoIcon>
                 <GlobeOutline />
               </DialogInfoIcon>
-              Anyone with the link can access
+              {t("ui.anyone_with_link_can_access")}
             </DialogInfo>
             {!fetchSettingsLoader && (
               <div className="relative flex items-center gap-2">
@@ -383,7 +384,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                       size="md"
                       stretch="auto"
                       type="submit"
-                      label={isSubmitting ? "Updating" : "Update settings"}
+                      label={isSubmitting ? t("common.updating") : t("ui.update_settings")}
                       loading={isSubmitting}
                     />
                   )
@@ -393,7 +394,7 @@ export const PublishProjectModal = observer(function PublishProjectModal(props: 
                     size="md"
                     stretch="auto"
                     type="submit"
-                    label={isSubmitting ? "Publishing" : "Publish"}
+                    label={isSubmitting ? t("ui.publishing") : t("publish")}
                     loading={isSubmitting}
                   />
                 )}

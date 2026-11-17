@@ -33,9 +33,10 @@ type Options = {
   label: string;
 };
 
+/** `label` is an i18n key, translated at render. */
 export const cycleEstimateOptions: Options[] = [
-  { value: "issues", label: "Work items" },
-  { value: "points", label: "Estimates" },
+  { value: "issues", label: "common.work_items" },
+  { value: "points", label: "common.estimates" },
 ];
 export const cycleChartOptions: Options[] = [
   { value: "burndown", label: "Burn-down" },

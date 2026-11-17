@@ -58,7 +58,7 @@ export const ProjectMemberListItem = observer(function ProjectMemberListItem(pro
           setToast({
             type: "error",
             title: t("ui.you_can_t_leave_this_project_yet"),
-            message: err?.error || "Something went wrong. Please try again.",
+            message: err?.error || t("something_went_wrong_please_try_again"),
           });
         });
     } else
@@ -66,7 +66,7 @@ export const ProjectMemberListItem = observer(function ProjectMemberListItem(pro
         setToast({
           type: "error",
           title: t("ui.you_can_t_remove_the_member_from"),
-          message: err?.error || "Something went wrong. Please try again.",
+          message: err?.error || t("something_went_wrong_please_try_again"),
         })
       );
   };

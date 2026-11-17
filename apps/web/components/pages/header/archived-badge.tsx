@@ -9,6 +9,7 @@ import { observer } from "mobx-react";
 import { Badge } from "@makeplane/propel/components/badge";
 import { Icon } from "@makeplane/propel/components/icon";
 import { ArchiveOutline } from "@makeplane/propel/icons";
+import { useTranslation } from "@plane/i18n";
 import { renderFormattedDate } from "@plane/utils";
 // store
 import type { TPageInstance } from "@/store/pages/base-page";
@@ -18,6 +19,7 @@ type Props = {
 };
 
 export const PageArchivedBadge = observer(function PageArchivedBadge({ page }: Props) {
+  const { t } = useTranslation();
   if (!page.archived_at) return null;
 
   return (
@@ -25,7 +27,7 @@ export const PageArchivedBadge = observer(function PageArchivedBadge({ page }: P
       variant="brand"
       size="sm"
       startIcon={<Icon icon={ArchiveOutline} />}
-      label={`Archived at ${renderFormattedDate(page.archived_at) ?? ""}`}
+      label={t("ui.archived_at_date", { date: renderFormattedDate(page.archived_at) ?? "" })}
     />
   );
 });

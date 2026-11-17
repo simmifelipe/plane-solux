@@ -143,7 +143,7 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
           console.error("Error uploading user cover image:", error);
           setIsImageUploading(false);
           setToast({
-            message: error?.error ?? "The image could not be uploaded",
+            message: error?.error ?? t("ui.image_could_not_be_uploaded"),
             type: "error",
             title: t("ui.image_not_uploaded"),
           });
@@ -164,7 +164,7 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
           console.error("Error uploading project cover image:", error);
           setIsImageUploading(false);
           setToast({
-            message: error?.error ?? "The image could not be uploaded",
+            message: error?.error ?? t("ui.image_could_not_be_uploaded"),
             type: "error",
             title: t("ui.image_not_uploaded"),
           });
@@ -257,7 +257,9 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
                                     key={image.id}
                                     className="relative col-span-2 aspect-video md:col-span-1"
                                     aria-label={
-                                      image.alt_description ? `Select image: ${image.alt_description}` : "Select image"
+                                      image.alt_description
+                                        ? t("ui.select_image_named", { name: image.alt_description })
+                                        : t("ui.select_image")
                                     }
                                     onClick={() => {
                                       setIsOpen(false);
@@ -302,12 +304,12 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
                           type="button"
                           key={imageUrl}
                           className="relative col-span-2 aspect-video md:col-span-1"
-                          aria-label={`Select cover image ${index + 1}`}
+                          aria-label={t("ui.select_cover_image_n", { n: index + 1 })}
                           onClick={() => handleStaticImageSelect(imageUrl)}
                         >
                           <img
                             src={imageUrl}
-                            alt={`Cover image ${index + 1}`}
+                            alt={t("ui.cover_image_n", { n: index + 1 })}
                             className="absolute top-0 left-0 h-full w-full cursor-pointer rounded-sm object-cover transition-opacity hover:opacity-80"
                           />
                         </button>
@@ -332,14 +334,14 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
                             <>
                               <img
                                 src={image ? URL.createObjectURL(image) : getCoverImageDisplayURL(value, "")}
-                                alt="image"
+                                alt={t("ui.image")}
                                 className="h-full w-full rounded-lg object-cover"
                               />
                             </>
                           ) : (
                             <div>
                               <span className="mt-2 block text-body-xs-medium text-secondary">
-                                {isDragActive ? "Drop image here to upload" : "Drag & drop image here"}
+                                {isDragActive ? t("ui.drop_image_here_to_upload") : t("ui.drag_drop_image_here")}
                               </span>
                             </div>
                           )}
@@ -350,8 +352,8 @@ function ImagePickerPopoverComponent<TFieldValues extends FieldValues = FieldVal
                       {fileRejections.length > 0 && (
                         <p className="text-body-xs-regular text-danger-primary">
                           {fileRejections[0].errors[0].code === "file-too-large"
-                            ? "The image size cannot exceed 5 MB."
-                            : "Please upload a file in a valid format."}
+                            ? t("ui.image_size_cannot_exceed_5mb")
+                            : t("ui.please_upload_valid_format")}
                         </p>
                       )}
 

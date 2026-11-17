@@ -208,8 +208,8 @@ export const IssueBlock = observer(function IssueBlock(props: IssueBlockProps) {
               type: "warning",
               title: t("ui.cannot_move_work_item"),
               message: !canEditIssueProperties
-                ? "You are not allowed to move this work item"
-                : "Drag and drop is disabled for the current grouping",
+                ? t("ui.you_are_not_allowed_to_move_this_work_item")
+                : t("ui.drag_and_drop_disabled_for_grouping"),
             });
           }
         }}

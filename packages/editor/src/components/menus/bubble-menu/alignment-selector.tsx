@@ -15,6 +15,7 @@ import { TextAlignItem } from "@/components/menus";
 // types
 import type { TEditorCommands } from "@/types";
 import type { EditorStateType } from "./root";
+import { translateEditorText } from "@/helpers/translate";
 
 type Props = {
   editor: Editor;
@@ -36,7 +37,7 @@ export function TextAlignmentSelector(props: Props) {
     {
       itemKey: "text-align",
       renderKey: "text-align-left",
-      label: "Align left",
+      label: translateEditorText("Align left"),
       icon: AlignLeftOutline,
       command: () =>
         menuItem.command({
@@ -47,7 +48,7 @@ export function TextAlignmentSelector(props: Props) {
     {
       itemKey: "text-align",
       renderKey: "text-align-center",
-      label: "Align center",
+      label: translateEditorText("Align center"),
       icon: AlignCenterOutline,
       command: () =>
         menuItem.command({
@@ -58,7 +59,7 @@ export function TextAlignmentSelector(props: Props) {
     {
       itemKey: "text-align",
       renderKey: "text-align-right",
-      label: "Align right",
+      label: translateEditorText("Align right"),
       icon: AlignRightOutline,
       command: () =>
         menuItem.command({
@@ -70,7 +71,7 @@ export function TextAlignmentSelector(props: Props) {
   if (editorState.code) return null;
 
   return (
-    <ToolbarGroup role="group" aria-label="Text alignment">
+    <ToolbarGroup role="group" aria-label={translateEditorText("Text alignment")}>
       {textAlignmentOptions.map((item) => (
         <ToolbarButton
           key={item.renderKey}

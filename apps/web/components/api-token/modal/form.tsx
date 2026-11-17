@@ -40,30 +40,30 @@ type Props = {
 const EXPIRY_DATE_OPTIONS = [
   {
     key: "1_week",
-    label: "1 week",
+    label: "notification.snooze.1_week",
     value: { weeks: 1 },
   },
   {
     key: "1_month",
-    label: "1 month",
+    label: "ui.one_month",
     value: { months: 1 },
   },
   {
     key: "3_months",
-    label: "3 months",
+    label: "ui.three_months",
     value: { months: 3 },
   },
   {
     key: "1_year",
-    label: "1 year",
+    label: "ui.one_year",
     value: { years: 1 },
   },
 ];
 
-/** The expiry picker's rows: the presets plus the "Custom" row that reveals the date picker. */
+/** The expiry picker's rows (labels are i18n keys, translated at render): the presets plus the "Custom" row that reveals the date picker. */
 const EXPIRY_SELECT_OPTIONS = [
   ...EXPIRY_DATE_OPTIONS.map(({ key, label }) => ({ value: key, label })),
-  { value: "custom", label: "Custom" },
+  { value: "custom", label: "project_settings.estimates.create.custom" },
 ];
 
 const defaultValues: Partial<IApiToken> = {
@@ -209,11 +209,11 @@ export function CreateApiTokenForm(props: Props) {
                       onValueChange={(expiry) => {
                         if (expiry) onChange(expiry);
                       }}
-                      options={EXPIRY_SELECT_OPTIONS}
+                      options={EXPIRY_SELECT_OPTIONS.map((option) => ({ ...option, label: t(option.label) }))}
                       itemToStringLabel={(expiry) =>
                         expiry === "custom"
-                          ? "Custom date"
-                          : (EXPIRY_SELECT_OPTIONS.find((option) => option.value === expiry)?.label ?? expiry)
+                          ? t("ui.custom_date")
+                          : t(EXPIRY_SELECT_OPTIONS.find((option) => option.value === expiry)?.label ?? expiry)
                       }
                       icon={<CalendarOutline className="size-3.5 shrink-0" />}
                       placeholder={t("ui.set_expiration_date")}

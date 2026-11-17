@@ -18,6 +18,7 @@ import { getEditorRefHelpers } from "@/helpers/editor-ref";
 // types
 import type { IEditorPropsExtended, IEditorProps } from "@/types";
 import type { EditorTitleRefApi, ICollaborativeDocumentEditorProps } from "@/types/editor";
+import { translateEditorText } from "@/helpers/translate";
 
 type TUseTitleEditorProps = {
   editable?: boolean;
@@ -64,7 +65,7 @@ export const useTitleEditor = (props: TUseTitleEditorProps) => {
         ...TitleExtensions,
         ...(extensions ?? []),
         Placeholder.configure({
-          placeholder: () => "Untitled",
+          placeholder: () => translateEditorText("Untitled"),
           includeChildren: true,
           showOnlyWhenEditable: false,
         }),

@@ -93,7 +93,7 @@ const CreatedVsResolved = observer(function CreatedVsResolved() {
   return (
     <AnalyticsSectionWrapper
       title={t("workspace_analytics.created_vs_resolved")}
-      subtitle={selectedDurationLabel}
+      subtitle={selectedDurationLabel ? t(selectedDurationLabel) : selectedDurationLabel}
       className="col-span-1"
     >
       {isCreatedVsResolvedLoading ? (

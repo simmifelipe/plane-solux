@@ -436,7 +436,7 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
                             handleActionWithPermission(
                               isProjectAdmin,
                               () => setSelectDuplicateIssue(true),
-                              "Only project admins can mark work item as duplicate"
+                              t("ui.only_project_admins_can_mark_as_duplicate")
                             )
                           }
                         />

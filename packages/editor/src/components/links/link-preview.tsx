@@ -9,6 +9,7 @@ import { IconButton } from "@makeplane/propel/components/icon-button";
 import { CopyOutline, EditOutline, GlobeOutline, UnlinkOutline } from "@makeplane/propel/icons";
 // components
 import type { LinkViewProps, LinkViews } from "@/components/links";
+import { translateEditorText } from "@/helpers/translate";
 
 export function LinkPreview({
   viewProps,
@@ -44,7 +45,7 @@ export function LinkPreview({
             type="button"
             variant="ghost"
             size="sm"
-            aria-label="Copy link"
+            aria-label={translateEditorText("Copy link")}
             showTooltip={false}
             onClick={copyLinkToClipboard}
             icon={<Icon icon={CopyOutline} />}
@@ -55,7 +56,7 @@ export function LinkPreview({
                 type="button"
                 variant="ghost"
                 size="sm"
-                aria-label="Edit link"
+                aria-label={translateEditorText("Edit link")}
                 showTooltip={false}
                 onClick={() => switchView("LinkEditView")}
                 icon={<Icon icon={EditOutline} />}
@@ -64,7 +65,7 @@ export function LinkPreview({
                 type="button"
                 variant="ghost"
                 size="sm"
-                aria-label="Remove link"
+                aria-label={translateEditorText("Remove link")}
                 showTooltip={false}
                 onClick={removeLink}
                 icon={<Icon icon={UnlinkOutline} />}

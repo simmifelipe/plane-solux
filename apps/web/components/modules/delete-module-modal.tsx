@@ -80,9 +80,9 @@ export const DeleteModuleModal = observer(function DeleteModuleModal(props: Prop
       title={t("project_module.delete_module")}
       content={
         <>
-          Are you sure you want to delete module-{" "}
-          <span className="font-medium break-all text-primary">{data?.name}</span>? All of the data related to the
-          module will be permanently removed. This action cannot be undone.
+          {t("ui.delete_module_confirm_prefix")}{" "}
+          <span className="font-medium break-all text-primary">{data?.name}</span>
+          {t("ui.delete_module_confirm_suffix")}
         </>
       }
     />

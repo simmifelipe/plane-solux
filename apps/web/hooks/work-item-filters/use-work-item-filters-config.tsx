@@ -23,6 +23,7 @@ import {
 import { Avatar } from "@makeplane/propel/components/avatar";
 import { Logo } from "@plane/blocks/emoji-icon-picker";
 import { CycleGroupIcon, PriorityIcon, StateGroupIcon } from "@plane/blocks/icons";
+import { useTranslation } from "@plane/i18n";
 import type {
   ICycle,
   IState,
@@ -98,6 +99,7 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
   const { getModuleById } = useModule();
   const { getStateById } = useProjectState();
   const { getUserDetails } = useMember();
+  const { t, currentLocale } = useTranslation();
   // derived values
   const operatorConfigs = useFiltersOperatorConfigs({ workspaceSlug });
   const filtersToShow = useMemo(() => new Set(allowedFilters), [allowedFilters]);
@@ -150,216 +152,278 @@ export const useWorkItemFiltersConfig = (props: TUseWorkItemFiltersConfigProps):
   // state group filter config
   const stateGroupFilterConfig = useMemo(
     () =>
-      getStateGroupFilterConfig<TWorkItemFilterProperty>("state_group")({
-        isEnabled: isFilterEnabled("state_group"),
-        filterIcon: StateOutline,
-        getOptionIcon: (stateGroupKey) => <StateGroupIcon stateGroup={stateGroupKey} />,
-        ...operatorConfigs,
+      ({
+        ...getStateGroupFilterConfig<TWorkItemFilterProperty>("state_group")({
+          isEnabled: isFilterEnabled("state_group"),
+          filterIcon: StateOutline,
+          getOptionIcon: (stateGroupKey) => <StateGroupIcon stateGroup={stateGroupKey} />,
+          getOptionLabel: (stateGroup) => t(`workspace_projects.state.${stateGroup}`),
+          ...operatorConfigs,
+        }),
+        label: t("common.state_group"),
       }),
-    [isFilterEnabled, operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `t` is re-created every render; the locale is the real dependency
+    [isFilterEnabled, operatorConfigs, currentLocale]
   );
 
   // state filter config
   const stateFilterConfig = useMemo(
     () =>
-      getStateFilterConfig<TWorkItemFilterProperty>("state_id")({
-        isEnabled: isFilterEnabled("state_id") && workItemStates !== undefined,
-        filterIcon: StateOutline,
-        getOptionIcon: (state) => <StateGroupIcon stateGroup={state.group} color={state.color} />,
-        states: workItemStates ?? [],
-        ...operatorConfigs,
+      ({
+        ...getStateFilterConfig<TWorkItemFilterProperty>("state_id")({
+          isEnabled: isFilterEnabled("state_id") && workItemStates !== undefined,
+          filterIcon: StateOutline,
+          getOptionIcon: (state) => <StateGroupIcon stateGroup={state.group} color={state.color} />,
+          states: workItemStates ?? [],
+          ...operatorConfigs,
+        }),
+        label: t("common.state"),
       }),
-    [isFilterEnabled, workItemStates, operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `t` is re-created every render; the locale is the real dependency
+    [isFilterEnabled, workItemStates, operatorConfigs, currentLocale]
   );
 
   // label filter config
   const labelFilterConfig = useMemo(
     () =>
-      getLabelFilterConfig<TWorkItemFilterProperty>("label_id")({
-        isEnabled: isFilterEnabled("label_id") && workItemLabels !== undefined,
-        filterIcon: LabelsOutline,
-        labels: workItemLabels ?? [],
-        getOptionIcon: (color) => (
-          <span className="flex size-2.5 flex-shrink-0 rounded-full" style={{ backgroundColor: color }} />
-        ),
-        ...operatorConfigs,
+      ({
+        ...getLabelFilterConfig<TWorkItemFilterProperty>("label_id")({
+          isEnabled: isFilterEnabled("label_id") && workItemLabels !== undefined,
+          filterIcon: LabelsOutline,
+          labels: workItemLabels ?? [],
+          getOptionIcon: (color) => (
+            <span className="flex size-2.5 flex-shrink-0 rounded-full" style={{ backgroundColor: color }} />
+          ),
+          ...operatorConfigs,
+        }),
+        label: t("common.label"),
       }),
-    [isFilterEnabled, workItemLabels, operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `t` is re-created every render; the locale is the real dependency
+    [isFilterEnabled, workItemLabels, operatorConfigs, currentLocale]
   );
 
   // cycle filter config
   const cycleFilterConfig = useMemo(
     () =>
-      getCycleFilterConfig<TWorkItemFilterProperty>("cycle_id")({
-        isEnabled: isFilterEnabled("cycle_id") && project?.cycle_view === true && cycles !== undefined,
-        filterIcon: CyclesOutline,
-        getOptionIcon: (cycleGroup) => <CycleGroupIcon cycleGroup={cycleGroup} className="h-3.5 w-3.5 flex-shrink-0" />,
-        cycles: cycles ?? [],
-        ...operatorConfigs,
+      ({
+        ...getCycleFilterConfig<TWorkItemFilterProperty>("cycle_id")({
+          isEnabled: isFilterEnabled("cycle_id") && project?.cycle_view === true && cycles !== undefined,
+          filterIcon: CyclesOutline,
+          getOptionIcon: (cycleGroup) => <CycleGroupIcon cycleGroup={cycleGroup} className="h-3.5 w-3.5 flex-shrink-0" />,
+          cycles: cycles ?? [],
+          ...operatorConfigs,
+        }),
+        label: t("common.cycle"),
       }),
-    [isFilterEnabled, project?.cycle_view, cycles, operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `t` is re-created every render; the locale is the real dependency
+    [isFilterEnabled, project?.cycle_view, cycles, operatorConfigs, currentLocale]
   );
 
   // module filter config
   const moduleFilterConfig = useMemo(
     () =>
-      getModuleFilterConfig<TWorkItemFilterProperty>("module_id")({
-        isEnabled: isFilterEnabled("module_id") && project?.module_view === true && modules !== undefined,
-        filterIcon: ModuleOutline,
-        getOptionIcon: () => <ModuleOutline className="h-3 w-3 flex-shrink-0" />,
-        modules: modules ?? [],
-        ...operatorConfigs,
+      ({
+        ...getModuleFilterConfig<TWorkItemFilterProperty>("module_id")({
+          isEnabled: isFilterEnabled("module_id") && project?.module_view === true && modules !== undefined,
+          filterIcon: ModuleOutline,
+          getOptionIcon: () => <ModuleOutline className="h-3 w-3 flex-shrink-0" />,
+          modules: modules ?? [],
+          ...operatorConfigs,
+        }),
+        label: t("common.module"),
       }),
-    [isFilterEnabled, project?.module_view, modules, operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `t` is re-created every render; the locale is the real dependency
+    [isFilterEnabled, project?.module_view, modules, operatorConfigs, currentLocale]
   );
 
   // assignee filter config
   const assigneeFilterConfig = useMemo(
     () =>
-      getAssigneeFilterConfig<TWorkItemFilterProperty>("assignee_id")({
-        isEnabled: isFilterEnabled("assignee_id") && members !== undefined,
-        filterIcon: MembersOutline,
-        members: members ?? [],
-        getOptionIcon: (memberDetails) => (
-          <Avatar
-            alt={memberDetails.display_name}
-            fallback={memberDetails.display_name?.[0]?.toUpperCase()}
-            src={getFileURL(memberDetails.avatar_url)}
-            size="2xs"
-          />
-        ),
-        ...operatorConfigs,
+      ({
+        ...getAssigneeFilterConfig<TWorkItemFilterProperty>("assignee_id")({
+          isEnabled: isFilterEnabled("assignee_id") && members !== undefined,
+          filterIcon: MembersOutline,
+          members: members ?? [],
+          getOptionIcon: (memberDetails) => (
+            <Avatar
+              alt={memberDetails.display_name}
+              fallback={memberDetails.display_name?.[0]?.toUpperCase()}
+              src={getFileURL(memberDetails.avatar_url)}
+              size="2xs"
+            />
+          ),
+          ...operatorConfigs,
+        }),
+        label: t("common.assignees"),
       }),
-    [isFilterEnabled, members, operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `t` is re-created every render; the locale is the real dependency
+    [isFilterEnabled, members, operatorConfigs, currentLocale]
   );
 
   // mention filter config
   const mentionFilterConfig = useMemo(
     () =>
-      getMentionFilterConfig<TWorkItemFilterProperty>("mention_id")({
-        isEnabled: isFilterEnabled("mention_id") && members !== undefined,
-        filterIcon: AtOutline,
-        members: members ?? [],
-        getOptionIcon: (memberDetails) => (
-          <Avatar
-            alt={memberDetails.display_name}
-            fallback={memberDetails.display_name?.[0]?.toUpperCase()}
-            src={getFileURL(memberDetails.avatar_url)}
-            size="2xs"
-          />
-        ),
-        ...operatorConfigs,
+      ({
+        ...getMentionFilterConfig<TWorkItemFilterProperty>("mention_id")({
+          isEnabled: isFilterEnabled("mention_id") && members !== undefined,
+          filterIcon: AtOutline,
+          members: members ?? [],
+          getOptionIcon: (memberDetails) => (
+            <Avatar
+              alt={memberDetails.display_name}
+              fallback={memberDetails.display_name?.[0]?.toUpperCase()}
+              src={getFileURL(memberDetails.avatar_url)}
+              size="2xs"
+            />
+          ),
+          ...operatorConfigs,
+        }),
+        label: t("mentions"),
       }),
-    [isFilterEnabled, members, operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `t` is re-created every render; the locale is the real dependency
+    [isFilterEnabled, members, operatorConfigs, currentLocale]
   );
 
   // created by filter config
   const createdByFilterConfig = useMemo(
     () =>
-      getCreatedByFilterConfig<TWorkItemFilterProperty>("created_by_id")({
-        isEnabled: isFilterEnabled("created_by_id") && members !== undefined,
-        filterIcon: UserOutline,
-        members: members ?? [],
-        getOptionIcon: (memberDetails) => (
-          <Avatar
-            alt={memberDetails.display_name}
-            fallback={memberDetails.display_name?.[0]?.toUpperCase()}
-            src={getFileURL(memberDetails.avatar_url)}
-            size="2xs"
-          />
-        ),
-        ...operatorConfigs,
+      ({
+        ...getCreatedByFilterConfig<TWorkItemFilterProperty>("created_by_id")({
+          isEnabled: isFilterEnabled("created_by_id") && members !== undefined,
+          filterIcon: UserOutline,
+          members: members ?? [],
+          getOptionIcon: (memberDetails) => (
+            <Avatar
+              alt={memberDetails.display_name}
+              fallback={memberDetails.display_name?.[0]?.toUpperCase()}
+              src={getFileURL(memberDetails.avatar_url)}
+              size="2xs"
+            />
+          ),
+          ...operatorConfigs,
+        }),
+        label: t("common.created_by"),
       }),
-    [isFilterEnabled, members, operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `t` is re-created every render; the locale is the real dependency
+    [isFilterEnabled, members, operatorConfigs, currentLocale]
   );
 
   // subscriber filter config
   const subscriberFilterConfig = useMemo(
     () =>
-      getSubscriberFilterConfig<TWorkItemFilterProperty>("subscriber_id")({
-        isEnabled: isFilterEnabled("subscriber_id") && members !== undefined,
-        filterIcon: MembersOutline,
-        members: members ?? [],
-        getOptionIcon: (memberDetails) => (
-          <Avatar
-            alt={memberDetails.display_name}
-            fallback={memberDetails.display_name?.[0]?.toUpperCase()}
-            src={getFileURL(memberDetails.avatar_url)}
-            size="2xs"
-          />
-        ),
-        ...operatorConfigs,
+      ({
+        ...getSubscriberFilterConfig<TWorkItemFilterProperty>("subscriber_id")({
+          isEnabled: isFilterEnabled("subscriber_id") && members !== undefined,
+          filterIcon: MembersOutline,
+          members: members ?? [],
+          getOptionIcon: (memberDetails) => (
+            <Avatar
+              alt={memberDetails.display_name}
+              fallback={memberDetails.display_name?.[0]?.toUpperCase()}
+              src={getFileURL(memberDetails.avatar_url)}
+              size="2xs"
+            />
+          ),
+          ...operatorConfigs,
+        }),
+        label: t("ui.filter_subscriber"),
       }),
-    [isFilterEnabled, members, operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `t` is re-created every render; the locale is the real dependency
+    [isFilterEnabled, members, operatorConfigs, currentLocale]
   );
 
   // priority filter config
   const priorityFilterConfig = useMemo(
     () =>
-      getPriorityFilterConfig<TWorkItemFilterProperty>("priority")({
-        isEnabled: isFilterEnabled("priority"),
-        filterIcon: PriorityOutline,
-        getOptionIcon: (priority) => <PriorityIcon priority={priority} />,
-        ...operatorConfigs,
+      ({
+        ...getPriorityFilterConfig<TWorkItemFilterProperty>("priority")({
+          isEnabled: isFilterEnabled("priority"),
+          filterIcon: PriorityOutline,
+          getOptionIcon: (priority) => <PriorityIcon priority={priority} />,
+          getOptionLabel: (priority) => (priority === "none" ? t("common.none") : t(`issue.priority.${priority}`)),
+          ...operatorConfigs,
+        }),
+        label: t("common.priority"),
       }),
-    [isFilterEnabled, operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `t` is re-created every render; the locale is the real dependency
+    [isFilterEnabled, operatorConfigs, currentLocale]
   );
 
   // start date filter config
   const startDateFilterConfig = useMemo(
     () =>
-      getStartDateFilterConfig<TWorkItemFilterProperty>("start_date")({
-        isEnabled: true,
-        filterIcon: StartDateOutline,
-        ...operatorConfigs,
+      ({
+        ...getStartDateFilterConfig<TWorkItemFilterProperty>("start_date")({
+          isEnabled: true,
+          filterIcon: StartDateOutline,
+          ...operatorConfigs,
+        }),
+        label: t("start_date"),
       }),
-    [operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `t` is re-created every render; the locale is the real dependency
+    [operatorConfigs, currentLocale]
   );
 
   // target date filter config
   const targetDateFilterConfig = useMemo(
     () =>
-      getTargetDateFilterConfig<TWorkItemFilterProperty>("target_date")({
-        isEnabled: true,
-        filterIcon: DueDateOutline,
-        ...operatorConfigs,
+      ({
+        ...getTargetDateFilterConfig<TWorkItemFilterProperty>("target_date")({
+          isEnabled: true,
+          filterIcon: DueDateOutline,
+          ...operatorConfigs,
+        }),
+        label: t("target_date"),
       }),
-    [operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `t` is re-created every render; the locale is the real dependency
+    [operatorConfigs, currentLocale]
   );
 
   // created at filter config
   const createdAtFilterConfig = useMemo(
     () =>
-      getCreatedAtFilterConfig<TWorkItemFilterProperty>("created_at")({
-        isEnabled: true,
-        filterIcon: CalendarOutline,
-        ...operatorConfigs,
+      ({
+        ...getCreatedAtFilterConfig<TWorkItemFilterProperty>("created_at")({
+          isEnabled: true,
+          filterIcon: CalendarOutline,
+          ...operatorConfigs,
+        }),
+        label: t("common.created_at"),
       }),
-    [operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `t` is re-created every render; the locale is the real dependency
+    [operatorConfigs, currentLocale]
   );
 
   // updated at filter config
   const updatedAtFilterConfig = useMemo(
     () =>
-      getUpdatedAtFilterConfig<TWorkItemFilterProperty>("updated_at")({
-        isEnabled: true,
-        filterIcon: CalendarOutline,
-        ...operatorConfigs,
+      ({
+        ...getUpdatedAtFilterConfig<TWorkItemFilterProperty>("updated_at")({
+          isEnabled: true,
+          filterIcon: CalendarOutline,
+          ...operatorConfigs,
+        }),
+        label: t("common.updated_at"),
       }),
-    [operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `t` is re-created every render; the locale is the real dependency
+    [operatorConfigs, currentLocale]
   );
 
   // project filter config
   const projectFilterConfig = useMemo(
     () =>
-      getProjectFilterConfig<TWorkItemFilterProperty>("project_id")({
-        isEnabled: isFilterEnabled("project_id") && projects !== undefined,
-        filterIcon: ProjectsOutline,
-        projects: projects,
-        getOptionIcon: (project) => <Logo logo={project.logo_props} size={12} />,
-        ...operatorConfigs,
+      ({
+        ...getProjectFilterConfig<TWorkItemFilterProperty>("project_id")({
+          isEnabled: isFilterEnabled("project_id") && projects !== undefined,
+          filterIcon: ProjectsOutline,
+          projects: projects,
+          getOptionIcon: (project) => <Logo logo={project.logo_props} size={12} />,
+          ...operatorConfigs,
+        }),
+        label: t("common.projects"),
       }),
-    [isFilterEnabled, projects, operatorConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `t` is re-created every render; the locale is the real dependency
+    [isFilterEnabled, projects, operatorConfigs, currentLocale]
   );
 
   return {

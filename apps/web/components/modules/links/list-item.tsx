@@ -71,9 +71,12 @@ export const ModulesLinksListItem = observer(function ModulesLinksListItem(props
           </a>
         </Tooltip>
         <p className="truncate text-caption-md-regular text-placeholder">
-          Added {calculateTimeAgo(link.created_at)}{" "}
+          {t("ui.added_time_ago", { time: calculateTimeAgo(link.created_at) })}{" "}
           {createdByDetails && (
-            <>by {createdByDetails?.is_bot ? createdByDetails?.first_name + " Bot" : createdByDetails?.display_name}</>
+            <>
+              {t("ui.by_user")}{" "}
+              {createdByDetails?.is_bot ? createdByDetails?.first_name + " Bot" : createdByDetails?.display_name}
+            </>
           )}
         </p>
       </div>

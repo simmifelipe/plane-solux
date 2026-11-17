@@ -20,6 +20,7 @@ import { FloatingMenuRoot } from "../floating-menu/root";
 import { useFloatingMenu } from "../floating-menu/use-floating-menu";
 import { BackgroundColorItem, TextColorItem } from "../menu-items";
 import type { EditorStateType } from "./root";
+import { translateEditorText } from "@/helpers/translate";
 
 type Props = {
   editor: Editor;
@@ -44,7 +45,7 @@ export function BubbleMenuColorSelector(props: Props) {
       )}
       menuButton={
         <>
-          <ToolbarMenuTriggerLabel>Color</ToolbarMenuTriggerLabel>
+          <ToolbarMenuTriggerLabel>{translateEditorText("Color")}</ToolbarMenuTriggerLabel>
           <span
             className={cn("grid size-6 flex-shrink-0 place-items-center rounded-sm border-[0.5px] border-strong", {
               "bg-surface-1": !activeBackgroundColor,
@@ -70,13 +71,13 @@ export function BubbleMenuColorSelector(props: Props) {
     >
       <PopoverPopup variant="rich" render={<section className="mt-1" />}>
         <div className="space-y-1.5">
-          <p className="text-body-xs-medium text-secondary">Text colors</p>
-          <div role="group" aria-label="Text colors" className="flex items-center gap-2">
+          <p className="text-body-xs-medium text-secondary">{translateEditorText("Text colors")}</p>
+          <div role="group" aria-label={translateEditorText("Text colors")} className="flex items-center gap-2">
             {COLORS_LIST.map((color) => (
               <button
                 key={color.key}
                 type="button"
-                aria-label={`${color.label} text color`}
+                aria-label={translateEditorText("{color} text color", { color: color.label })}
                 aria-pressed={activeTextColor?.key === color.key}
                 className={cn(
                   "size-6 shrink-0 cursor-pointer rounded-sm border-xs border-subtle transition-opacity outline-none hover:opacity-60 focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1",
@@ -92,7 +93,7 @@ export function BubbleMenuColorSelector(props: Props) {
               type="button"
               variant="secondary"
               size="sm"
-              aria-label="Clear text color"
+              aria-label={translateEditorText("Clear text color")}
               onClick={() => TextColorItem(editor).command({ color: undefined })}
             >
               <Icon icon={DeactivatedOutline} />
@@ -100,13 +101,13 @@ export function BubbleMenuColorSelector(props: Props) {
           </div>
         </div>
         <div className="space-y-1.5">
-          <p className="text-body-xs-medium text-secondary">Background colors</p>
-          <div role="group" aria-label="Background colors" className="flex items-center gap-2">
+          <p className="text-body-xs-medium text-secondary">{translateEditorText("Background colors")}</p>
+          <div role="group" aria-label={translateEditorText("Background colors")} className="flex items-center gap-2">
             {COLORS_LIST.map((color) => (
               <button
                 key={color.key}
                 type="button"
-                aria-label={`${color.label} background color`}
+                aria-label={translateEditorText("{color} background color", { color: color.label })}
                 aria-pressed={activeBackgroundColor?.key === color.key}
                 className={cn(
                   "size-6 shrink-0 cursor-pointer rounded-sm border-xs border-subtle transition-opacity outline-none hover:opacity-60 focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-offset-1",
@@ -122,7 +123,7 @@ export function BubbleMenuColorSelector(props: Props) {
               type="button"
               variant="secondary"
               size="sm"
-              aria-label="Clear background color"
+              aria-label={translateEditorText("Clear background color")}
               onClick={() => BackgroundColorItem(editor).command({ color: undefined })}
             >
               <Icon icon={DeactivatedOutline} />

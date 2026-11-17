@@ -65,6 +65,7 @@ const EXPORT_FORMATS: {
 const PAGE_FORMATS: {
   key: TPageFormats;
   label: string;
+  i18nLabel?: string;
 }[] = [
   {
     key: "A4",
@@ -81,28 +82,34 @@ const PAGE_FORMATS: {
   {
     key: "LETTER",
     label: "Letter",
+    i18nLabel: "ui.paper_letter",
   },
   {
     key: "LEGAL",
     label: "Legal",
+    i18nLabel: "ui.paper_legal",
   },
   {
     key: "TABLOID",
     label: "Tabloid",
+    i18nLabel: "ui.paper_tabloid",
   },
 ];
 
 const CONTENT_VARIETY: {
   key: TContentVariety;
   label: string;
+  i18nLabel?: string;
 }[] = [
   {
     key: "everything",
     label: "Everything",
+    i18nLabel: "ui.export_everything",
   },
   {
     key: "no-assets",
     label: "No images",
+    i18nLabel: "ui.export_no_images",
   },
 ];
 
@@ -256,7 +263,7 @@ export function ExportPageModal(props: Props) {
                   render={({ field: { onChange, value } }) => (
                     <ExportOptionSelect
                       label={t("ui.include_content")}
-                      options={CONTENT_VARIETY}
+                      options={CONTENT_VARIETY.map((o) => ({ key: o.key, label: o.i18nLabel ? t(o.i18nLabel) : o.label }))}
                       value={value}
                       onChange={(val) => onChange(val as TContentVariety)}
                     />
@@ -272,7 +279,7 @@ export function ExportPageModal(props: Props) {
                     render={({ field: { onChange, value } }) => (
                       <ExportOptionSelect
                         label={t("ui.page_format")}
-                        options={PAGE_FORMATS}
+                        options={PAGE_FORMATS.map((o) => ({ key: o.key, label: o.i18nLabel ? t(o.i18nLabel) : o.label }))}
                         value={value}
                         onChange={(val) => onChange(val as TPageFormats)}
                       />
@@ -289,7 +296,7 @@ export function ExportPageModal(props: Props) {
             variant="primary"
             size="md"
             stretch="auto"
-            label={isExporting ? "Exporting" : "Export"}
+            label={isExporting ? t("workspace_settings.settings.exports.exporting") : t("export")}
             loading={isExporting}
             onClick={handleExport}
           />

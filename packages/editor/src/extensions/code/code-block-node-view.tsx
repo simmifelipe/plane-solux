@@ -15,6 +15,7 @@ import { IconButton } from "@makeplane/propel/components/icon-button";
 // types
 import type { TCodeBlockAttributes } from "./types";
 import { ECodeBlockAttributeNames } from "./types";
+import { translateEditorText } from "@/helpers/translate";
 
 // we just have ts support for now
 const lowlight = createLowlight(common);
@@ -45,7 +46,7 @@ export function CodeBlockComponent({ node }: Props) {
     <NodeViewWrapper key={attrs[ECodeBlockAttributeNames.ID]} className="code-block group/code relative">
       <div className="pointer-events-none absolute top-2 right-2 z-10 opacity-0 transition-opacity group-focus-within/code:pointer-events-auto group-focus-within/code:opacity-100 group-hover/code:pointer-events-auto group-hover/code:opacity-100">
         <IconButton
-          aria-label={copied ? "Copied code" : "Copy code"}
+          aria-label={copied ? translateEditorText("Copied code") : translateEditorText("Copy code")}
           variant="secondary"
           size="lg"
           icon={copied ? <TickOutline className="text-success-primary" /> : <CopyOutline />}

@@ -301,3 +301,12 @@ export const USE_CASES = [
   "Replace our current tool",
   "Just exploring",
 ];
+
+// i18n keys for the USE_CASES display labels (the stored value stays the English text)
+export const USE_CASE_I18N_KEYS: Record<string, string> = {
+  "Plan and track product roadmaps": "ui.use_case_plan_roadmaps",
+  "Manage engineering sprints": "ui.use_case_manage_sprints",
+  "Coordinate cross-functional projects": "ui.use_case_coordinate_projects",
+  "Replace our current tool": "ui.use_case_replace_tool",
+  "Just exploring": "ui.use_case_just_exploring",
+};

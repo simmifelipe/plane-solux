@@ -6,24 +6,25 @@
 
 import type { TIssueActivity } from "@plane/types";
 
+/** Returns the i18n key of the relation activity message. */
 export const getRelationActivityContent = (activity: TIssueActivity | undefined): string | undefined => {
   if (!activity) return;
 
   switch (activity.field) {
     case "blocking":
       return activity.old_value === ""
-        ? `marked this work item is blocking work item `
-        : `removed the blocking work item `;
+        ? "ui.activity_relation_blocking_added"
+        : "ui.activity_relation_blocking_removed";
     case "blocked_by":
       return activity.old_value === ""
-        ? `marked this work item is being blocked by `
-        : `removed this work item being blocked by work item `;
+        ? "ui.activity_relation_blocked_by_added"
+        : "ui.activity_relation_blocked_by_removed";
     case "duplicate":
       return activity.old_value === ""
-        ? `marked this work item as duplicate of `
-        : `removed this work item as a duplicate of `;
+        ? "ui.activity_relation_duplicate_added"
+        : "ui.activity_relation_duplicate_removed";
     case "relates_to":
-      return activity.old_value === "" ? `marked that this work item relates to ` : `removed the relation from `;
+      return activity.old_value === "" ? "ui.activity_relation_relates_to_added" : "ui.activity_relation_relates_to_removed";
   }
 
   return;

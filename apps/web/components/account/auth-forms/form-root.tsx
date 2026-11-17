@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { observer } from "mobx-react";
 import { useSearchParams } from "next/navigation";
 import { EAuthModes, EAuthSteps } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import type { IEmailCheckData } from "@plane/types";
 // helpers
 import type { TAuthErrorInfo } from "@/helpers/authentication.helper";
@@ -46,6 +47,7 @@ export const AuthFormRoot = observer(function AuthFormRoot(props: TAuthFormRoot)
   const [isExistingEmail, setIsExistingEmail] = useState(false);
   // hooks
   const { config } = useInstance();
+  const { t } = useTranslation();
 
   const isSMTPConfigured = config?.is_smtp_configured || false;
 
@@ -76,7 +78,7 @@ export const AuthFormRoot = observer(function AuthFormRoot(props: TAuthFormRoot)
         setIsExistingEmail(response.existing);
       })
       .catch((error) => {
-        const errorhandler = authErrorHandler(error?.error_code?.toString(), data?.email || undefined);
+        const errorhandler = authErrorHandler(error?.error_code?.toString(), t, data?.email || undefined);
         if (errorhandler?.type) setErrorInfo(errorhandler);
       });
   };
@@ -97,7 +99,7 @@ export const AuthFormRoot = observer(function AuthFormRoot(props: TAuthFormRoot)
       .generateUniqueCode(payload)
       .then(() => ({ code: "" }))
       .catch((error) => {
-        const errorhandler = authErrorHandler(error?.error_code?.toString());
+        const errorhandler = authErrorHandler(error?.error_code?.toString(), t);
         if (errorhandler?.type) setErrorInfo(errorhandler);
         throw error;
       });

@@ -14,6 +14,7 @@ import { Icon } from "@makeplane/propel/components/icon";
 import { IconButton } from "@makeplane/propel/components/icon-button";
 import { Toolbar, ToolbarButton, ToolbarGroup, ToolbarSeparator } from "@makeplane/propel/elements/toolbar";
 import { cn } from "@plane/utils";
+import { translateEditorText } from "@/helpers/translate";
 
 const MIN_ZOOM = 0.5;
 const MAX_ZOOM = 2;
@@ -239,7 +240,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
           ref={setModalRef}
           role="dialog"
           aria-modal="true"
-          aria-label="Fullscreen image viewer"
+          aria-label={translateEditorText("Fullscreen image viewer")}
           onKeyDown={handleKeyDown}
           onMouseDown={(e) => {
             if (e.target !== modalRef.current) return;
@@ -254,7 +255,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
               type="button"
               variant="secondary"
               size="md"
-              aria-label="Close image viewer"
+              aria-label={translateEditorText("Close image viewer")}
               showTooltip={false}
               icon={<Icon icon={CloseOutline} />}
               onClick={handleClose}
@@ -263,7 +264,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
           <img
             ref={setImageRef}
             src={src}
-            alt="Preview"
+            alt={translateEditorText("Preview")}
             className="read-only-image rounded-lg"
             style={{
               width: `${widthInNumber * initialMagnification}px`,
@@ -278,8 +279,8 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
             onMouseDown={handleMouseDown}
           />
           <div className="fixed bottom-10 left-1/2 z-10 -translate-x-1/2">
-            <Toolbar size="md" elevation="raised" role="group" aria-label="Image viewer controls">
-              <ToolbarGroup role="group" aria-label="Image zoom">
+            <Toolbar size="md" elevation="raised" role="group" aria-label={translateEditorText("Image viewer controls")}>
+              <ToolbarGroup role="group" aria-label={translateEditorText("Image zoom")}>
                 <ToolbarButton
                   type="button"
                   size="md"
@@ -292,7 +293,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
                     handleMagnification("decrease");
                   }}
                   disabled={magnification <= MIN_ZOOM}
-                  aria-label="Zoom out"
+                  aria-label={translateEditorText("Zoom out")}
                 >
                   <Icon icon={MinusOutline} />
                 </ToolbarButton>
@@ -311,7 +312,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
                     handleMagnification("increase");
                   }}
                   disabled={magnification >= MAX_ZOOM}
-                  aria-label="Zoom in"
+                  aria-label={translateEditorText("Zoom in")}
                 >
                   <Icon icon={AddOutline} />
                 </ToolbarButton>
@@ -323,7 +324,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
                   size="md"
                   labeled={false}
                   onClick={() => window.open(downloadSrc, "_blank")}
-                  aria-label="Download image"
+                  aria-label={translateEditorText("Download image")}
                 >
                   <Icon icon={DownloadOutline} />
                 </ToolbarButton>
@@ -334,7 +335,7 @@ function ImageFullScreenModalWithoutPortal(props: Props) {
                   size="md"
                   labeled={false}
                   onClick={() => window.open(src, "_blank")}
-                  aria-label="Open image in new tab"
+                  aria-label={translateEditorText("Open image in new tab")}
                 >
                   <Icon icon={NewTabOutline} />
                 </ToolbarButton>

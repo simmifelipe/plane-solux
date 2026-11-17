@@ -10,6 +10,7 @@ import { Link } from "react-router";
 // plane imports
 import { Avatar } from "@makeplane/propel/components/avatar";
 import { ROLE } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { Popover, PopoverContent, PopoverTrigger } from "@makeplane/propel/components/popover";
 import { cn, getFileURL } from "@plane/utils";
 // hooks
@@ -22,6 +23,7 @@ type Props = {
 
 export const EditorUserMention = observer(function EditorUserMention(props: Props) {
   const { id } = props;
+  const { t } = useTranslation();
   // router
   const { projectId } = useParams();
   // params
@@ -40,7 +42,7 @@ export const EditorUserMention = observer(function EditorUserMention(props: Prop
   if (!userDetails) {
     return (
       <div className="not-prose inline rounded-sm bg-layer-1 px-1 py-0.5 text-tertiary no-underline">
-        @suspended user
+        @{t("ui.suspended_user")}
       </div>
     );
   }

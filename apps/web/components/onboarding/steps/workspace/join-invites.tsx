@@ -107,7 +107,7 @@ export function WorkspaceJoinInvitesStep(props: Props) {
                 </span>
                 <span className="flex min-w-0 flex-1 flex-col items-start">
                   <span id={`workspace-invitation-${invitation.id}-name`} className="sr-only">
-                    {invitedWorkspace?.name ?? "Select workspace invitation"}
+                    {invitedWorkspace?.name ?? t("ui.select_workspace_invitation")}
                   </span>
                   <span aria-hidden="true" className="w-full truncate text-body-sm-medium text-primary">
                     {truncateText(invitedWorkspace?.name, 30)}

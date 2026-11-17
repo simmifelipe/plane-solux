@@ -215,7 +215,7 @@ const InviteMemberInput = observer(function InviteMemberInput(props: InviteMembe
         />
       </div>
       {email && !emailRegex.test(email) && (
-        <p className="mt-1 text-caption-sm-regular text-danger-primary">That doesn{"'"}t look like an email address.</p>
+        <p className="mt-1 text-caption-sm-regular text-danger-primary">{t("ui.invalid_email_address")}</p>
       )}
     </div>
   );

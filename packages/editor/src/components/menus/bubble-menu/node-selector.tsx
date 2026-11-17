@@ -31,6 +31,7 @@ import type { TEditorCommands } from "@/types";
 // local imports
 import { FloatingMenuItem, FloatingMenuRoot } from "../floating-menu/root";
 import { useFloatingMenu } from "../floating-menu/use-floating-menu";
+import { translateEditorText } from "@/helpers/translate";
 
 type Props = {
   editor: Editor;
@@ -57,7 +58,7 @@ export function BubbleMenuNodeSelector(props: Props) {
   ] as EditorMenuItem<TEditorCommands>[];
 
   const activeItem = items.filter((item) => item.isActive()).pop() ?? {
-    name: "Multiple",
+    name: translateEditorText("Multiple"),
   };
 
   return (

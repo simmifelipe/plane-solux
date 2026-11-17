@@ -75,7 +75,7 @@ export function LabelSelect(props: LabelSelectProps) {
     onChange,
     disabled = false,
     placeholder = "",
-    searchPlaceholder = "Search labels...",
+    searchPlaceholder: searchPlaceholderProp,
     onClose,
     createLabel,
     className,
@@ -88,6 +88,7 @@ export function LabelSelect(props: LabelSelectProps) {
 
   const { variant } = props;
   const { t } = useTranslation();
+  const searchPlaceholder = searchPlaceholderProp ?? t("ui.search_labels");
   const isSelectKind = ["select", "select-ghost"].includes(splitSelectVariant(variant).variant);
 
   const handleLabelCreated = (id: string) => {

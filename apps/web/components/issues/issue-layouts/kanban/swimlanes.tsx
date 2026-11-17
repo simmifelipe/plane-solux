@@ -19,6 +19,7 @@ import type {
   TIssueGroupByOptions,
   TIssueOrderByOptions,
 } from "@plane/types";
+import { useTranslation } from "@plane/i18n";
 import { ERowVariant, Row } from "@plane/blocks/layout";
 import { cn } from "@plane/utils";
 // hooks
@@ -384,6 +385,7 @@ export const KanBanSwimLanes = observer(function KanBanSwimLanes(props: IKanBanS
     scrollableContainerRef,
     isEpic = false,
   } = props;
+  const { t } = useTranslation();
   // store hooks
   const storeType = useIssueStoreType();
   // derived values
@@ -392,12 +394,14 @@ export const KanBanSwimLanes = observer(function KanBanSwimLanes(props: IKanBanS
     includeNone: true,
     isWorkspaceLevel: isWorkspaceLevel(storeType),
     isEpic: isEpic,
+    t,
   });
   const subGroupByList = getGroupByColumns({
     groupBy: sub_group_by as GroupByColumnTypes,
     includeNone: true,
     isWorkspaceLevel: isWorkspaceLevel(storeType),
     isEpic: isEpic,
+    t,
   });
 
   if (!groupByList || !subGroupByList) return null;

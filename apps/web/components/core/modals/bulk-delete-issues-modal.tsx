@@ -213,7 +213,7 @@ export const BulkDeleteIssuesModal = observer(function BulkDeleteIssuesModal(pro
                 variant="danger"
                 size="md"
                 stretch="auto"
-                label={isSubmitting ? "Deleting..." : "Delete selected work items"}
+                label={isSubmitting ? t("deleting") : t("ui.delete_selected_work_items")}
                 onClick={() => void handleSubmit(handleDelete)()}
                 loading={isSubmitting}
               />

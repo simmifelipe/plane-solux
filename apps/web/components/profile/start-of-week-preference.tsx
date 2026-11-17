@@ -41,7 +41,7 @@ export const StartOfWeekPreference = observer(function StartOfWeekPreference(pro
           aria-label={props.option.title}
           size="md"
           width="fit"
-          options={START_OF_THE_WEEK_OPTIONS}
+          options={START_OF_THE_WEEK_OPTIONS.map((option) => ({ value: option.value, label: t(option.i18n_label) }))}
           value={userProfile.start_of_the_week}
           onValueChange={(value) => {
             if (value !== null) void handleStartOfWeekChange(value);

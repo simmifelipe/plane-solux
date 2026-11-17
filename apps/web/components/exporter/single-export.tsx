@@ -11,6 +11,7 @@ import type { IExportData } from "@plane/types";
 // helpers
 import { getDate, renderFormattedDate } from "@plane/utils";
 import { useTranslation } from "@plane/i18n";
+import { EXPORT_STATUS_I18N_KEYS } from "./column";
 // types
 
 type Props = {
@@ -38,7 +39,7 @@ export function SingleExport({ service, refreshing }: Props) {
       <div>
         <h4 className="flex items-center gap-2 text-body-xs-regular">
           <span>
-            Export to{" "}
+            {t("ui.export_to")}{" "}
             <span className="font-medium">
               {provider === "csv" ? "CSV" : provider === "xlsx" ? "Excel" : provider === "json" ? "JSON" : ""}
             </span>{" "}
@@ -56,12 +57,18 @@ export function SingleExport({ service, refreshing }: Props) {
                       : ""
             }`}
           >
-            {refreshing ? "Refreshing..." : service.status}
+            {refreshing
+              ? t("ui.refreshing_ellipsis")
+              : EXPORT_STATUS_I18N_KEYS[service.status]
+                ? t(EXPORT_STATUS_I18N_KEYS[service.status])
+                : service.status}
           </span>
         </h4>
         <div className="mt-2 flex items-center gap-2 text-caption-sm-regular text-secondary">
           <span>{renderFormattedDate(service.created_at)}</span>|
-          <span>Exported by {service?.initiated_by_detail?.display_name}</span>
+          <span>
+            {t("ui.exported_by")} {service?.initiated_by_detail?.display_name}
+          </span>
         </div>
       </div>
       {checkExpiry(service.created_at) ? (

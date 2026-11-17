@@ -46,6 +46,7 @@ import {
 import { showCellContent } from "../utils";
 import { ColumnOptionsDropdown } from "./dropdown";
 import { calculateColumnDropIndex, constructColumnDragPreview, getTableColumnNodesInfo } from "./utils";
+import { translateEditorText } from "@/helpers/translate";
 
 export type ColumnDragHandleProps = {
   col: number;
@@ -231,7 +232,7 @@ export function ColumnDragHandle(props: ColumnDragHandleProps) {
           {...getReferenceProps()}
           type="button"
           onMouseDown={handleMouseDown}
-          aria-label="Column options"
+          aria-label={translateEditorText("Column options")}
           className={cn(
             "rounded-sm border border-strong-1 bg-layer-1 px-1 transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-accent-strong focus-visible:ring-inset",
             {

@@ -85,8 +85,8 @@ export const IssueAttachmentActionButton = observer(function IssueAttachmentActi
         title: t("toast.error"),
         message:
           totalAttachedFiles > 1
-            ? "Only one file can be uploaded at a time."
-            : `File must be of ${maxFileSize / 1024 / 1024}MB or less in size.`,
+            ? t("ui.only_one_file_can_be_uploaded_at_a_time")
+            : t("ui.file_must_be_of_size_or_less", { size: maxFileSize / 1024 / 1024 }),
       });
       return;
     },

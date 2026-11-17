@@ -6,6 +6,7 @@
 
 import { useParams } from "next/navigation";
 // plane imports
+import { useTranslation } from "@plane/i18n";
 import { getPageName } from "@plane/utils";
 // hooks
 import { EPageStoreType, usePageStore } from "@/hooks/store";
@@ -26,6 +27,7 @@ export const useContextIndicator = (args: TArgs): string | null => {
   const { getCycleById } = useCycle();
   const { getModuleById } = useModule();
   const { getPageById } = usePageStore(EPageStoreType.PROJECT);
+  const { t } = useTranslation();
   let indicator: string | undefined | null = null;
 
   switch (activeContext) {
@@ -45,7 +47,7 @@ export const useContextIndicator = (args: TArgs): string | null => {
     }
     case "page": {
       const pageInstance = pageId ? getPageById(pageId.toString()) : null;
-      indicator = getPageName(pageInstance?.name);
+      indicator = getPageName(pageInstance?.name, t("wiki_collections.list.untitled"));
       break;
     }
     default: {

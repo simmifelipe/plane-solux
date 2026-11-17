@@ -12,6 +12,7 @@ import type { TLogoProps, TPaginatedResponse } from "@plane/types";
 import { Select } from "../select/select";
 import { splitSelectVariant } from "../select/utils";
 import type { SelectPaginationParams, SelectTooltip, SelectVariant } from "../select/types";
+import { useTranslation } from "@plane/i18n";
 
 /** Minimal project shape the dropdown needs — the client maps its richer record down to this. */
 export type ProjectOption = {
@@ -82,10 +83,15 @@ function ProjectLogo({
   return <ProjectsOutline className={cn("shrink-0 text-primary", slotClassName, className)} />;
 }
 
-function triggerLabel(selected: ProjectOption[], showCountOnMultiple: boolean, placeholder?: string): string {
+function triggerLabel(
+  selected: ProjectOption[],
+  showCountOnMultiple: boolean,
+  placeholder: string | undefined,
+  countLabel: (count: number) => string
+): string {
   if (selected.length === 0) return placeholder ?? "";
   if (selected.length === 1) return selected[0]?.name ?? "";
-  if (showCountOnMultiple) return `${selected.length} projects`;
+  if (showCountOnMultiple) return countLabel(selected.length);
   return selected.map((project) => project.name).join(", ");
 }
 
@@ -108,6 +114,7 @@ function TriggerLogos({ selected }: { selected: ProjectOption[] }) {
  * Pass `multiple={true}` for multi-select; omit or pass `multiple={false}` for single-select.
  */
 export function ProjectSelect(props: ProjectSelectProps) {
+  const { t } = useTranslation();
   const { variant } = props;
   const splitVariant = splitSelectVariant(variant);
   const isSelect = splitVariant.variant === "select";
@@ -123,7 +130,7 @@ export function ProjectSelect(props: ProjectSelectProps) {
       onChange,
       disabled = false,
       placeholder = "",
-      searchPlaceholder = "Search projects...",
+      searchPlaceholder = t("ui.search_projects"),
       onClose,
       className,
       tooltip,
@@ -203,7 +210,7 @@ export function ProjectSelect(props: ProjectSelectProps) {
     onChange,
     disabled = false,
     placeholder = "",
-    searchPlaceholder = "Search projects...",
+    searchPlaceholder = t("ui.search_projects"),
     onClose,
     className,
     tooltip,
@@ -256,7 +263,7 @@ export function ProjectSelect(props: ProjectSelectProps) {
                   {!isSelect && <TriggerLogos selected={projects} />}
                   {(projects.length > 0 || !!placeholder) && (
                     <span className="min-w-0 grow truncate text-left">
-                      {triggerLabel(projects, showCountOnMultiple, placeholder)}
+                      {triggerLabel(projects, showCountOnMultiple, placeholder, (count) => t("ui.n_projects", { count }))}
                     </span>
                   )}
                 </>

@@ -85,9 +85,10 @@ export const CycleDeleteModal = observer(function CycleDeleteModal(props: ICycle
       title={t("ui.delete_cycle")}
       content={
         <>
-          Are you sure you want to delete cycle{' "'}
+          {t("ui.delete_cycle_confirm_prefix")}{' "'}
           <span className="font-medium break-words text-primary">{cycle?.name}</span>
-          {'"'}? All of the data related to the cycle will be permanently removed. This action cannot be undone.
+          {'"'}
+          {t("ui.delete_cycle_confirm_suffix")}
         </>
       }
     />

@@ -28,6 +28,7 @@ import type { IEditorProps } from "@/types";
 // components
 import { getNodeOptions } from "./block-menu-options";
 import { FloatingMenuItem } from "./floating-menu/root";
+import { translateEditorText } from "@/helpers/translate";
 
 type Props = {
   disabledExtensions?: IEditorProps["disabledExtensions"];
@@ -154,7 +155,7 @@ export function BlockMenu(props: Props) {
     {
       icon: DeleteOutline,
       key: "delete",
-      label: "Delete",
+      label: translateEditorText("Delete"),
       onClick: (_e) => {
         // Execute the delete action
         editor.chain().deleteSelection().focus().run();
@@ -163,7 +164,7 @@ export function BlockMenu(props: Props) {
     {
       icon: CopyOutline,
       key: "duplicate",
-      label: "Duplicate",
+      label: translateEditorText("Duplicate"),
       isDisabled:
         editor.state.selection.content().content.firstChild?.type.name === CORE_EXTENSIONS.IMAGE ||
         editor.isActive(CORE_EXTENSIONS.CUSTOM_IMAGE),

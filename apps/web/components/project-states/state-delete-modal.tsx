@@ -70,8 +70,8 @@ export const StateDeleteModal = observer(function StateDeleteModal(props: TState
       title={t("ui.delete_state")}
       content={
         <>
-          Are you sure you want to delete state- <span className="font-medium text-primary">{data?.name}</span>? All of
-          the data related to the state will be permanently removed. This action cannot be undone.
+          {t("ui.delete_state_confirm_prefix")} <span className="font-medium text-primary">{data?.name}</span>
+          {t("ui.delete_state_confirm_suffix")}
         </>
       }
     />

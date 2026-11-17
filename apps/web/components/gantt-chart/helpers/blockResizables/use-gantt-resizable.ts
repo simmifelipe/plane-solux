@@ -7,6 +7,7 @@
 import { useRef, useState } from "react";
 // Plane
 import { setToast } from "@plane/blocks/toast";
+import { useTranslation } from "@plane/i18n";
 import type { IBlockUpdateDependencyData, IGanttBlock } from "@plane/types";
 // hooks
 import { useTimeLineChartStore } from "@/hooks/use-timeline-chart";
@@ -19,6 +20,7 @@ export const useGanttResizable = (
   ganttContainerRef: React.RefObject<HTMLDivElement | null>,
   updateBlockDates?: (updates: IBlockUpdateDependencyData[]) => Promise<void>
 ) => {
+  const { t } = useTranslation();
   // refs
   const initialPositionRef = useRef<{ marginLeft: number; width: number; offsetX: number }>({
     marginLeft: 0,
@@ -130,8 +132,8 @@ export const useGanttResizable = (
       } catch {
         setToast({
           type: "error",
-          title: "Error",
-          message: "Something went wrong while updating block dates",
+          title: t("toast.error"),
+          message: t("ui.something_went_wrong_while_updating_block_dates"),
         });
       }
 
