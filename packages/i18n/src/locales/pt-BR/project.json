@@ -15,13 +15,13 @@
     "no_matching_cycles": "Nenhum ciclo correspondente",
     "remove_filters_to_see_all_cycles": "Remova os filtros para ver todos os ciclos",
     "remove_search_criteria_to_see_all_cycles": "Remova os critérios de pesquisa para ver todos os ciclos",
-    "only_completed_cycles_can_be_archived": "Apenas ciclos concluídos podem ser arquivados",
+    "only_completed_cycles_can_be_archived": "Apenas ciclos concluídos podem ser arquivadas",
     "start_date": "Data de início",
     "end_date": "Data de término",
     "in_your_timezone": "No seu fuso horário",
-    "transfer_work_items": "Transferir {count} itens de trabalho",
+    "transfer_work_items": "Transferir {count} tarefas",
     "transfer": {
-      "no_cycles_available": "Não há outros ciclos disponíveis para transferir itens de trabalho."
+      "no_cycles_available": "Não há outros ciclos disponíveis para transferir tarefas."
     },
     "date_range": "Intervalo de datas",
     "add_date": "Adicionar data",
@@ -29,9 +29,9 @@
       "label": "Ciclo ativo",
       "progress": "Progresso",
       "chart": "Gráfico de burndown",
-      "priority_issue": "Itens de trabalho prioritários",
+      "priority_issue": "Tarefas prioritárias",
       "assignees": "Responsáveis",
-      "issue_burndown": "Burndown de itens de trabalho",
+      "issue_burndown": "Burndown de tarefas",
       "ideal": "Ideal",
       "current": "Atual",
       "labels": "Etiquetas",
@@ -113,18 +113,18 @@
         }
       },
       "no_issues": {
-        "title": "Nenhum item de trabalho adicionado ao ciclo",
-        "description": "Adicione ou crie itens de trabalho que você deseja definir prazos e entregar dentro deste ciclo",
+        "title": "Nenhuma tarefa adicionada ao ciclo",
+        "description": "Adicione ou crie tarefas que você deseja definir prazos e entregar dentro deste ciclo",
         "primary_button": {
-          "text": "Criar novo item de trabalho"
+          "text": "Criar nova tarefa"
         },
         "secondary_button": {
-          "text": "Adicionar item de trabalho existente"
+          "text": "Adicionar tarefa existente"
         }
       },
       "completed_no_issues": {
-        "title": "Nenhum item de trabalho no ciclo",
-        "description": "Nenhum item de trabalho no ciclo. Os itens de trabalho são transferidos ou ocultos. Para ver os itens de trabalho ocultos, se houver, atualize suas propriedades de exibição de acordo."
+        "title": "Nenhuma tarefa no ciclo",
+        "description": "Nenhuma tarefa no ciclo. As tarefas são transferidas ou ocultas. Para ver as tarefas ocultas, se houver, atualize suas propriedades de exibição de acordo."
       },
       "active": {
         "title": "Nenhum ciclo ativo",
@@ -144,7 +144,7 @@
         "primary_button": {
           "text": "Crie sua primeira visualização",
           "comic": {
-            "title": "As visualizações funcionam sobre as propriedades do item de trabalho.",
+            "title": "As visualizações funcionam sobre as propriedades da tarefa.",
             "description": "Você pode criar uma visualização a partir daqui com quantas propriedades como filtros que você achar adequado."
           }
         },
@@ -154,32 +154,32 @@
         }
       },
       "no_archived_issues": {
-        "title": "Ainda não há itens de trabalho arquivados",
-        "description": "Manualmente ou através de automação, você pode arquivar itens de trabalho concluídos ou cancelados. Encontre-os aqui depois de arquivados.",
+        "title": "Ainda não há tarefas arquivadas",
+        "description": "Manualmente ou através de automação, você pode arquivar tarefas concluídas ou canceladas. Encontre-as aqui depois de arquivados.",
         "primary_button": {
           "text": "Definir automação"
         }
       },
       "issues_empty_filter": {
-        "title": "Nenhum item de trabalho encontrado correspondente aos filtros aplicados",
+        "title": "Nenhuma tarefa encontrada correspondente aos filtros aplicados",
         "secondary_button": {
           "text": "Limpar todos os filtros"
         }
       },
       "public": {
-        "title": "Ainda não há páginas públicas",
-        "description": "Veja aqui as páginas compartilhadas com todos do seu projeto.",
+        "title": "Ainda não há anotações públicas",
+        "description": "Veja aqui as anotações compartilhadas com todos do seu projeto.",
         "primary_button": {
-          "text": "Crie sua primeira página"
+          "text": "Crie sua primeira anotação"
         }
       },
       "archived": {
-        "title": "Ainda não há páginas arquivadas",
-        "description": "Arquive páginas que não estão no seu radar. Acesse-as aqui quando precisar."
+        "title": "Ainda não há anotações arquivadas",
+        "description": "Arquive anotações que não estão no seu radar. Acesse-as aqui quando precisar."
       },
       "shared": {
-        "title": "Ainda não há páginas compartilhadas",
-        "description": "As páginas que outros compartilharam com você aparecerão aqui."
+        "title": "Ainda não há anotações compartilhadas",
+        "description": "As anotações que outros compartilharam com você aparecerão aqui."
       }
     },
     "delete_view": {
@@ -190,25 +190,25 @@
   "project_issues": {
     "empty_state": {
       "no_issues": {
-        "title": "Crie um item de trabalho e atribua-o a alguém, mesmo a você mesmo",
-        "description": "Pense nos itens de trabalho como tarefas, trabalhos ou JTBD. O que nós gostamos. Um item de trabalho e seus subitens de trabalho são geralmente acionáveis ​​baseados no tempo atribuídos aos membros de sua equipe. Sua equipe cria, atribui e conclui itens de trabalho para mover seu projeto em direção à sua meta.",
+        "title": "Crie uma tarefa e atribua-a a alguém, mesmo a você mesmo",
+        "description": "Pense nas tarefas como trabalhos ou JTBD. O que nós gostamos. Uma tarefa e suas subtarefas são geralmente ações com prazo atribuídas aos membros de sua equipe. Sua equipe cria, atribui e conclui tarefas para mover seu projeto em direção à sua meta.",
         "primary_button": {
-          "text": "Crie seu primeiro item de trabalho",
+          "text": "Crie sua primeira tarefa",
           "comic": {
-            "title": "Os itens de trabalho são blocos de construção no Plane.",
-            "description": "Redesenhar a interface do usuário do Plane, reformular a marca da empresa ou lançar o novo sistema de injeção de combustível são exemplos de itens de trabalho que provavelmente têm subitens de trabalho."
+            "title": "As tarefas são blocos de construção no Plane.",
+            "description": "Redesenhar a interface do usuário do Plane, reformular a marca da empresa ou lançar o novo sistema de injeção de combustível são exemplos de tarefas que provavelmente têm subtarefas."
           }
         }
       },
       "no_archived_issues": {
-        "title": "Nenhum item de trabalho arquivado ainda",
-        "description": "Manualmente ou por meio de automação, você pode arquivar itens de trabalho que foram concluídos ou cancelados. Encontre-os aqui quando forem arquivados.",
+        "title": "Nenhuma tarefa arquivada ainda",
+        "description": "Manualmente ou por meio de automação, você pode arquivar tarefas que foram concluídas ou canceladas. Encontre-as aqui quando forem arquivados.",
         "primary_button": {
           "text": "Definir automação"
         }
       },
       "issues_empty_filter": {
-        "title": "Nenhum item de trabalho encontrado correspondendo aos filtros aplicados",
+        "title": "Nenhuma tarefa encontrada correspondendo aos filtros aplicados",
         "secondary_button": {
           "text": "Limpar todos os filtros"
         }
@@ -216,55 +216,55 @@
     }
   },
   "project_module": {
-    "add_module": "Adicionar Módulo",
-    "update_module": "Atualizar Módulo",
-    "create_module": "Criar Módulo",
-    "archive_module": "Arquivar Módulo",
-    "restore_module": "Restaurar Módulo",
-    "delete_module": "Excluir módulo",
+    "add_module": "Adicionar Demanda",
+    "update_module": "Atualizar Demanda",
+    "create_module": "Criar Demanda",
+    "archive_module": "Arquivar Demanda",
+    "restore_module": "Restaurar Demanda",
+    "delete_module": "Excluir demanda",
     "empty_state": {
       "general": {
-        "title": "Mapeie os marcos do seu projeto para Módulos e rastreie o trabalho agregado facilmente.",
-        "description": "Um grupo de itens de trabalho que pertencem a um pai lógico e hierárquico forma um módulo. Pense neles como uma forma de rastrear o trabalho por marcos do projeto. Eles têm seus próprios períodos e prazos, bem como análises para ajudá-lo a ver o quão perto ou longe você está de um marco.",
+        "title": "Mapeie os marcos do seu projeto para Demandas e rastreie o trabalho agregado facilmente.",
+        "description": "Um grupo de tarefas que pertencem a um pai lógico e hierárquico forma uma demanda. Pense nelas como uma forma de rastrear o trabalho por marcos do projeto. Elas têm seus próprios períodos e prazos, bem como análises para ajudá-lo a ver o quão perto ou longe você está de um marco.",
         "primary_button": {
-          "text": "Construa seu primeiro módulo",
+          "text": "Construa sua primeira demanda",
           "comic": {
-            "title": "Os módulos ajudam a agrupar o trabalho por hierarquia.",
-            "description": "Um módulo de carrinho, um módulo de chassi e um módulo de armazém são todos bons exemplos desse agrupamento."
+            "title": "As demandas ajudam a agrupar o trabalho por hierarquia.",
+            "description": "Uma demanda de carrinho, uma demanda de chassi e uma demanda de armazém são todos bons exemplos desse agrupamento."
           }
         }
       },
       "no_issues": {
-        "title": "Nenhum item de trabalho no módulo",
-        "description": "Crie ou adicione itens de trabalho que você deseja realizar como parte deste módulo",
+        "title": "Nenhuma tarefa na demanda",
+        "description": "Crie ou adicione tarefas que você deseja realizar como parte desta demanda",
         "primary_button": {
-          "text": "Criar novos itens de trabalho"
+          "text": "Criar novas tarefas"
         },
         "secondary_button": {
-          "text": "Adicionar um item de trabalho existente"
+          "text": "Adicionar uma tarefa existente"
         }
       },
       "archived": {
-        "title": "Nenhum Módulo arquivado ainda",
-        "description": "Para organizar seu projeto, arquive os módulos concluídos ou cancelados. Encontre-os aqui quando forem arquivados."
+        "title": "Nenhuma Demanda arquivada ainda",
+        "description": "Para organizar seu projeto, arquive as demandas concluídas ou canceladas. Encontre-as aqui quando forem arquivados."
       },
       "sidebar": {
-        "in_active": "Este módulo ainda não está ativo.",
+        "in_active": "Esta demanda ainda não está ativa.",
         "invalid_date": "Data inválida. Por favor, insira uma data válida."
       }
     },
     "quick_actions": {
-      "archive_module": "Arquivar módulo",
-      "archive_module_description": "Apenas módulos concluídos ou cancelados\npodem ser arquivados.",
-      "delete_module": "Excluir módulo"
+      "archive_module": "Arquivar demanda",
+      "archive_module_description": "Apenas demandas concluídas ou canceladas\npodem ser arquivadas.",
+      "delete_module": "Excluir demanda"
     },
     "toast": {
       "copy": {
-        "success": "Link do módulo copiado para a área de transferência"
+        "success": "Link da demanda copiado para a área de transferência"
       },
       "delete": {
-        "success": "Módulo excluído com sucesso",
-        "error": "Falha ao excluir o módulo"
+        "success": "Demanda excluída com sucesso",
+        "error": "Falha ao excluir a demanda"
       }
     }
   },
@@ -272,57 +272,57 @@
     "empty_state": {
       "general": {
         "title": "Escreva uma nota, um documento ou uma base de conhecimento completa. Peça a Galileo, o assistente de IA do Plane, para ajudá-lo a começar",
-        "description": "As páginas são espaço para registrar pensamentos no Plane. Anote notas de reunião, formate-as facilmente, incorpore itens de trabalho, organize-os usando uma biblioteca de componentes e mantenha-os todos no contexto do seu projeto. Para facilitar qualquer documento, invoque Galileo, a IA do Plane, com um atalho ou o clique de um botão.",
+        "description": "As anotações são espaço para registrar pensamentos no Plane. Anote notas de reunião, formate-as facilmente, incorpore tarefas, organize-as usando uma biblioteca de componentes e mantenha-as todas no contexto do seu projeto. Para facilitar qualquer documento, invoque Galileo, a IA do Plane, com um atalho ou o clique de um botão.",
         "primary_button": {
-          "text": "Crie sua primeira página"
+          "text": "Crie sua primeira anotação"
         }
       },
       "private": {
-        "title": "Nenhuma página privada ainda",
+        "title": "Nenhuma anotação privada ainda",
         "description": "Mantenha seus pensamentos privados aqui. Quando estiver pronto para compartilhar, a equipe está a apenas um clique de distância.",
         "primary_button": {
-          "text": "Crie sua primeira página"
+          "text": "Crie sua primeira anotação"
         }
       },
       "public": {
-        "title": "Nenhuma página pública ainda",
-        "description": "Veja as páginas compartilhadas com todos em seu projeto aqui mesmo.",
+        "title": "Nenhuma anotação pública ainda",
+        "description": "Veja as anotações compartilhadas com todos em seu projeto aqui mesmo.",
         "primary_button": {
-          "text": "Crie sua primeira página"
+          "text": "Crie sua primeira anotação"
         }
       },
       "archived": {
-        "title": "Nenhuma página arquivada ainda",
-        "description": "Arquive as páginas que não estão no seu radar. Acesse-as aqui quando necessário."
+        "title": "Nenhuma anotação arquivada ainda",
+        "description": "Arquive as anotações que não estão no seu radar. Acesse-as aqui quando necessário."
       }
     }
   },
   "disabled_project": {
     "empty_state": {
       "inbox": {
-        "title": "A Admissão não está habilitado para o projeto.",
-        "description": "A Admissão ajuda você a gerenciar as solicitações recebidas para o seu projeto e adicioná-las como itens de trabalho em seu fluxo de trabalho. Habilite a admissão nas configurações do projeto para gerenciar as solicitações.",
+        "title": "A Requisição não está habilitada para o projeto.",
+        "description": "A Requisição ajuda você a gerenciar as solicitações recebidas para o seu projeto e adicioná-las como tarefas em seu fluxo de trabalho. Habilite a requisição nas configurações do projeto para gerenciar as solicitações.",
         "primary_button": {
           "text": "Gerenciar funcionalidades"
         }
       },
       "cycle": {
         "title": "Os ciclos não estão habilitados para este projeto.",
-        "description": "Divida o trabalho em partes com prazos definidos, trabalhe de trás para frente a partir do prazo do seu projeto para definir datas e faça um progresso tangível como equipe. Habilite o recurso de ciclos para o seu projeto para começar a usá-los.",
+        "description": "Divida o trabalho em partes com prazos definidos, trabalhe de trás para frente a partir do prazo do seu projeto para definir datas e faça um progresso tangível como equipe. Habilite o recurso de ciclos para o seu projeto para começar a usá-las.",
         "primary_button": {
           "text": "Gerenciar funcionalidades"
         }
       },
       "module": {
-        "title": "Os módulos não estão habilitados para o projeto.",
-        "description": "Os módulos são os blocos de construção do seu projeto. Habilite os módulos nas configurações do projeto para começar a usá-los.",
+        "title": "As demandas não estão habilitadas para o projeto.",
+        "description": "As demandas são os blocos de construção do seu projeto. Habilite as demandas nas configurações do projeto para começar a usá-las.",
         "primary_button": {
           "text": "Gerenciar funcionalidades"
         }
       },
       "page": {
-        "title": "As páginas não estão habilitadas para o projeto.",
-        "description": "As páginas são os blocos de construção do seu projeto. Habilite as páginas nas configurações do projeto para começar a usá-las.",
+        "title": "As anotações não estão habilitadas para o projeto.",
+        "description": "As anotações são os blocos de construção do seu projeto. Habilite as anotações nas configurações do projeto para começar a usá-las.",
         "primary_button": {
           "text": "Gerenciar funcionalidades"
         }
@@ -353,7 +353,7 @@
     "order_by": {
       "name": "Nome",
       "progress": "Progresso",
-      "issues": "Número de itens de trabalho",
+      "issues": "Número de tarefas",
       "due_date": "Data de vencimento",
       "created_at": "Data de criação",
       "manual": "Manual"

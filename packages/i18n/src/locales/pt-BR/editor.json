@@ -49,7 +49,7 @@
     },
     "block_types": {
       "placeholder": "Selecionar tipo de bloco",
-      "summarize_page": "Resumir página",
+      "summarize_page": "Resumir anotação",
       "custom_prompt": "Prompt personalizado"
     },
     "actions": {

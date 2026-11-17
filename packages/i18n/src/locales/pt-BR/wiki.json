@@ -22,51 +22,51 @@
     },
     "delete_modal": {
       "title": "Excluir coleção",
-      "page_count": "Esta coleção tem {pageCount} páginas. Escolha o que deve acontecer com elas.",
-      "transfer_title": "Transferir páginas e excluir coleção",
-      "transfer_description": "Mova todas as páginas para outra coleção antes de excluir. As páginas e suas permissões serão preservadas.",
-      "transfer_warning": "As páginas movidas herdarão as permissões da coleção selecionada.",
-      "transfer_target_label": "Mover páginas para",
+      "page_count": "Esta coleção tem {pageCount} anotações. Escolha o que deve acontecer com elas.",
+      "transfer_title": "Transferir anotações e excluir coleção",
+      "transfer_description": "Mova todas as anotações para outra coleção antes de excluir. As anotações e suas permissões serão preservadas.",
+      "transfer_warning": "As anotações movidas herdarão as permissões da coleção selecionada.",
+      "transfer_target_label": "Mover anotações para",
       "transfer_target_placeholder": "Selecione uma coleção",
-      "delete_with_pages_title": "Excluir coleção com páginas",
-      "delete_with_pages_description": "Exclui permanentemente a coleção e todas as suas páginas. Esta ação não pode ser desfeita.",
+      "delete_with_pages_title": "Excluir coleção com anotações",
+      "delete_with_pages_description": "Exclui permanentemente a coleção e todas as suas anotações. Esta ação não pode ser desfeita.",
       "submit": "Excluir coleção"
     },
     "header": {
-      "add_page": "Adicionar página"
+      "add_page": "Adicionar anotação"
     },
     "menu": {
-      "create_new_page": "Criar nova página",
-      "add_existing_page": "Adicionar página existente",
+      "create_new_page": "Criar nova anotação",
+      "add_existing_page": "Adicionar anotação existente",
       "edit_collection": "Editar coleção",
       "collection_options": "Opções da coleção"
     },
     "add_existing_page_modal": {
-      "search_placeholder": "Pesquisar páginas",
-      "success_message": "{count} páginas adicionadas à coleção.",
-      "error_message": "Não foi possível mover as páginas. Tente novamente.",
-      "no_pages_found": "Nenhuma página encontrada para a sua busca",
-      "no_pages_available": "Nenhuma página disponível para mover",
+      "search_placeholder": "Pesquisar anotações",
+      "success_message": "{count} anotações adicionadas à coleção.",
+      "error_message": "Não foi possível mover as anotações. Tente novamente.",
+      "no_pages_found": "Nenhuma anotação encontrada para a sua busca",
+      "no_pages_available": "Nenhuma anotação disponível para mover",
       "submit": "Mover"
     },
     "list": {
       "invite_only": "Somente por convite",
-      "remove_error": "Não foi possível remover a página da coleção.",
-      "no_matching_pages": "Nenhuma página correspondente",
-      "remove_search_criteria": "Remova os critérios de busca para ver todas as páginas",
-      "remove_filters": "Remova os filtros para ver todas as páginas",
-      "no_pages_title": "Ainda não há páginas",
+      "remove_error": "Não foi possível remover a anotação da coleção.",
+      "no_matching_pages": "Nenhuma anotação correspondente",
+      "remove_search_criteria": "Remova os critérios de busca para ver todas as anotações",
+      "remove_filters": "Remova os filtros para ver todas as anotações",
+      "no_pages_title": "Ainda não há anotações",
       "no_pages_description": "Esta coleção ainda não tem páginas.",
       "untitled": "Sem título",
       "restricted_access": "Acesso restrito",
-      "collapse_page": "Recolher página",
-      "expand_page": "Expandir página",
-      "page_actions": "Ações da página",
-      "page_link_copied": "Link da página copiado para a área de transferência.",
+      "collapse_page": "Recolher anotação",
+      "expand_page": "Expandir anotação",
+      "page_actions": "Ações da anotação",
+      "page_link_copied": "Link da anotação copiado para a área de transferência.",
       "columns": {
-        "page_name": "Nome da página",
+        "page_name": "Nome da anotação",
         "owner": "Proprietário",
-        "nested_pages": "Páginas aninhadas",
+        "nested_pages": "Anotações aninhadas",
         "last_activity": "Última atividade",
         "actions": "Ações"
       }
@@ -76,19 +76,19 @@
       "create_error": "Não foi possível criar a coleção. Tente novamente.",
       "renamed": "Coleção renomeada com sucesso.",
       "rename_error": "Não foi possível atualizar a coleção. Tente novamente.",
-      "transferred_deleted": "As páginas foram transferidas e a coleção foi excluída.",
-      "deleted_with_pages": "A coleção e suas páginas foram excluídas.",
+      "transferred_deleted": "As anotações foram transferidas e a coleção foi excluída.",
+      "deleted_with_pages": "A coleção e suas anotações foram excluídas.",
       "delete_error": "Não foi possível excluir a coleção. Tente novamente.",
-      "target_required": "Selecione uma coleção para mover as páginas.",
-      "create_page_error": "Não foi possível criar a página. Tente novamente.",
-      "create_page_in_collection_error": "Não foi possível criar a página ou adicioná-la à coleção. Tente novamente.",
+      "target_required": "Selecione uma coleção para mover as anotações.",
+      "create_page_error": "Não foi possível criar a anotação. Tente novamente.",
+      "create_page_in_collection_error": "Não foi possível criar a anotação ou adicioná-la à coleção. Tente novamente.",
       "collection_link_copied": "Link da coleção copiado para a área de transferência."
     }
   },
   "wiki": {
     "upgrade_flow": {
       "title": "Faça upgrade para desbloquear o Wiki",
-      "description": "Desbloqueie páginas públicas, histórico de versões, páginas compartilhadas, colaboração em tempo real e páginas do espaço de trabalho para wikis, documentos da empresa e bases de conhecimento com o Plane Pro.",
+      "description": "Desbloqueie anotações públicas, histórico de versões, anotações compartilhadas, colaboração em tempo real e anotações do espaço de trabalho para wikis, documentos da empresa e bases de conhecimento com o Plane Pro.",
       "upgrade_button": {
         "text": "Fazer upgrade"
       },
@@ -100,14 +100,14 @@
         "loading": "Baixando"
       },
       "tabs": {
-        "nested_pages": "Páginas aninhadas",
+        "nested_pages": "Anotações aninhadas",
         "add_embeds": "Adicionar incorporações",
-        "publish_pages": "Publicar páginas",
+        "publish_pages": "Publicar anotações",
         "comments": "Comentários"
       }
     },
     "nested_pages_download_banner": {
-      "title": "As páginas aninhadas exigem um plano pago. Faça upgrade para desbloquear."
+      "title": "As anotações aninhadas exigem um plano pago. Faça upgrade para desbloquear."
     }
   }
 }

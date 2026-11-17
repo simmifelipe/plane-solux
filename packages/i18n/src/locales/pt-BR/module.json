@@ -1,21 +1,21 @@
 {
   "module": {
-    "label": "{count, plural, one {Módulo} other {Módulos}}",
-    "no_module": "Nenhum módulo",
-    "select": "Adicionar módulos",
+    "label": "{count, plural, one {Demanda} other {Demandas}}",
+    "no_module": "Nenhuma demanda",
+    "select": "Adicionar demandas",
     "details_drawer": {
       "progress": {
-        "done": "{completed} de {scope, plural, one {# item de trabalho} many {# de itens de trabalho} other {# itens de trabalho}} concluídos",
+        "done": "{completed} de {scope, plural, one {# tarefa} many {# de tarefas} other {# tarefas}} concluídas",
         "points_done": "{completed} de {scope, plural, one {# ponto} many {# de pontos} other {# pontos}} concluídos",
-        "empty": "Adicione itens de trabalho ao módulo para acompanhar o progresso."
+        "empty": "Adicione tarefas à demanda para acompanhar o progresso."
       }
     }
   },
   "resource_access": {
     "title": "Acesso",
     "manage": "Gerenciar acesso",
-    "description_module": "Escolha quem pode ver, comentar e editar este módulo. Administradores do projeto sempre têm acesso total.",
-    "description_issue": "Escolha quem pode ver, comentar e editar este item de trabalho. Administradores do projeto sempre têm acesso total.",
+    "description_module": "Escolha quem pode ver, comentar e editar esta demanda. Administradores do projeto sempre têm acesso total.",
+    "description_issue": "Escolha quem pode ver, comentar e editar esta tarefa. Administradores do projeto sempre têm acesso total.",
     "restrict": "Restringir acesso",
     "restrict_hint": "Quando ativado, só as pessoas listadas abaixo (e os administradores do projeto) têm acesso.",
     "restricted_badge": "Restrito",
@@ -32,6 +32,6 @@
       "error": "Não foi possível atualizar o acesso. Tente novamente.",
       "load_error": "Não foi possível carregar as configurações de acesso."
     },
-    "no_comment_permission": "Você não tem permissão para comentar neste item de trabalho."
+    "no_comment_permission": "Você não tem permissão para comentar nesta tarefa."
   }
 }

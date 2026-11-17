@@ -5,7 +5,7 @@
         "label": "Estrutura",
         "empty_state": {
           "title": "Cabeçalhos ausentes",
-          "description": "Vamos adicionar alguns cabeçalhos nesta página para vê-los aqui."
+          "description": "Vamos adicionar alguns cabeçalhos nesta anotação para vê-los aqui."
         }
       },
       "info": {
@@ -33,8 +33,8 @@
         "list_error_description": "Não foi possível carregar o histórico de versões.",
         "try_again": "Tentar novamente",
         "restoring": "Restaurando",
-        "restore_success": "Versão da página restaurada.",
-        "restore_failed": "Falha ao restaurar a versão da página."
+        "restore_success": "Versão da anotação restaurada.",
+        "restore_failed": "Falha ao restaurar a versão da anotação."
       },
       "assets": {
         "label": "Recursos",
@@ -92,7 +92,7 @@
         "default": "Mover",
         "loading": "Movendo"
       },
-      "cannot_move_to_teamspace": "Páginas privadas e compartilhadas não podem ser movidas para um espaço de equipe.",
+      "cannot_move_to_teamspace": "Anotações privadas e compartilhadas não podem ser movidas para um espaço de equipe.",
       "placeholders": {
         "workspace_to_all": "Pesquisar por projetos e espaços de equipe",
         "workspace_to_project": "Pesquisar por projetos",
@@ -104,25 +104,25 @@
       "toasts": {
         "success": {
           "title": "Sucesso!",
-          "message": "Página movida com sucesso."
+          "message": "Anotação movida com sucesso."
         },
         "error": {
           "title": "Erro!",
-          "message": "Não foi possível mover a página. Tente novamente mais tarde."
+          "message": "Não foi possível mover a anotação. Tente novamente mais tarde."
         },
         "collection_error": {
           "title": "Movida para o wiki",
-          "message": "A página foi movida para o wiki, mas não pôde ser adicionada à coleção selecionada. Ela permanece em General."
+          "message": "A anotação foi movida para o wiki, mas não pôde ser adicionada à coleção selecionada. Ela permanece em General."
         }
       }
     },
     "remove_from_collection": {
       "label": "Remover da coleção",
-      "success_message": "Página removida da coleção.",
-      "error_message": "Não foi possível remover a página da coleção. Tente novamente."
+      "success_message": "Anotação removida da coleção.",
+      "error_message": "Não foi possível remover a anotação da coleção. Tente novamente."
     }
   },
   "page_content_limit_banner": {
-    "message": "Limite de conteúdo atingido e a sincronização em tempo real está desativada. Crie uma nova página ou use páginas aninhadas para continuar sincronizando."
+    "message": "Limite de conteúdo atingido e a sincronização em tempo real está desativada. Crie uma nova anotação ou use anotações aninhadas para continuar sincronizando."
   }
 }
