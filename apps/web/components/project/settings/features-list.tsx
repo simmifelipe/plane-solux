@@ -4,13 +4,21 @@
  * See the LICENSE file for details.
  */
 
+import type { ReactNode } from "react";
 import { observer } from "mobx-react";
 // plane imports
 import { useTranslation } from "@plane/i18n";
 import { setPromiseToast } from "@plane/blocks/toast";
 import { Tooltip } from "@makeplane/propel/components/tooltip";
 import type { IProject } from "@plane/types";
-import { CyclesOutline, IntakeOutline, ModuleOutline, PagesOutline, ViewsOutline } from "@makeplane/propel/icons";
+import {
+  CyclesOutline,
+  IntakeOutline,
+  ModuleOutline,
+  PagesOutline,
+  ViewsOutline,
+  WorkItemsOutline,
+} from "@makeplane/propel/icons";
 // components
 import { SettingsBoxedControlItem } from "@/components/settings/boxed-control-item";
 import { SettingsHeading } from "@/components/settings/heading";
@@ -27,7 +35,30 @@ type Props = {
   isAdmin: boolean;
 };
 
-const PROJECT_FEATURES_LIST = {
+// Solar: labelKey usa os nomes do menu do projeto (Tarefas, Demandas, Anotações, Requisições)
+const PROJECT_FEATURES_LIST: Record<
+  string,
+  {
+    key: string;
+    labelKey?: string;
+    property: string;
+    title: string;
+    description: string;
+    icon: ReactNode;
+    isPro: boolean;
+    isEnabled: boolean;
+  }
+> = {
+  work_items: {
+    key: "work_items",
+    labelKey: "sidebar.work_items",
+    property: "work_item_view",
+    title: "Work items",
+    description: "Show or hide the work items entry in the project menu.",
+    icon: <WorkItemsOutline className="h-5 w-5 flex-shrink-0 text-tertiary" />,
+    isPro: false,
+    isEnabled: true,
+  },
   cycles: {
     key: "cycles",
     property: "cycle_view",
@@ -39,6 +70,7 @@ const PROJECT_FEATURES_LIST = {
   },
   modules: {
     key: "modules",
+    labelKey: "sidebar.modules",
     property: "module_view",
     title: "Modules",
     description: "Group work into sub-project-like set-ups with their own leads and assignees.",
@@ -57,6 +89,7 @@ const PROJECT_FEATURES_LIST = {
   },
   pages: {
     key: "pages",
+    labelKey: "sidebar.pages",
     property: "page_view",
     title: "Pages",
     description: "Write anything like you write anything.",
@@ -66,6 +99,7 @@ const PROJECT_FEATURES_LIST = {
   },
   inbox: {
     key: "intake",
+    labelKey: "sidebar.intake",
     property: "inbox_view",
     title: "Intake",
     description: "Consider and discuss work items before you add them to your project.",
@@ -82,13 +116,18 @@ export const ProjectFeaturesList = observer(function ProjectFeaturesList(props: 
   const { getProjectById, updateProject } = useProject();
   // derived values
   const currentProjectDetails = getProjectById(projectId);
+  // Solar: work_item_view nasce true (default do banco); trata ausência como ligado
+  const getFeatureValue = (property: string) =>
+    property === "work_item_view"
+      ? (currentProjectDetails?.work_item_view ?? true)
+      : Boolean(currentProjectDetails?.[property as keyof IProject]);
 
   const handleSubmit = (_featureKey: string, featureProperty: string) => {
     if (!workspaceSlug || !projectId || !currentProjectDetails) return;
 
     // making the request to update the project feature
     const settingsPayload = {
-      [featureProperty]: !currentProjectDetails?.[featureProperty as keyof IProject],
+      [featureProperty]: !getFeatureValue(featureProperty),
     };
     const updateProjectPromise = updateProject(workspaceSlug, projectId, settingsPayload);
 
@@ -117,7 +156,7 @@ export const ProjectFeaturesList = observer(function ProjectFeaturesList(props: 
           key={featureItemKey}
           title={
             <span>
-              {t("common.actions.enable")} <span className="lowercase">{t(featureItem.key)}</span>
+              {t("common.actions.enable")} <span className="lowercase">{t(featureItem.labelKey ?? featureItem.key)}</span>
             </span>
           }
           titleAccessory={
@@ -133,7 +172,7 @@ export const ProjectFeaturesList = observer(function ProjectFeaturesList(props: 
               workspaceSlug={workspaceSlug}
               projectId={projectId}
               featureItem={featureItem}
-              value={Boolean(currentProjectDetails?.[featureItem.property as keyof IProject])}
+              value={getFeatureValue(featureItem.property)}
               handleSubmit={handleSubmit}
               disabled={!isAdmin}
             />

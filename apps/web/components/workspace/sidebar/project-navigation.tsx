@@ -77,6 +77,7 @@ export const ProjectNavigation = observer(function ProjectNavigation(props: TPro
   };
 
   const baseNavigation = useCallback(
+    // Solar: ordem do menu = Demandas (módulos) → Tarefas → Anotações → Requisições → Ciclos → Visualizações
     (workspaceSlug: string, projectId: string): TNavigationItem[] => [
       {
         i18n_key: "sidebar.work_items",
@@ -85,8 +86,8 @@ export const ProjectNavigation = observer(function ProjectNavigation(props: TPro
         href: `/${workspaceSlug}/projects/${projectId}/issues`,
         icon: WorkItemsOutline,
         access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER, EUserPermissions.GUEST],
-        shouldRender: true,
-        sortOrder: 1,
+        shouldRender: project?.work_item_view ?? true,
+        sortOrder: 2,
       },
       {
         i18n_key: "sidebar.cycles",
@@ -96,7 +97,7 @@ export const ProjectNavigation = observer(function ProjectNavigation(props: TPro
         icon: CyclesOutline,
         access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
         shouldRender: project?.cycle_view ?? false,
-        sortOrder: 2,
+        sortOrder: 5,
       },
       {
         i18n_key: "sidebar.modules",
@@ -106,7 +107,7 @@ export const ProjectNavigation = observer(function ProjectNavigation(props: TPro
         icon: ModuleOutline,
         access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
         shouldRender: project?.module_view ?? false,
-        sortOrder: 3,
+        sortOrder: 1,
       },
       {
         i18n_key: "sidebar.views",
@@ -116,7 +117,7 @@ export const ProjectNavigation = observer(function ProjectNavigation(props: TPro
         icon: ViewsOutline,
         access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER, EUserPermissions.GUEST],
         shouldRender: project?.issue_views_view ?? false,
-        sortOrder: 4,
+        sortOrder: 6,
       },
       {
         i18n_key: "sidebar.pages",
@@ -126,7 +127,7 @@ export const ProjectNavigation = observer(function ProjectNavigation(props: TPro
         icon: PagesOutline,
         access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER, EUserPermissions.GUEST],
         shouldRender: project?.page_view ?? false,
-        sortOrder: 5,
+        sortOrder: 3,
       },
       {
         i18n_key: "sidebar.intake",
@@ -136,7 +137,7 @@ export const ProjectNavigation = observer(function ProjectNavigation(props: TPro
         icon: IntakeOutline,
         access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER, EUserPermissions.GUEST],
         shouldRender: project?.inbox_view ?? false,
-        sortOrder: 6,
+        sortOrder: 4,
       },
     ],
     [project]

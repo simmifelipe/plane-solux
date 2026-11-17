@@ -225,6 +225,7 @@
   "work_management": "Zarządzanie pracą",
   "projects_and_issues": "Projekty i elementy pracy",
   "projects_and_issues_description": "Włączaj lub wyłączaj te funkcje w projekcie.",
+  "work_items_description": "Show or hide the work items entry in the project menu.",
   "cycles_description": "Określ ramy czasowe pracy dla każdego projektu i dostosuj okres w razie potrzeby. Jeden cykl może trwać 2 tygodnie, a następny 1 tydzień.",
   "modules_description": "Organizuj pracę w podprojekty z dedykowanymi liderami i przypisanymi osobami.",
   "views_description": "Zapisz niestandardowe sortowania, filtry i opcje wyświetlania lub udostępnij je zespołowi.",

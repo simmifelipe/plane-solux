@@ -225,6 +225,7 @@
   "work_management": "Werkbeheer",
   "projects_and_issues": "Projecten en werkitems",
   "projects_and_issues_description": "Schakel deze in of uit voor dit project.",
+  "work_items_description": "Show or hide the work items entry in the project menu.",
   "cycles_description": "Verdeel werk in tijdvakken per project en pas de periode aan waar nodig. De ene cyclus kan 2 weken zijn, de volgende 1 week.",
   "modules_description": "Organiseer werk in subprojecten met eigen leads en toegewezenen.",
   "views_description": "Sla aangepaste sorteringen, filters en weergaveopties op of deel ze met je team.",

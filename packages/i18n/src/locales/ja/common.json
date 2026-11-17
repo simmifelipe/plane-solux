@@ -225,6 +225,7 @@
   "work_management": "作業管理",
   "projects_and_issues": "プロジェクトと作業項目",
   "projects_and_issues_description": "このプロジェクトでオン/オフを切り替えます。",
+  "work_items_description": "Show or hide the work items entry in the project menu.",
   "cycles_description": "プロジェクトごとに作業の時間枠を設定し、必要に応じて期間を調整します。1サイクルは2週間、次は1週間でもかまいません。",
   "modules_description": "専任のリーダーと担当者を持つサブプロジェクトに作業を整理します。",
   "views_description": "カスタムの並び替え、フィルター、表示オプションを保存するか、チームと共有します。",

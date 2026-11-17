@@ -38,6 +38,7 @@ export const useNavigationItems = ({
 }: UseNavigationItemsProps): TNavigationItem[] => {
   // Base navigation items
   const baseNavigation = useCallback(
+    // Solar: ordem do menu = Demandas (módulos) → Tarefas → Anotações → Requisições → Ciclos → Visualizações
     // oxlint-disable-next-line no-shadow
     (workspaceSlug: string, projectId: string): TNavigationItem[] => [
       {
@@ -47,8 +48,8 @@ export const useNavigationItems = ({
         href: `/${workspaceSlug}/projects/${projectId}/issues`,
         icon: WorkItemsOutline,
         access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER, EUserPermissions.GUEST],
-        shouldRender: true,
-        sortOrder: 1,
+        shouldRender: project?.work_item_view ?? true,
+        sortOrder: 2,
       },
       {
         i18n_key: "sidebar.cycles",
@@ -58,7 +59,7 @@ export const useNavigationItems = ({
         icon: CyclesOutline,
         access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
         shouldRender: !!project?.cycle_view,
-        sortOrder: 2,
+        sortOrder: 5,
       },
       {
         i18n_key: "sidebar.modules",
@@ -68,7 +69,7 @@ export const useNavigationItems = ({
         icon: ModuleOutline,
         access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER],
         shouldRender: !!project?.module_view,
-        sortOrder: 3,
+        sortOrder: 1,
       },
       {
         i18n_key: "sidebar.views",
@@ -78,7 +79,7 @@ export const useNavigationItems = ({
         icon: ViewsOutline,
         access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER, EUserPermissions.GUEST],
         shouldRender: !!project?.issue_views_view,
-        sortOrder: 4,
+        sortOrder: 6,
       },
       {
         i18n_key: "sidebar.pages",
@@ -88,7 +89,7 @@ export const useNavigationItems = ({
         icon: PagesOutline,
         access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER, EUserPermissions.GUEST],
         shouldRender: !!project?.page_view,
-        sortOrder: 5,
+        sortOrder: 3,
       },
       {
         i18n_key: "sidebar.intake",
@@ -98,7 +99,7 @@ export const useNavigationItems = ({
         icon: IntakeOutline,
         access: [EUserPermissions.ADMIN, EUserPermissions.MEMBER, EUserPermissions.GUEST],
         shouldRender: !!project?.inbox_view,
-        sortOrder: 6,
+        sortOrder: 4,
       },
     ],
     [project]
