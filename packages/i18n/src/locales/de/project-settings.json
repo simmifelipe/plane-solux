@@ -330,6 +330,13 @@
       "description": "Erstellen und passen Sie verschiedene Typen von Arbeitselementen mit einzigartigen Eigenschaften an"
     },
     "features": {
+      "work_items": {
+        "title": "Work items",
+        "short_title": "Work items",
+        "description": "Show or hide the work items entry in this project's menu.",
+        "toggle_title": "Show work items in the menu",
+        "toggle_description": "When off, the work items entry is hidden from the project menu."
+      },
       "cycles": {
         "title": "Zyklen",
         "short_title": "Zyklen",

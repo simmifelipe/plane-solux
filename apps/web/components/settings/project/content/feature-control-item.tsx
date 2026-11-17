@@ -38,7 +38,8 @@ export const ProjectSettingsFeatureControlItem = observer(function ProjectSettin
 
     // making the request to update the project feature
     const settingsPayload = {
-      [featureProperty]: !currentProjectDetails?.[featureProperty],
+      // Solar: usa o valor exibido (work_item_view pode vir ausente e valer true)
+      [featureProperty]: !value,
     };
     const updateProjectPromise = updateProject(workspaceSlug, projectId, settingsPayload);
 

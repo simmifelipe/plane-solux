@@ -330,6 +330,13 @@
       "description": "Crie e personalize diferentes tipos de itens de trabalho com propriedades únicas"
     },
     "features": {
+      "work_items": {
+        "title": "Tarefas",
+        "short_title": "Tarefas",
+        "description": "Mostre ou oculte o item Tarefas no menu deste projeto.",
+        "toggle_title": "Mostrar Tarefas no menu",
+        "toggle_description": "Quando desligado, o item Tarefas some do menu do projeto."
+      },
       "cycles": {
         "title": "Ciclos",
         "short_title": "Ciclos",
@@ -338,11 +345,11 @@
         "toggle_description": "Planeje o trabalho em períodos de tempo focados."
       },
       "modules": {
-        "title": "Módulos",
-        "short_title": "Módulos",
+        "title": "Demandas",
+        "short_title": "Demandas",
         "description": "Organize o trabalho em subprojetos com líderes e responsáveis dedicados.",
-        "toggle_title": "Ativar módulos",
-        "toggle_description": "Os membros do projeto poderão criar e editar módulos."
+        "toggle_title": "Ativar demandas",
+        "toggle_description": "Os membros do projeto poderão criar e editar demandas."
       },
       "views": {
         "title": "Visualizações",
@@ -352,20 +359,20 @@
         "toggle_description": "Os membros do projeto poderão criar e editar visualizações."
       },
       "pages": {
-        "title": "Páginas",
-        "short_title": "Páginas",
+        "title": "Anotações",
+        "short_title": "Anotações",
         "description": "Crie e edite conteúdo livre: notas, documentos, qualquer coisa.",
-        "toggle_title": "Ativar páginas",
-        "toggle_description": "Os membros do projeto poderão criar e editar páginas."
+        "toggle_title": "Ativar anotações",
+        "toggle_description": "Os membros do projeto poderão criar e editar anotações."
       },
       "intake": {
         "intake_responsibility": "Responsabilidade de recebimento",
         "intake_sources": "Fontes de recebimento",
-        "title": "Recepção",
-        "short_title": "Recepção",
+        "title": "Requisições",
+        "short_title": "Requisições",
         "description": "Permita que não membros compartilhem bugs, feedback e sugestões; sem interromper seu fluxo de trabalho.",
-        "toggle_title": "Ativar recepção",
-        "toggle_description": "Permitir que membros do projeto criem solicitações de recepção no aplicativo.",
+        "toggle_title": "Ativar requisições",
+        "toggle_description": "Permitir que membros do projeto criem requisições no aplicativo.",
         "toggle_tooltip_on": "Peça ao administrador do projeto para ativar.",
         "toggle_tooltip_off": "Peça ao administrador do projeto para desativar.",
         "notify_assignee": {

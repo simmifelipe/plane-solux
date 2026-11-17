@@ -330,6 +330,13 @@
       "description": "独自のプロパティを持つさまざまな種類の作業項目を作成・カスタマイズします"
     },
     "features": {
+      "work_items": {
+        "title": "Work items",
+        "short_title": "Work items",
+        "description": "Show or hide the work items entry in this project's menu.",
+        "toggle_title": "Show work items in the menu",
+        "toggle_description": "When off, the work items entry is hidden from the project menu."
+      },
       "cycles": {
         "title": "サイクル",
         "short_title": "サイクル",

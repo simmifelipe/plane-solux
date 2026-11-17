@@ -44,6 +44,14 @@ export const PROJECT_SETTINGS: Record<TProjectSettingsTabs, TProjectSettingsItem
     access: [EUserProjectRoles.ADMIN, EUserProjectRoles.MEMBER, EUserProjectRoles.GUEST],
     highlight: (pathname: string, baseUrl: string) => pathname === `${baseUrl}/members/`,
   },
+  // Solar: liga/desliga o item "Tarefas" (itens de trabalho) no menu do projeto
+  features_work_items: {
+    key: "features_work_items",
+    i18n_label: "project_settings.features.work_items.short_title",
+    href: `/features/work-items`,
+    access: [EUserProjectRoles.ADMIN],
+    highlight: (pathname: string, baseUrl: string) => pathname === `${baseUrl}/features/work-items/`,
+  },
   features_cycles: {
     key: "features_cycles",
     i18n_label: "project_settings.features.cycles.short_title",
@@ -114,11 +122,13 @@ export const PROJECT_SETTINGS_FLAT_MAP: TProjectSettingsItem[] = Object.values(P
 export const GROUPED_PROJECT_SETTINGS: Record<PROJECT_SETTINGS_CATEGORY, TProjectSettingsItem[]> = {
   [PROJECT_SETTINGS_CATEGORY.GENERAL]: [PROJECT_SETTINGS["general"], PROJECT_SETTINGS["members"]],
   [PROJECT_SETTINGS_CATEGORY.FEATURES]: [
-    PROJECT_SETTINGS["features_cycles"],
+    // Solar: mesma ordem do menu do projeto
     PROJECT_SETTINGS["features_modules"],
-    PROJECT_SETTINGS["features_views"],
+    PROJECT_SETTINGS["features_work_items"],
     PROJECT_SETTINGS["features_pages"],
     PROJECT_SETTINGS["features_intake"],
+    PROJECT_SETTINGS["features_cycles"],
+    PROJECT_SETTINGS["features_views"],
   ],
   [PROJECT_SETTINGS_CATEGORY.WORK_STRUCTURE]: [
     PROJECT_SETTINGS["states"],
