@@ -1823,6 +1823,7 @@
     "use_case_manage_sprints": "Manage engineering sprints",
     "use_case_coordinate_projects": "Coordinate cross-functional projects",
     "use_case_replace_tool": "Replace our current tool",
-    "use_case_just_exploring": "Just exploring"
+    "use_case_just_exploring": "Just exploring",
+    "module_comment_images_unsupported": "Images are not supported in module comments yet"
   }
 }

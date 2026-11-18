@@ -6,6 +6,7 @@
 
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "@plane/i18n";
 import { observer } from "mobx-react";
 import { usePathname } from "next/navigation";
 // plane imports
@@ -72,6 +73,7 @@ export const CommentCardDisplay = observer(function CommentCardDisplay(props: TC
     : (userDetails?.display_name ?? comment?.actor_detail?.display_name);
   const avatarUrl = userDetails?.avatar_url ?? comment?.actor_detail?.avatar_url;
 
+  const { t } = useTranslation();
   const userReactions = activityOperations.userReactions(comment.id);
 
   // navigation
@@ -139,20 +141,22 @@ export const CommentCardDisplay = observer(function CommentCardDisplay(props: TC
               tooltip={`${renderFormattedDate(comment.created_at)} at ${renderFormattedTime(comment.created_at)}`}
             >
               {calculateTimeAgo(comment.created_at)}
-              {comment.edited_at && " (edited)"}
+              {comment.edited_at && ` (${t("edited")})`}
             </ActivityTimelineTimestamp>
           }
           actions={
             !disabled ? (
               <>
-                <EmojiReactionPicker
-                  isOpen={isPickerOpen}
-                  handleToggle={setIsPickerOpen}
-                  onChange={handleEmojiSelect}
-                  disabled={disabled}
-                  render={<EmojiReactionButton />}
-                  placement="bottom-start"
-                />
+                {userReactions !== undefined && (
+                  <EmojiReactionPicker
+                    isOpen={isPickerOpen}
+                    handleToggle={setIsPickerOpen}
+                    onChange={handleEmojiSelect}
+                    disabled={disabled}
+                    render={<EmojiReactionButton />}
+                    placement="bottom-start"
+                  />
+                )}
                 {renderQuickActions ? renderQuickActions() : null}
               </>
             ) : undefined

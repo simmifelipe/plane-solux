@@ -162,6 +162,7 @@ from .module.base import (
 )
 
 from .module.issue import ModuleIssueViewSet
+from .module.comment import ModuleCommentViewSet
 
 from .module.archive import ModuleArchiveUnarchiveEndpoint
 

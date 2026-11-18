@@ -21,7 +21,10 @@ from plane.db.models import (
     ModuleIssue,
     ModuleLink,
     ModuleUserProperties,
+    ModuleComment,
 )
+from .user import UserLiteSerializer
+from plane.utils.content_validator import validate_html_content
 
 
 class ModuleWriteSerializer(BaseSerializer):
@@ -72,6 +75,12 @@ class ModuleWriteSerializer(BaseSerializer):
                 )
             )
             data["label_ids"] = [label_id for label_id in unique_ids if label_id in valid_ids]
+        # Solar: the estimate point must belong to the module's project
+        estimate_point = data.get("estimate_point", None)
+        if estimate_point is not None:
+            project = self.instance.project if self.instance else self.context.get("project")
+            if project is None or estimate_point.project_id != project.id:
+                raise serializers.ValidationError({"estimate_point": "Invalid estimate point"})
         return data
 
     def create(self, validated_data):
@@ -248,6 +257,7 @@ class ModuleSerializer(DynamicBaseSerializer):
             "status",
             "priority",
             "label_ids",
+            "estimate_point",
             "lead_id",
             "member_ids",
             "view_props",
@@ -299,3 +309,60 @@ class ModuleUserPropertiesSerializer(BaseSerializer):
         model = ModuleUserProperties
         fields = "__all__"
         read_only_fields = ["workspace", "project", "module", "user"]
+
+
+class ModuleCommentSerializer(BaseSerializer):
+    """Solar: comments on a "Demanda" (module)."""
+
+    actor_detail = UserLiteSerializer(read_only=True, source="actor")
+    comment_reactions = serializers.SerializerMethodField()
+    attachments = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ModuleComment
+        fields = [
+            "id",
+            "workspace",
+            "project",
+            "module",
+            "actor",
+            "actor_detail",
+            "comment_html",
+            "comment_stripped",
+            "comment_json",
+            "comment_reactions",
+            "attachments",
+            "edited_at",
+            "created_at",
+            "updated_at",
+            "created_by",
+            "updated_by",
+        ]
+        read_only_fields = [
+            "id",
+            "workspace",
+            "project",
+            "module",
+            "actor",
+            "comment_stripped",
+            "edited_at",
+            "created_at",
+            "updated_at",
+            "created_by",
+            "updated_by",
+        ]
+
+    def get_comment_reactions(self, obj):
+        return []
+
+    def get_attachments(self, obj):
+        return []
+
+    def validate(self, attrs):
+        if "comment_html" in attrs and attrs["comment_html"]:
+            is_valid, _, sanitized_html = validate_html_content(attrs["comment_html"])
+            if not is_valid:
+                raise serializers.ValidationError({"comment_html": "HTML content is not valid"})
+            if sanitized_html is not None:
+                attrs["comment_html"] = sanitized_html
+        return attrs

@@ -11,6 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import {
   AddOutline,
   CloseOutline,
+  EstimateOutline,
   LabelsOutline,
   LeadOutline,
   MembersOutline,
@@ -34,6 +35,7 @@ import { Loader } from "@plane/blocks/skeleton";
 // helpers
 import { getDate, renderFormattedPayloadDate } from "@plane/utils";
 import { SidebarPropertyListItem } from "@/components/common/layout/sidebar/property-list-item";
+import { EstimateSelect } from "@/components/dropdowns/estimate/estimate-select";
 import { LabelSelect } from "@/components/dropdowns/label/label-select";
 import { MemberSelect } from "@/components/dropdowns/member/member-select";
 import { PrioritySelect } from "@/components/dropdowns/priority/priority-select";
@@ -46,6 +48,7 @@ import { useProjectEstimates } from "@/hooks/store/estimates";
 import { useModule } from "@/hooks/store/use-module";
 import { useUserPermissions, useUserProfile } from "@/hooks/store/user";
 // local imports
+import { ModuleComments } from "./comments";
 import { ModuleSidebarDescription } from "./description";
 import { ModuleSidebarGroup } from "./sidebar-group";
 
@@ -57,6 +60,7 @@ const defaultValues: Partial<IModule> = {
   status: "backlog",
   priority: "none",
   label_ids: [],
+  estimate_point: null,
 };
 
 type TModuleLinksCollapsibleProps = {
@@ -355,6 +359,27 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                 )}
               />
             </SidebarPropertyListItem>
+            {areEstimateEnabled && (
+              <SidebarPropertyListItem icon={EstimateOutline} label={t("estimate")}>
+                <Controller
+                  control={control}
+                  name="estimate_point"
+                  render={({ field: { value, onChange } }) => (
+                    <EstimateSelect
+                      projectId={projectId?.toString()}
+                      value={value ?? null}
+                      onChange={(val) => {
+                        onChange(val);
+                        void submitChanges({ estimate_point: val });
+                      }}
+                      disabled={!isEditingAllowed || !!isArchived}
+                      variant="select-ghost-md"
+                      className="w-full"
+                    />
+                  )}
+                />
+              </SidebarPropertyListItem>
+            )}
             <SidebarPropertyListItem icon={LabelsOutline} label={t("labels")}>
               <Controller
                 control={control}
@@ -481,6 +506,18 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
           handleDeleteLink={handleDeleteLink}
           setModuleLinkModal={setModuleLinkModal}
         />
+
+        {workspaceSlug && projectId && moduleDetails?.id && (
+          <>
+            <div className="w-full border-t border-subtle" />
+            <ModuleComments
+              workspaceSlug={workspaceSlug.toString()}
+              projectId={projectId.toString()}
+              moduleId={moduleDetails.id}
+              canComment={!isArchived && moduleDetails.can_comment !== false}
+            />
+          </>
+        )}
       </div>
     </div>
   );

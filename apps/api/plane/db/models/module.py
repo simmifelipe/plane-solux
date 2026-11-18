@@ -7,6 +7,7 @@ from django.conf import settings
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from django.db.models import Q
+from django.utils.html import strip_tags
 
 # Module imports
 from .project import ProjectBaseModel
@@ -98,6 +99,10 @@ class Module(ProjectBaseModel):
     )
     # Solar: project labels attached to the "Demanda" (module)
     label_ids = ArrayField(models.UUIDField(), default=list, blank=True)
+    # Solar: effort estimate of the "Demanda", using the project's active estimate points
+    estimate_point = models.ForeignKey(
+        "db.EstimatePoint", on_delete=models.SET_NULL, related_name="modules", null=True, blank=True
+    )
     lead = models.ForeignKey("db.User", on_delete=models.SET_NULL, related_name="module_leads", null=True)
     members = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
@@ -232,3 +237,29 @@ class ModuleUserProperties(ProjectBaseModel):
 
     def __str__(self):
         return f"{self.module.name} {self.user.email}"
+
+
+class ModuleComment(ProjectBaseModel):
+    """Solar: comments on a "Demanda" (module)."""
+
+    module = models.ForeignKey("db.Module", on_delete=models.CASCADE, related_name="module_comments")
+    actor = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="module_comments", null=True
+    )
+    comment_html = models.TextField(blank=True, default="<p></p>")
+    comment_stripped = models.TextField(blank=True)
+    comment_json = models.JSONField(blank=True, default=dict)
+    edited_at = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.comment_stripped = strip_tags(self.comment_html) if self.comment_html else ""
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = "Module Comment"
+        verbose_name_plural = "Module Comments"
+        db_table = "module_comments"
+        ordering = ("created_at",)
+
+    def __str__(self):
+        return f"{self.module.name} {self.actor}"

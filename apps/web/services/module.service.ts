@@ -6,7 +6,7 @@
 
 // types
 import { API_BASE_URL } from "@plane/constants";
-import type { IModule, ILinkDetails, ModuleLink, TIssuesResponse } from "@plane/types";
+import type { IModule, ILinkDetails, ModuleLink, TIssueComment, TIssuesResponse } from "@plane/types";
 // services
 import { APIService } from "@/services/api.service";
 
@@ -187,6 +187,55 @@ export class ModuleService extends APIService {
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response;
+      });
+  }
+
+  // Solar: comments on a "Demanda" (module)
+  async getModuleComments(workspaceSlug: string, projectId: string, moduleId: string): Promise<TIssueComment[]> {
+    return this.get(`/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/comments/`)
+      .then((response) => response?.data)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
+  async createModuleComment(
+    workspaceSlug: string,
+    projectId: string,
+    moduleId: string,
+    data: Partial<TIssueComment>
+  ): Promise<TIssueComment> {
+    return this.post(`/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/comments/`, data)
+      .then((response) => response?.data)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
+  async updateModuleComment(
+    workspaceSlug: string,
+    projectId: string,
+    moduleId: string,
+    commentId: string,
+    data: Partial<TIssueComment>
+  ): Promise<TIssueComment> {
+    return this.patch(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/comments/${commentId}/`,
+      data
+    )
+      .then((response) => response?.data)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
+  async deleteModuleComment(workspaceSlug: string, projectId: string, moduleId: string, commentId: string) {
+    return this.delete(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/comments/${commentId}/`
+    )
+      .then((response) => response?.data)
+      .catch((error) => {
+        throw error?.response?.data;
       });
   }
 

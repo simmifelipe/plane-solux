@@ -9,6 +9,7 @@ from plane.app.views import (
     ModuleViewSet,
     ModuleIssueViewSet,
     ModuleLinkViewSet,
+    ModuleCommentViewSet,
     ModuleFavoriteViewSet,
     ModuleUserPropertiesEndpoint,
     ModuleArchiveUnarchiveEndpoint,
@@ -73,6 +74,17 @@ urlpatterns = [
             }
         ),
         name="project-issue-module-links",
+    ),
+    # Solar: comments on a "Demanda" (module)
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/modules/<uuid:module_id>/comments/",
+        ModuleCommentViewSet.as_view({"get": "list", "post": "create"}),
+        name="project-module-comments",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/modules/<uuid:module_id>/comments/<uuid:pk>/",
+        ModuleCommentViewSet.as_view({"patch": "partial_update", "delete": "destroy"}),
+        name="project-module-comments",
     ),
     path(
         "workspaces/<str:slug>/projects/<uuid:project_id>/user-favorite-modules/",

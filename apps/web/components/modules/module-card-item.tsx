@@ -34,7 +34,9 @@ import { getDate, renderFormattedPayloadDate, generateQueryParams } from "@plane
 import { handleTriggerKeyDown } from "@/components/common/trigger-guard";
 import { ButtonAvatars } from "@/components/dropdowns/member/avatar";
 import { ModuleQuickActions } from "@/components/modules";
+import { EstimateSelect } from "@/components/dropdowns/estimate/estimate-select";
 import { LabelSelect } from "@/components/dropdowns/label/label-select";
+import { useProjectEstimates } from "@/hooks/store/estimates";
 import { PrioritySelect } from "@/components/dropdowns/priority/priority-select";
 import { ModuleStatusDropdown } from "@/components/modules/module-status-dropdown";
 // hooks
@@ -51,6 +53,7 @@ type Props = {
 export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
   const { moduleId } = props;
   const { t } = useTranslation();
+  const { areEstimateEnabledByProjectId } = useProjectEstimates();
   // refs
   const parentRef = useRef(null);
   // router
@@ -289,6 +292,17 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
               showEmptyIcon
               tooltip
             />
+            {areEstimateEnabledByProjectId(moduleDetails.project_id) && (
+              <EstimateSelect
+                projectId={moduleDetails.project_id}
+                value={moduleDetails.estimate_point ?? null}
+                onChange={(val) => void handleModuleDetailsChange({ estimate_point: val })}
+                variant="pill-sm"
+                placeholder={t("estimate")}
+                disabled={isDisabled}
+                tooltip
+              />
+            )}
             <PrioritySelect
               value={moduleDetails.priority ?? "none"}
               onChange={(val) => void handleModuleDetailsChange({ priority: val })}

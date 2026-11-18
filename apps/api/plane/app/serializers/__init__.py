@@ -90,6 +90,7 @@ from .module import (
     ModuleSerializer,
     ModuleIssueSerializer,
     ModuleLinkSerializer,
+    ModuleCommentSerializer,
     ModuleUserPropertiesSerializer,
 )
 

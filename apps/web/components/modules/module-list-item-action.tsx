@@ -20,7 +20,9 @@ import { DateRangeSelect } from "@plane/blocks/property-select";
 import { renderFormattedPayloadDate, getDate } from "@plane/utils";
 // components
 import { ModuleQuickActions } from "@/components/modules";
+import { EstimateSelect } from "@/components/dropdowns/estimate/estimate-select";
 import { LabelSelect } from "@/components/dropdowns/label/label-select";
+import { useProjectEstimates } from "@/hooks/store/estimates";
 import { PrioritySelect } from "@/components/dropdowns/priority/priority-select";
 import { ModuleStatusDropdown } from "@/components/modules/module-status-dropdown";
 // hooks
@@ -46,6 +48,7 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
   const { data: userProfile } = useUserProfile();
 
   const { t } = useTranslation();
+  const { areEstimateEnabledByProjectId } = useProjectEstimates();
 
   // local storage
   const { setValue: toggleFavoriteMenu, storedValue } = useLocalStorage<boolean>(IS_FAVORITE_MENU_OPEN, false);
@@ -163,6 +166,17 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
         showEmptyIcon
         tooltip
       />
+      {areEstimateEnabledByProjectId(moduleDetails.project_id) && (
+        <EstimateSelect
+          projectId={moduleDetails.project_id}
+          value={moduleDetails.estimate_point ?? null}
+          onChange={(val) => void handleModuleDetailsChange({ estimate_point: val })}
+          variant="pill-sm"
+          placeholder={t("estimate")}
+          disabled={isDisabled}
+          tooltip
+        />
+      )}
       <PrioritySelect
         value={moduleDetails.priority ?? "none"}
         onChange={(val) => void handleModuleDetailsChange({ priority: val })}

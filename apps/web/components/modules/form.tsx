@@ -26,7 +26,9 @@ import type { IModule } from "@plane/types";
 import { getDate, renderFormattedPayloadDate, getTabIndex } from "@plane/utils";
 // components
 import { MemberSelect } from "@/components/dropdowns/member/member-select";
+import { EstimateSelect } from "@/components/dropdowns/estimate/estimate-select";
 import { LabelSelect } from "@/components/dropdowns/label/label-select";
+import { useProjectEstimates } from "@/hooks/store/estimates";
 import { PrioritySelect } from "@/components/dropdowns/priority/priority-select";
 import { ProjectSelect } from "@/components/dropdowns/project/project-select";
 import { ModuleStatusSelect } from "@/components/modules";
@@ -50,6 +52,7 @@ const defaultValues: Partial<IModule> = {
   status: "backlog",
   priority: "none",
   label_ids: [],
+  estimate_point: null,
   lead_id: null,
   member_ids: [],
 };
@@ -59,6 +62,7 @@ export function ModuleForm(props: Props) {
   // store hooks
   const { projectsWithCreatePermissions } = useUser();
   const { data: userProfile } = useUserProfile();
+  const { areEstimateEnabledByProjectId } = useProjectEstimates();
   // form info
   const {
     formState: { errors, isSubmitting, dirtyFields },
@@ -73,6 +77,7 @@ export function ModuleForm(props: Props) {
       status: data?.status || "backlog",
       priority: data?.priority || "none",
       label_ids: data?.label_ids || [],
+      estimate_point: data?.estimate_point ?? null,
       lead_id: data?.lead_id || null,
       member_ids: data?.member_ids || [],
     },
@@ -215,14 +220,25 @@ export function ModuleForm(props: Props) {
                 control={control}
                 name="priority"
                 render={({ field: { value, onChange } }) => (
-                  <PrioritySelect
-                    value={value}
-                    onChange={onChange}
-                    variant="pill-sm"
-                    tabIndex={getIndex("priority")}
-                  />
+                  <PrioritySelect value={value} onChange={onChange} variant="pill-sm" tabIndex={getIndex("priority")} />
                 )}
               />
+              {projectId && areEstimateEnabledByProjectId(projectId) && (
+                <Controller
+                  control={control}
+                  name="estimate_point"
+                  render={({ field: { value, onChange } }) => (
+                    <EstimateSelect
+                      projectId={projectId}
+                      value={value ?? null}
+                      onChange={onChange}
+                      variant="pill-sm"
+                      placeholder={t("estimate")}
+                      tabIndex={getIndex("estimate_point")}
+                    />
+                  )}
+                />
+              )}
               <Controller
                 control={control}
                 name="label_ids"
