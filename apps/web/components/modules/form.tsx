@@ -87,6 +87,13 @@ export function ModuleForm(props: Props) {
 
   const { t } = useTranslation();
 
+  // Solar: priority, labels and estimate (when the project uses estimates) are required when creating
+  const isCreating = !status;
+  const isEstimateRequired = isCreating && !!projectId && areEstimateEnabledByProjectId(projectId);
+  const requiredErrors = [errors.priority?.message, errors.estimate_point?.message, errors.label_ids?.message].filter(
+    (message): message is string => !!message
+  );
+
   const handleCreateUpdateModule = async (formData: Partial<IModule>) => {
     await handleFormSubmit(formData, dirtyFields);
 
@@ -219,6 +226,9 @@ export function ModuleForm(props: Props) {
               <Controller
                 control={control}
                 name="priority"
+                rules={{
+                  validate: (value) => !isCreating || (!!value && value !== "none") || t("ui.module_priority_required"),
+                }}
                 render={({ field: { value, onChange } }) => (
                   <PrioritySelect value={value} onChange={onChange} variant="pill-sm" tabIndex={getIndex("priority")} />
                 )}
@@ -227,6 +237,9 @@ export function ModuleForm(props: Props) {
                 <Controller
                   control={control}
                   name="estimate_point"
+                  rules={{
+                    validate: (value) => !isEstimateRequired || !!value || t("ui.module_estimate_required"),
+                  }}
                   render={({ field: { value, onChange } }) => (
                     <EstimateSelect
                       projectId={projectId}
@@ -242,6 +255,9 @@ export function ModuleForm(props: Props) {
               <Controller
                 control={control}
                 name="label_ids"
+                rules={{
+                  validate: (value) => !isCreating || (value?.length ?? 0) > 0 || t("ui.module_labels_required"),
+                }}
                 render={({ field: { value, onChange } }) => (
                   <LabelSelect
                     projectId={projectId}
@@ -284,6 +300,13 @@ export function ModuleForm(props: Props) {
                 )}
               />
             </div>
+            {requiredErrors.length > 0 && (
+              <div className="space-y-0.5 text-caption-sm-regular text-danger-primary" role="alert">
+                {requiredErrors.map((message) => (
+                  <p key={message}>{message}</p>
+                ))}
+              </div>
+            )}
           </div>
         </DialogBody>
       </DialogMain>

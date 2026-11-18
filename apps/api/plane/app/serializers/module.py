@@ -81,6 +81,18 @@ class ModuleWriteSerializer(BaseSerializer):
             project = self.instance.project if self.instance else self.context.get("project")
             if project is None or estimate_point.project_id != project.id:
                 raise serializers.ValidationError({"estimate_point": "Invalid estimate point"})
+        # Solar: priority, labels and (when the project uses estimates) estimate are required on creation
+        if self.instance is None:
+            project = self.context.get("project")
+            errors = {}
+            if data.get("priority", "none") in (None, "", "none"):
+                errors["priority"] = "Priority is required"
+            if not data.get("label_ids"):
+                errors["label_ids"] = "At least one label is required"
+            if project is not None and project.estimate_id and data.get("estimate_point") is None:
+                errors["estimate_point"] = "Estimate is required"
+            if errors:
+                raise serializers.ValidationError(errors)
         return data
 
     def create(self, validated_data):

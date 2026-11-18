@@ -26,7 +26,7 @@ import {
   DialogTitle,
 } from "@makeplane/propel/components/dialog";
 import { setToast } from "@plane/blocks/toast";
-import type { TIssue, TWorkspaceDraftIssue } from "@plane/types";
+import type { IModule, IState, TIssue, TStateGroups, TWorkspaceDraftIssue } from "@plane/types";
 // hooks
 import { Switch } from "@makeplane/propel/components/switch";
 import {
@@ -46,12 +46,38 @@ import {
 // helpers
 // hooks
 import { useIssueModal } from "@/hooks/context/use-issue-modal";
+import { useProjectEstimates } from "@/hooks/store/estimates";
 import { useIssueDetail } from "@/hooks/store/use-issue-detail";
+import { useModule } from "@/hooks/store/use-module";
 import { useProject } from "@/hooks/store/use-project";
 import { useProjectState } from "@/hooks/store/use-project-state";
+import { useUser } from "@/hooks/store/user/user-user";
 import { useWorkspaceDraftIssues } from "@/hooks/store/workspace-draft";
 import { usePlatformOS } from "@/hooks/use-platform-os";
 import { useProjectIssueProperties } from "@/hooks/use-project-issue-properties";
+
+// Solar: module (Demanda) status -> work item state group used when inheriting the status
+const MODULE_STATUS_TO_STATE_GROUP: Record<string, TStateGroups> = {
+  backlog: "backlog",
+  planned: "unstarted",
+  "in-progress": "started",
+  paused: "unstarted",
+  completed: "completed",
+  cancelled: "cancelled",
+};
+
+const getInheritedStateId = (
+  module: IModule,
+  states: IState[] | undefined,
+  defaultStateId: string | undefined
+): string | undefined => {
+  const group = MODULE_STATUS_TO_STATE_GROUP[module.status ?? ""];
+  if (!group || !states?.length) return undefined;
+  const groupStates = states.filter((state) => state.group === group);
+  if (groupStates.length === 0) return undefined;
+  const defaultState = groupStates.find((state) => state.id === defaultStateId || state.default);
+  return (defaultState ?? [...groupStates].sort((a, b) => a.sequence - b.sequence)[0]).id;
+};
 
 export interface IssueFormProps {
   data?: Partial<TIssue>;
@@ -135,11 +161,19 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
     issue: { getIssueById },
   } = useIssueDetail();
   const { fetchCycles } = useProjectIssueProperties();
-  const { getStateById } = useProjectState();
+  const { getStateById, getProjectStates, getProjectDefaultStateId } = useProjectState();
+  const { getModuleById } = useModule();
+  const { data: currentUser } = useUser();
+  const { areEstimateEnabledByProjectId } = useProjectEstimates();
+
+  // Solar: on creation the assignee defaults to whoever is creating the work item
+  const isCreating = !data?.id;
+  const creationDefaults: Partial<TIssue> =
+    isCreating && currentUser?.id && !data?.assignee_ids?.length ? { assignee_ids: [currentUser.id] } : {};
 
   // form info
   const methods = useForm<TIssue>({
-    defaultValues: { ...DEFAULT_WORK_ITEM_FORM_VALUES, project_id: defaultProjectId, ...data },
+    defaultValues: { ...DEFAULT_WORK_ITEM_FORM_VALUES, project_id: defaultProjectId, ...data, ...creationDefaults },
     reValidateMode: "onChange",
   });
   const {
@@ -179,7 +213,7 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
   // Reset form when data prop changes
   useEffect(() => {
     if (data) {
-      reset({ ...DEFAULT_WORK_ITEM_FORM_VALUES, project_id: projectId, ...data });
+      reset({ ...DEFAULT_WORK_ITEM_FORM_VALUES, project_id: projectId, ...data, ...creationDefaults });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [...dataResetProperties]);
@@ -208,6 +242,34 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workItemTemplateId]);
+
+  // Solar: a new work item inherits status, priority and labels from its parent module (Demanda).
+  // Values pre-filled by the caller (e.g. the board column clicked) win on the first fill;
+  // picking another module afterwards overrides them.
+  const inheritedModuleIdRef = useRef<string | null>(null);
+  const [inheritRun, setInheritRun] = useState(0);
+  const moduleIds = watch("module_ids");
+  const sourceModule = isCreating && moduleIds?.[0] ? getModuleById(moduleIds[0]) : null;
+  const projectStates = getProjectStates(projectId);
+  useEffect(() => {
+    if (!isCreating || !sourceModule || sourceModule.project_id !== projectId || !projectStates?.length) return;
+    if (inheritedModuleIdRef.current === sourceModule.id) return;
+    const isFirstFill = inheritedModuleIdRef.current === null;
+    inheritedModuleIdRef.current = sourceModule.id;
+    const keepPrefilled = (key: "state_id" | "priority" | "label_ids") => {
+      if (!isFirstFill) return false;
+      const value = data?.[key];
+      if (Array.isArray(value)) return value.length > 0;
+      return !!value && value !== "none";
+    };
+    const stateId = getInheritedStateId(sourceModule, projectStates, getProjectDefaultStateId(projectId));
+    if (stateId && !keepPrefilled("state_id")) setValue("state_id", stateId, { shouldDirty: true });
+    if (sourceModule.priority && !keepPrefilled("priority"))
+      setValue("priority", sourceModule.priority, { shouldDirty: true });
+    if (sourceModule.label_ids?.length && !keepPrefilled("label_ids"))
+      setValue("label_ids", [...sourceModule.label_ids], { shouldDirty: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCreating, sourceModule?.id, projectId, projectStates?.length, inheritRun]);
 
   const handleFormSubmit = async (formData: Partial<TIssue>, is_draft_issue = false) => {
     // Check if the editor is ready to discard
@@ -253,13 +315,16 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
             editorRef,
           });
         } else {
+          inheritedModuleIdRef.current = null;
           reset({
             ...DEFAULT_WORK_ITEM_FORM_VALUES,
             ...(isCreateMoreToggleEnabled ? { ...data } : {}),
+            ...creationDefaults,
             project_id: getValues<"project_id">("project_id"),
             type_id: getValues<"type_id">("type_id"),
             description_html: data?.description_html ?? "<p></p>",
           });
+          setInheritRun((run) => run + 1);
           editorRef?.current?.clearEditor();
         }
       })
@@ -270,6 +335,17 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
 
   const handleMoveToProjects = async () => {
     if (!data?.id || !data?.project_id || !data) return;
+    const values = getValues();
+    const missingMessage =
+      !values.module_ids?.length && getProjectById(values.project_id)?.module_view
+        ? t("ui.work_item_module_required")
+        : !values.estimate_point && values.project_id && areEstimateEnabledByProjectId(values.project_id)
+          ? t("ui.work_item_estimate_required")
+          : null;
+    if (missingMessage) {
+      setToast({ type: "error", title: t("toast.error"), message: missingMessage });
+      return;
+    }
     setIsMoving(true);
     try {
       await handleCreateUpdatePropertyValues({
@@ -426,6 +502,7 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
                 targetDate={watch("target_date")}
                 parentId={watch("parent_id")}
                 isDraft={isDraft}
+                requireCreationFields={isCreating && !isDraft}
                 handleFormChange={handleFormChange}
                 setSelectedParentIssue={setSelectedParentIssue}
               />

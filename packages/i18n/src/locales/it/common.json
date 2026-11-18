@@ -1826,6 +1826,11 @@
     "use_case_just_exploring": "Just exploring",
     "module_comment_notification_commented": "commented on a module",
     "module_comment_notification_mentioned": "mentioned you in a module comment",
-    "module_comment_notification_module": "Module"
+    "module_comment_notification_module": "Module",
+    "module_priority_required": "Priority is required",
+    "module_labels_required": "Select at least one label",
+    "module_estimate_required": "Estimate is required",
+    "work_item_module_required": "Select the parent module",
+    "work_item_estimate_required": "Estimate is required"
   }
 }

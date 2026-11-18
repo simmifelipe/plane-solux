@@ -1826,6 +1826,11 @@
     "use_case_just_exploring": "Só explorando",
     "module_comment_notification_commented": "comentou em uma demanda",
     "module_comment_notification_mentioned": "mencionou você em um comentário de demanda",
-    "module_comment_notification_module": "Demanda"
+    "module_comment_notification_module": "Demanda",
+    "module_priority_required": "Informe a prioridade",
+    "module_labels_required": "Selecione ao menos uma etiqueta",
+    "module_estimate_required": "Informe a estimativa",
+    "work_item_module_required": "Selecione a demanda pai",
+    "work_item_estimate_required": "Informe a estimativa"
   }
 }

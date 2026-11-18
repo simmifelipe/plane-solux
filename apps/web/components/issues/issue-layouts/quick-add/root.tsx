@@ -17,6 +17,7 @@ import { setPromiseToast } from "@plane/blocks/toast";
 import type { IProject, TIssue, EIssueLayoutTypes } from "@plane/types";
 import { cn, createIssuePayload } from "@plane/utils";
 // local imports
+import { CreateUpdateIssueModal } from "@/components/issues/issue-modal/modal";
 import { QuickAddIssueFormRoot } from "./form";
 import { useCreateIssueToastActions } from "../../create-issue-toast-action-items";
 
@@ -132,6 +133,10 @@ export const QuickAddIssueRoot = observer(function QuickAddIssueRoot(props: TQui
 
   if (!projectId) return null;
 
+  // Solar: work items need a parent module (Demanda) and an estimate, which the one-line form cannot ask for,
+  // so quick add opens the full creation modal pre-filled with the column/row values.
+  const useCreationModal = !isEpic;
+
   return (
     <div
       className={cn(
@@ -139,7 +144,14 @@ export const QuickAddIssueRoot = observer(function QuickAddIssueRoot(props: TQui
         errors && errors?.name && errors?.name?.message ? `border-danger-strong bg-danger-subtle` : ``
       )}
     >
-      {isOpen ? (
+      {isOpen && useCreationModal && (
+        <CreateUpdateIssueModal
+          isOpen
+          onClose={() => handleIsOpen(false)}
+          data={{ ...prePopulatedData, project_id: projectId.toString() }}
+        />
+      )}
+      {isOpen && !useCreationModal ? (
         <QuickAddIssueFormRoot
           isOpen={isOpen}
           layout={layout}

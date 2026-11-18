@@ -7,7 +7,7 @@
 import { useState } from "react";
 import { observer } from "mobx-react";
 import type { Control } from "react-hook-form";
-import { Controller } from "react-hook-form";
+import { Controller, useFormState } from "react-hook-form";
 import { Icon as PropelIcon } from "@makeplane/propel/components/icon";
 import { Menu, MenuContent, MenuItem, MenuTrigger } from "@makeplane/propel/components/menu";
 import { Pill } from "@makeplane/propel/components/pill";
@@ -47,6 +47,7 @@ type TIssueDefaultPropertiesProps = {
   targetDate: string | null;
   parentId: string | null;
   isDraft: boolean;
+  requireCreationFields?: boolean;
   handleFormChange: () => void;
   setSelectedParentIssue: (issue: ISearchIssueResponse) => void;
 };
@@ -62,6 +63,7 @@ export const IssueDefaultProperties = observer(function IssueDefaultProperties(p
     targetDate,
     parentId,
     isDraft,
+    requireCreationFields = false,
     handleFormChange,
     setSelectedParentIssue,
   } = props;
@@ -74,8 +76,15 @@ export const IssueDefaultProperties = observer(function IssueDefaultProperties(p
   const { getProjectDefaultStateId } = useProjectState();
   const { isMobile } = usePlatformOS();
   const { data: userProfile } = useUserProfile();
+  const { errors } = useFormState({ control });
   // derived values
   const projectDetails = getProjectById(projectId);
+  // Solar: a new work item must belong to a module (Demanda) and carry an estimate
+  const isModuleRequired = requireCreationFields && !!projectDetails?.module_view;
+  const isEstimateRequired = requireCreationFields && !!projectId && areEstimateEnabledByProjectId(projectId);
+  const requiredErrors = [errors.module_ids?.message, errors.estimate_point?.message].filter(
+    (message): message is string => !!message
+  );
 
   const { getIndex } = getTabIndex(ETabIndices.ISSUE_FORM, isMobile);
 
@@ -224,6 +233,9 @@ export const IssueDefaultProperties = observer(function IssueDefaultProperties(p
         <Controller
           control={control}
           name="module_ids"
+          rules={{
+            validate: (value) => !isModuleRequired || (value?.length ?? 0) > 0 || t("ui.work_item_module_required"),
+          }}
           render={({ field: { value, onChange } }) => (
             <ModuleSelect
               multiple
@@ -244,6 +256,9 @@ export const IssueDefaultProperties = observer(function IssueDefaultProperties(p
         <Controller
           control={control}
           name="estimate_point"
+          rules={{
+            validate: (value) => !isEstimateRequired || !!value || t("ui.work_item_estimate_required"),
+          }}
           render={({ field: { value, onChange } }) => (
             <EstimateSelect
               value={value || undefined}
@@ -321,6 +336,13 @@ export const IssueDefaultProperties = observer(function IssueDefaultProperties(p
           />
         )}
       />
+      {requiredErrors.length > 0 && (
+        <div className="w-full space-y-0.5 text-caption-sm-regular text-danger-primary" role="alert">
+          {requiredErrors.map((message) => (
+            <p key={message}>{message}</p>
+          ))}
+        </div>
+      )}
     </div>
   );
 });
