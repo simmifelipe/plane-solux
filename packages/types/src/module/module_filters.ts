@@ -33,6 +33,7 @@ export type TModuleFilters = {
   start_date?: string[] | null;
   status?: string[] | null;
   priority?: string[] | null;
+  labels?: string[] | null;
   target_date?: string[] | null;
 };
 

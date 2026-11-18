@@ -9,3 +9,4 @@ export * from "./members";
 export * from "./root";
 export * from "./status";
 export * from "./priority";
+export * from "./labels";

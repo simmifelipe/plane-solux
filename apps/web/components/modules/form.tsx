@@ -26,6 +26,7 @@ import type { IModule } from "@plane/types";
 import { getDate, renderFormattedPayloadDate, getTabIndex } from "@plane/utils";
 // components
 import { MemberSelect } from "@/components/dropdowns/member/member-select";
+import { LabelSelect } from "@/components/dropdowns/label/label-select";
 import { PrioritySelect } from "@/components/dropdowns/priority/priority-select";
 import { ProjectSelect } from "@/components/dropdowns/project/project-select";
 import { ModuleStatusSelect } from "@/components/modules";
@@ -48,6 +49,7 @@ const defaultValues: Partial<IModule> = {
   description: "",
   status: "backlog",
   priority: "none",
+  label_ids: [],
   lead_id: null,
   member_ids: [],
 };
@@ -70,6 +72,7 @@ export function ModuleForm(props: Props) {
       description: data?.description || "",
       status: data?.status || "backlog",
       priority: data?.priority || "none",
+      label_ids: data?.label_ids || [],
       lead_id: data?.lead_id || null,
       member_ids: data?.member_ids || [],
     },
@@ -217,6 +220,20 @@ export function ModuleForm(props: Props) {
                     onChange={onChange}
                     variant="pill-sm"
                     tabIndex={getIndex("priority")}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name="label_ids"
+                render={({ field: { value, onChange } }) => (
+                  <LabelSelect
+                    projectId={projectId}
+                    value={value ?? []}
+                    onChange={onChange}
+                    variant="pill-sm"
+                    placeholder={t("labels")}
+                    tabIndex={getIndex("label_ids")}
                   />
                 )}
               />

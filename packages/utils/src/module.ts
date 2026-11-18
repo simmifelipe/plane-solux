@@ -76,6 +76,10 @@ export const shouldFilterModule = (
       fallsInFilters = fallsInFilters && filters.status.includes(module.status?.toLowerCase() ?? "");
     if (filterKey === "priority" && filters.priority && filters.priority.length > 0)
       fallsInFilters = fallsInFilters && filters.priority.includes(module.priority ?? "none");
+    if (filterKey === "labels" && filters.labels && filters.labels.length > 0) {
+      const labelIds = module.label_ids ?? [];
+      fallsInFilters = fallsInFilters && filters.labels.some((labelId) => labelIds.includes(labelId));
+    }
     if (filterKey === "lead" && filters.lead && filters.lead.length > 0)
       fallsInFilters = fallsInFilters && filters.lead.includes(`${module.lead_id}`);
     if (filterKey === "members" && filters.members && filters.members.length > 0) {

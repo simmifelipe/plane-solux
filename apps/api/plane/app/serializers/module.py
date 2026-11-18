@@ -15,6 +15,7 @@ from django.core.exceptions import ValidationError
 
 from plane.db.models import (
     User,
+    Label,
     Module,
     ModuleMember,
     ModuleIssue,
@@ -60,6 +61,17 @@ class ModuleWriteSerializer(BaseSerializer):
             and data.get("start_date", None) > data.get("target_date", None)
         ):
             raise serializers.ValidationError("Start date cannot exceed target date")
+        # Solar: only labels of the module's project, without duplicates
+        label_ids = data.get("label_ids", None)
+        if label_ids is not None:
+            project = self.instance.project if self.instance else self.context.get("project")
+            unique_ids = list(dict.fromkeys(label_ids))
+            valid_ids = set(
+                Label.objects.filter(project=project, id__in=unique_ids, deleted_at__isnull=True).values_list(
+                    "id", flat=True
+                )
+            )
+            data["label_ids"] = [label_id for label_id in unique_ids if label_id in valid_ids]
         return data
 
     def create(self, validated_data):
@@ -235,6 +247,7 @@ class ModuleSerializer(DynamicBaseSerializer):
             "target_date",
             "status",
             "priority",
+            "label_ids",
             "lead_id",
             "member_ids",
             "view_props",

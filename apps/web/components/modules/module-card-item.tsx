@@ -34,6 +34,7 @@ import { getDate, renderFormattedPayloadDate, generateQueryParams } from "@plane
 import { handleTriggerKeyDown } from "@/components/common/trigger-guard";
 import { ButtonAvatars } from "@/components/dropdowns/member/avatar";
 import { ModuleQuickActions } from "@/components/modules";
+import { LabelSelect } from "@/components/dropdowns/label/label-select";
 import { PrioritySelect } from "@/components/dropdowns/priority/priority-select";
 import { ModuleStatusDropdown } from "@/components/modules/module-status-dropdown";
 // hooks
@@ -277,6 +278,16 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
               weekStartsOn={userProfile?.start_of_the_week}
               disabled={isDisabled}
               icon={renderIcon ? undefined : <CalendarOutline aria-hidden="true" />}
+            />
+            <LabelSelect
+              projectId={moduleDetails.project_id}
+              value={moduleDetails.label_ids ?? []}
+              onChange={(labelIds) => void handleModuleDetailsChange({ label_ids: labelIds })}
+              variant="pill-sm"
+              placeholder={t("labels")}
+              disabled={isDisabled}
+              showEmptyIcon
+              tooltip
             />
             <PrioritySelect
               value={moduleDetails.priority ?? "none"}

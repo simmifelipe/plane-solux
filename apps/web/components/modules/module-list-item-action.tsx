@@ -20,6 +20,7 @@ import { DateRangeSelect } from "@plane/blocks/property-select";
 import { renderFormattedPayloadDate, getDate } from "@plane/utils";
 // components
 import { ModuleQuickActions } from "@/components/modules";
+import { LabelSelect } from "@/components/dropdowns/label/label-select";
 import { PrioritySelect } from "@/components/dropdowns/priority/priority-select";
 import { ModuleStatusDropdown } from "@/components/modules/module-status-dropdown";
 // hooks
@@ -152,6 +153,16 @@ export const ModuleListItemAction = observer(function ModuleListItemAction(props
         icon={renderIcon ? undefined : <CalendarOutline aria-hidden="true" />}
       />
 
+      <LabelSelect
+        projectId={moduleDetails.project_id}
+        value={moduleDetails.label_ids ?? []}
+        onChange={(labelIds) => void handleModuleDetailsChange({ label_ids: labelIds })}
+        variant="pill-sm"
+        placeholder={t("labels")}
+        disabled={isDisabled}
+        showEmptyIcon
+        tooltip
+      />
       <PrioritySelect
         value={moduleDetails.priority ?? "none"}
         onChange={(val) => void handleModuleDetailsChange({ priority: val })}

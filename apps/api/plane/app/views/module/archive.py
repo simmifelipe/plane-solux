@@ -274,6 +274,7 @@ class ModuleArchiveUnarchiveEndpoint(BaseAPIView):
                 "target_date",
                 "status",
                 "priority",
+                "label_ids",
                 "lead_id",
                 "member_ids",
                 "view_props",

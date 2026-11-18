@@ -90,6 +90,7 @@ export interface IModule {
   };
   status?: TModuleStatus;
   priority?: TIssuePriorities;
+  label_ids?: string[];
   archived_at: string | null;
   start_date: string | null;
   target_date: string | null;

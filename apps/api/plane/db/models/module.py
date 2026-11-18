@@ -5,6 +5,7 @@
 # Django imports
 from django.conf import settings
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 from django.db.models import Q
 
 # Module imports
@@ -95,6 +96,8 @@ class Module(ProjectBaseModel):
         default="none",
         max_length=30,
     )
+    # Solar: project labels attached to the "Demanda" (module)
+    label_ids = ArrayField(models.UUIDField(), default=list, blank=True)
     lead = models.ForeignKey("db.User", on_delete=models.SET_NULL, related_name="module_leads", null=True)
     members = models.ManyToManyField(
         settings.AUTH_USER_MODEL,

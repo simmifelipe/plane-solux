@@ -11,6 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import {
   AddOutline,
   CloseOutline,
+  LabelsOutline,
   LeadOutline,
   MembersOutline,
   PriorityOutline,
@@ -33,6 +34,7 @@ import { Loader } from "@plane/blocks/skeleton";
 // helpers
 import { getDate, renderFormattedPayloadDate } from "@plane/utils";
 import { SidebarPropertyListItem } from "@/components/common/layout/sidebar/property-list-item";
+import { LabelSelect } from "@/components/dropdowns/label/label-select";
 import { MemberSelect } from "@/components/dropdowns/member/member-select";
 import { PrioritySelect } from "@/components/dropdowns/priority/priority-select";
 import { CreateUpdateModuleLinkModal, ModuleAnalyticsProgress, ModuleLinksList } from "@/components/modules";
@@ -54,6 +56,7 @@ const defaultValues: Partial<IModule> = {
   target_date: null,
   status: "backlog",
   priority: "none",
+  label_ids: [],
 };
 
 type TModuleLinksCollapsibleProps = {
@@ -347,6 +350,26 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                     }}
                     disabled={!isEditingAllowed || !!isArchived}
                     variant="select-ghost-md"
+                    className="w-full"
+                  />
+                )}
+              />
+            </SidebarPropertyListItem>
+            <SidebarPropertyListItem icon={LabelsOutline} label={t("labels")}>
+              <Controller
+                control={control}
+                name="label_ids"
+                render={({ field: { value, onChange } }) => (
+                  <LabelSelect
+                    projectId={projectId?.toString() ?? ""}
+                    value={value ?? []}
+                    onChange={(labelIds) => {
+                      onChange(labelIds);
+                      void submitChanges({ label_ids: labelIds });
+                    }}
+                    disabled={!isEditingAllowed || !!isArchived}
+                    variant="select-ghost-md"
+                    placeholder={t("labels")}
                     className="w-full"
                   />
                 )}

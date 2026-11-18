@@ -15,6 +15,7 @@ import { Header, EHeaderVariant } from "@plane/blocks/layout";
 import { replaceUnderscoreIfSnakeCase } from "@plane/utils";
 import {
   AppliedDateFilters,
+  AppliedLabelsFilters,
   AppliedMembersFilters,
   AppliedPriorityFilters,
   AppliedStatusFilters,
@@ -57,6 +58,7 @@ export function ModuleAppliedFiltersList(props: Props) {
   const FILTER_LABELS: Partial<Record<keyof TModuleFilters, string>> = {
     status: t("common.status"),
     priority: t("common.priority"),
+    labels: t("labels"),
     lead: t("lead"),
     members: t("members"),
     start_date: t("start_date"),
@@ -90,6 +92,13 @@ export function ModuleAppliedFiltersList(props: Props) {
                   <AppliedPriorityFilters
                     editable={isEditingAllowed}
                     handleRemove={(val) => handleRemoveFilter("priority", val)}
+                    values={value}
+                  />
+                )}
+                {filterKey === "labels" && (
+                  <AppliedLabelsFilters
+                    editable={isEditingAllowed}
+                    handleRemove={(val) => handleRemoveFilter("labels", val)}
                     values={value}
                   />
                 )}

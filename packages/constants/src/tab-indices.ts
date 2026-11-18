@@ -67,6 +67,7 @@ export const PROJECT_MODULE_TAB_INDICES = [
   "date_range",
   "status",
   "priority",
+  "label_ids",
   "lead",
   "member_ids",
   "cancel",
