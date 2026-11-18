@@ -12,12 +12,18 @@ import useSWR from "swr";
 // plane imports
 import { useTranslation } from "@plane/i18n";
 import { setToast } from "@plane/blocks/toast";
+import { EFileAssetType } from "@plane/types";
 import type { TCommentsOperations, TIssueComment } from "@plane/types";
-import { copyUrlToClipboard } from "@plane/utils";
+import { copyUrlToClipboard, formatTextList } from "@plane/utils";
 // components
 import { CommentsWrapper } from "@/components/comments";
+// hooks
+import { useEditorAsset } from "@/hooks/store/use-editor-asset";
+import { useMember } from "@/hooks/store/use-member";
+import { useUser } from "@/hooks/store/user";
 // services
 import { ModuleService } from "@/services/module.service";
+import type { TModuleCommentReaction } from "@/services/module.service";
 // local imports
 import { ModuleSidebarGroup } from "./sidebar-group";
 
@@ -33,6 +39,9 @@ type Props = {
 export const ModuleComments = observer(function ModuleComments(props: Props) {
   const { workspaceSlug, projectId, moduleId, canComment } = props;
   const { t } = useTranslation();
+  const { uploadEditorAsset, duplicateEditorAsset } = useEditorAsset();
+  const { getUserDetails } = useMember();
+  const { data: currentUser } = useUser();
 
   const swrKey = `MODULE_COMMENTS_${moduleId}`;
   const { data: comments, mutate } = useSWR(swrKey, () =>
@@ -84,23 +93,106 @@ export const ModuleComments = observer(function ModuleComments(props: Props) {
           setToast({ type: "error", title: t("common.error.label"), message: t("issue.comments.remove.error") });
         }
       },
-      // Images are not supported in module comments yet
-      uploadCommentAsset: async () => {
-        setToast({ type: "error", title: t("common.error.label"), message: t("ui.module_comment_images_unsupported") });
-        throw new Error("Images are not supported in module comments");
+      // Images: bound to the module (entity_identifier = module id), so access follows the module
+      uploadCommentAsset: async (blockId, file) => {
+        try {
+          return await uploadEditorAsset({
+            blockId,
+            data: { entity_identifier: moduleId, entity_type: EFileAssetType.MODULE_COMMENT_DESCRIPTION },
+            file,
+            projectId,
+            workspaceSlug,
+          });
+        } catch (error) {
+          throw new Error(t("issue.comments.upload.error"), { cause: error });
+        }
       },
-      duplicateCommentAsset: async () => {
-        throw new Error("Images are not supported in module comments");
+      duplicateCommentAsset: async (assetId) =>
+        duplicateEditorAsset({
+          assetId,
+          entityId: moduleId,
+          entityType: EFileAssetType.MODULE_COMMENT_DESCRIPTION,
+          projectId,
+          workspaceSlug,
+        }),
+      addCommentReaction: async (commentId, reaction) => {
+        try {
+          const created = await moduleService.createModuleCommentReaction(
+            workspaceSlug,
+            projectId,
+            moduleId,
+            commentId,
+            reaction
+          );
+          await mutate(
+            (current) =>
+              (current ?? []).map((c) =>
+                c.id === commentId
+                  ? {
+                      ...c,
+                      comment_reactions: [
+                        ...(c.comment_reactions ?? []).filter((r: TModuleCommentReaction) => r.id !== created.id),
+                        created,
+                      ],
+                    }
+                  : c
+              ),
+            { revalidate: false }
+          );
+        } catch {
+          setToast({ type: "error", title: t("toast.error"), message: t("ui.reaction_creation_failed") });
+        }
       },
-      // Reactions are not supported on module comments
-      addCommentReaction: async () => {},
-      deleteCommentReaction: async () => {},
-      react: async () => {},
-      reactionIds: () => undefined,
-      userReactions: () => undefined,
-      getReactionUsers: () => "",
+      deleteCommentReaction: async (commentId, reaction) => {
+        try {
+          await moduleService.deleteModuleCommentReaction(workspaceSlug, projectId, moduleId, commentId, reaction);
+          await mutate(
+            (current) =>
+              (current ?? []).map((c) =>
+                c.id === commentId
+                  ? {
+                      ...c,
+                      comment_reactions: (c.comment_reactions ?? []).filter(
+                        (r: TModuleCommentReaction) => !(r.reaction === reaction && r.actor === currentUser?.id)
+                      ),
+                    }
+                  : c
+              ),
+            { revalidate: false }
+          );
+        } catch {
+          setToast({ type: "error", title: t("toast.error"), message: t("ui.reaction_remove_failed") });
+        }
+      },
+      react: async (commentId, reaction, userReactions) => {
+        if (userReactions.includes(reaction)) await operations.deleteCommentReaction(commentId, reaction);
+        else await operations.addCommentReaction(commentId, reaction);
+      },
+      // reaction -> ids of the users who reacted with it
+      reactionIds: (commentId) => {
+        const comment = (comments ?? []).find((c) => c.id === commentId);
+        const map: Record<string, string[]> = {};
+        for (const r of (comment?.comment_reactions ?? []) as TModuleCommentReaction[]) {
+          (map[r.reaction] ??= []).push(r.actor);
+        }
+        return map;
+      },
+      userReactions: (commentId) => {
+        if (!currentUser?.id) return [];
+        const comment = (comments ?? []).find((c) => c.id === commentId);
+        return ((comment?.comment_reactions ?? []) as TModuleCommentReaction[])
+          .filter((r) => r.actor === currentUser.id)
+          .map((r) => r.reaction);
+      },
+      getReactionUsers: (reaction, reactionIds) =>
+        formatTextList(
+          (reactionIds?.[reaction] ?? [])
+            .map((userId) => getUserDetails(userId)?.display_name)
+            .filter((name): name is string => !!name)
+        ),
     }),
-    [workspaceSlug, projectId, moduleId, mutate, t]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [workspaceSlug, projectId, moduleId, mutate, t, comments, currentUser?.id, getUserDetails]
   );
 
   const commentList: TIssueComment[] = comments ?? [];

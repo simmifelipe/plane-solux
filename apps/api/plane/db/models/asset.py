@@ -45,6 +45,8 @@ class FileAsset(BaseModel):
         PROJECT_COVER = "PROJECT_COVER"
         DRAFT_ISSUE_ATTACHMENT = "DRAFT_ISSUE_ATTACHMENT"
         DRAFT_ISSUE_DESCRIPTION = "DRAFT_ISSUE_DESCRIPTION"
+        # Solar: images in comments of a "Demanda" (module); entity_identifier = module id
+        MODULE_COMMENT_DESCRIPTION = "MODULE_COMMENT_DESCRIPTION"
 
     attributes = models.JSONField(default=dict)
     asset = models.FileField(upload_to=get_upload_path, max_length=800)
@@ -133,6 +135,15 @@ class FileAsset(BaseModel):
         )
         if membership is None:
             return False
+        # Solar: module comment images follow the module's restricted access
+        if self.entity_type == FileAsset.EntityTypeContext.MODULE_COMMENT_DESCRIPTION and self.entity_identifier:
+            from plane.utils.resource_access import can_access_module
+
+            try:
+                if not can_access_module(user, self.entity_identifier):
+                    return False
+            except (ValueError, ValidationError):
+                return False
         if membership["role"] != ROLE.GUEST.value or membership["project__guest_view_all_features"]:
             return True
 

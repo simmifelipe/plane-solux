@@ -273,6 +273,10 @@ class WorkspaceFileAssetEndpoint(BaseAPIView):
         # Comment Description
         if entity_type == FileAsset.EntityTypeContext.COMMENT_DESCRIPTION:
             return {"comment_id": entity_id}
+
+        # Solar: module ("Demanda") comment images are bound to the module id
+        if entity_type == FileAsset.EntityTypeContext.MODULE_COMMENT_DESCRIPTION:
+            return {"entity_identifier": entity_id or None}
         return {}
 
     def asset_delete(self, asset_id):
@@ -609,6 +613,10 @@ class ProjectAssetEndpoint(BaseAPIView):
         if entity_type == FileAsset.EntityTypeContext.COMMENT_DESCRIPTION:
             return {"comment_id": entity_id}
 
+        # Solar: module ("Demanda") comment images are bound to the module id
+        if entity_type == FileAsset.EntityTypeContext.MODULE_COMMENT_DESCRIPTION:
+            return {"entity_identifier": entity_id or None}
+
         if entity_type == FileAsset.EntityTypeContext.DRAFT_ISSUE_DESCRIPTION:
             return {"draft_issue_id": entity_id}
         return {}
@@ -815,6 +823,9 @@ class ProjectBulkAssetEndpoint(BaseAPIView):
         if asset.entity_type == FileAsset.EntityTypeContext.PAGE_DESCRIPTION:
             assets.update(page_id=entity_id)
 
+        if asset.entity_type == FileAsset.EntityTypeContext.MODULE_COMMENT_DESCRIPTION:
+            assets.update(entity_identifier=entity_id, project_id=project_id)
+
         if asset.entity_type == FileAsset.EntityTypeContext.DRAFT_ISSUE_DESCRIPTION:
             # For some cases, the bulk api is called after the draft issue is deleted
             # creating an integrity error
@@ -870,6 +881,10 @@ class DuplicateAssetEndpoint(BaseAPIView):
         # Comment Description
         if entity_type == FileAsset.EntityTypeContext.COMMENT_DESCRIPTION:
             return {"comment_id": entity_id}
+
+        # Solar: module ("Demanda") comment images are bound to the module id
+        if entity_type == FileAsset.EntityTypeContext.MODULE_COMMENT_DESCRIPTION:
+            return {"entity_identifier": entity_id or None}
 
         return {}
 

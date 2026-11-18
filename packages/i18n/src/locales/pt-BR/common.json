@@ -1824,6 +1824,8 @@
     "use_case_coordinate_projects": "Coordenar projetos multifuncionais",
     "use_case_replace_tool": "Substituir nossa ferramenta atual",
     "use_case_just_exploring": "Só explorando",
-    "module_comment_images_unsupported": "Imagens ainda não são suportadas nos comentários de demandas"
+    "module_comment_notification_commented": "comentou em uma demanda",
+    "module_comment_notification_mentioned": "mencionou você em um comentário de demanda",
+    "module_comment_notification_module": "Demanda"
   }
 }

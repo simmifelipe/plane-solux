@@ -1824,6 +1824,8 @@
     "use_case_coordinate_projects": "Coordinate cross-functional projects",
     "use_case_replace_tool": "Replace our current tool",
     "use_case_just_exploring": "Just exploring",
-    "module_comment_images_unsupported": "Images are not supported in module comments yet"
+    "module_comment_notification_commented": "commented on a module",
+    "module_comment_notification_mentioned": "mentioned you in a module comment",
+    "module_comment_notification_module": "Module"
   }
 }

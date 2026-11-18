@@ -6,6 +6,8 @@
 
 import { useState } from "react";
 import { observer } from "mobx-react";
+import { useRouter } from "next/navigation";
+import { useTranslation } from "@plane/i18n";
 import { ClockOutline } from "@makeplane/propel/icons";
 // plane imports
 import { Avatar } from "@makeplane/propel/components/avatar";
@@ -32,6 +34,8 @@ export const NotificationItem = observer(function NotificationItem(props: TNotif
   const { asJson: notification, markNotificationAsRead } = useNotification(notificationId);
   const { getIsIssuePeeked, setPeekIssue } = useIssueDetail();
   const { getWorkspaceBySlug } = useWorkspace();
+  const router = useRouter();
+  const { t } = useTranslation();
   // states
   const [isSnoozeStateModalOpen, setIsSnoozeStateModalOpen] = useState(false);
   const [customSnoozeModal, setCustomSnoozeModal] = useState(false);
@@ -66,6 +70,88 @@ export const NotificationItem = observer(function NotificationItem(props: TNotif
       }
     }
   };
+
+  // Solar: comment notification on a "Demanda" (module)
+  const moduleData = notification?.entity_name === "module" ? notification?.data?.module : undefined;
+  const handleOpenModule = async () => {
+    if (!moduleData || isSnoozeStateModalOpen || customSnoozeModal) return;
+    if (notification.read_at === null) {
+      try {
+        await markNotificationAsRead(workspaceSlug);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    // make sure the module details sidebar (where the comments live) is open
+    try {
+      localStorage.setItem("module_sidebar_collapsed", JSON.stringify("false"));
+    } catch {
+      // ignore storage errors
+    }
+    const commentId = notification?.data?.module_comment?.id;
+    router.push(
+      `/${workspaceSlug}/projects/${moduleData.project_id}/modules/${moduleData.id}${commentId ? `#comment-${commentId}` : ""}`
+    );
+  };
+
+  if (moduleData && workspace?.id && notification?.id) {
+    const actorName = notificationTriggeredBy?.display_name || notificationTriggeredBy?.first_name || "";
+    const mentioned = !!notification?.data?.module_comment?.mentioned;
+    return (
+      <Row
+        className="group relative flex cursor-pointer items-center gap-2 border-b border-subtle py-4 transition-all"
+        onClick={() => void handleOpenModule()}
+      >
+        {isUnread && (
+          <div className="absolute top-[50%] left-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent-primary" />
+        )}
+        <div className="relative flex w-full gap-2">
+          <div className="relative flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-layer-1">
+            {notificationTriggeredBy && (
+              <Avatar
+                alt={actorName}
+                fallback={actorName?.[0]?.toUpperCase()}
+                src={getFileURL(notificationTriggeredBy.avatar_url)}
+                size="xl"
+              />
+            )}
+          </div>
+          <div className="w-full space-y-1">
+            <div className="relative flex h-8 items-center gap-3">
+              <div
+                className={cn(
+                  "-mt-2 line-clamp-1 w-full truncate overflow-hidden break-all whitespace-normal",
+                  isUnread ? "text-body-xs-semibold text-primary" : "text-body-xs-regular text-secondary"
+                )}
+              >
+                <span className="font-semibold">{actorName}</span>{" "}
+                {mentioned
+                  ? t("ui.module_comment_notification_mentioned")
+                  : t("ui.module_comment_notification_commented")}
+                {notification?.data?.module_comment?.text ? `: ${notification.data.module_comment.text}` : ""}
+              </div>
+              <NotificationOption
+                workspaceSlug={workspaceSlug}
+                notificationId={notification?.id}
+                isSnoozeStateModalOpen={isSnoozeStateModalOpen}
+                setIsSnoozeStateModalOpen={setIsSnoozeStateModalOpen}
+                customSnoozeModal={customSnoozeModal}
+                setCustomSnoozeModal={setCustomSnoozeModal}
+              />
+            </div>
+            <div className="relative flex items-center gap-3 text-caption-sm-regular text-secondary">
+              <div className="line-clamp-1 w-full truncate overflow-hidden break-words whitespace-normal">
+                {t("ui.module_comment_notification_module")}: {moduleData.name}
+              </div>
+              <p className="mt-auto flex-shrink-0 text-tertiary">
+                {notification.created_at && calculateTimeAgo(notification.created_at)}
+              </p>
+            </div>
+          </div>
+        </div>
+      </Row>
+    );
+  }
 
   if (!workspaceSlug || !notificationId || !notification?.id || !notificationField || !workspace?.id || !projectId)
     return <></>;

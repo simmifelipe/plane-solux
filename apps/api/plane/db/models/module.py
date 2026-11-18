@@ -263,3 +263,30 @@ class ModuleComment(ProjectBaseModel):
 
     def __str__(self):
         return f"{self.module.name} {self.actor}"
+
+
+class ModuleCommentReaction(ProjectBaseModel):
+    """Solar: emoji reactions on comments of a "Demanda" (module)."""
+
+    comment = models.ForeignKey("db.ModuleComment", on_delete=models.CASCADE, related_name="module_comment_reactions")
+    actor = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="module_comment_reactions"
+    )
+    reaction = models.TextField()
+
+    class Meta:
+        unique_together = ["comment", "actor", "reaction", "deleted_at"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["comment", "actor", "reaction"],
+                condition=Q(deleted_at__isnull=True),
+                name="module_comment_reaction_unique_when_deleted_at_null",
+            )
+        ]
+        verbose_name = "Module Comment Reaction"
+        verbose_name_plural = "Module Comment Reactions"
+        db_table = "module_comment_reactions"
+        ordering = ("-created_at",)
+
+    def __str__(self):
+        return f"{self.comment_id} {self.actor_id} {self.reaction}"

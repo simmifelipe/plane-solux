@@ -10,6 +10,7 @@ from plane.app.views import (
     ModuleIssueViewSet,
     ModuleLinkViewSet,
     ModuleCommentViewSet,
+    ModuleCommentReactionViewSet,
     ModuleFavoriteViewSet,
     ModuleUserPropertiesEndpoint,
     ModuleArchiveUnarchiveEndpoint,
@@ -85,6 +86,16 @@ urlpatterns = [
         "workspaces/<str:slug>/projects/<uuid:project_id>/modules/<uuid:module_id>/comments/<uuid:pk>/",
         ModuleCommentViewSet.as_view({"patch": "partial_update", "delete": "destroy"}),
         name="project-module-comments",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/modules/<uuid:module_id>/comments/<uuid:module_comment_id>/reactions/",
+        ModuleCommentReactionViewSet.as_view({"post": "create"}),
+        name="project-module-comment-reactions",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/modules/<uuid:module_id>/comments/<uuid:module_comment_id>/reactions/<str:reaction_code>/",
+        ModuleCommentReactionViewSet.as_view({"delete": "destroy"}),
+        name="project-module-comment-reactions",
     ),
     path(
         "workspaces/<str:slug>/projects/<uuid:project_id>/user-favorite-modules/",

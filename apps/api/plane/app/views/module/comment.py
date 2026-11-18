@@ -14,7 +14,8 @@ from rest_framework.response import Response
 # Module imports
 from plane.app.permissions import ProjectLitePermission, allow_permission, ROLE
 from plane.app.serializers import ModuleCommentSerializer
-from plane.db.models import Module, ModuleComment
+from plane.bgtasks.module_comment_notification_task import module_comment_notifications
+from plane.db.models import Module, ModuleComment, ModuleCommentReaction
 from plane.utils.resource_access import AccessAction, is_project_admin
 from .. import BaseViewSet
 
@@ -37,6 +38,7 @@ class ModuleCommentViewSet(BaseViewSet):
                 project__archived_at__isnull=True,
             )
             .select_related("actor")
+            .prefetch_related("module_comment_reactions")
             .order_by("created_at")
             .distinct()
         )
@@ -58,7 +60,10 @@ class ModuleCommentViewSet(BaseViewSet):
             return Response({"error": "Module not found"}, status=status.HTTP_404_NOT_FOUND)
         serializer = ModuleCommentSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(module=module, project_id=project_id, actor=request.user)
+        comment = serializer.save(module=module, project_id=project_id, actor=request.user)
+        module_comment_notifications.delay(
+            comment_id=str(comment.id), actor_id=str(request.user.id), old_comment_html=None
+        )
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @allow_permission([ROLE.ADMIN, ROLE.MEMBER, ROLE.GUEST])
@@ -71,9 +76,14 @@ class ModuleCommentViewSet(BaseViewSet):
                 {"error": "Only the author can edit this comment"},
                 status=status.HTTP_403_FORBIDDEN,
             )
+        old_comment_html = comment.comment_html
         serializer = ModuleCommentSerializer(comment, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save(edited_at=timezone.now())
+        # Only users newly @mentioned by the edit get notified
+        module_comment_notifications.delay(
+            comment_id=str(comment.id), actor_id=str(request.user.id), old_comment_html=old_comment_html
+        )
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @allow_permission([ROLE.ADMIN, ROLE.MEMBER, ROLE.GUEST])
@@ -87,4 +97,41 @@ class ModuleCommentViewSet(BaseViewSet):
                 status=status.HTTP_403_FORBIDDEN,
             )
         comment.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ModuleCommentReactionViewSet(BaseViewSet):
+    """Solar: emoji reactions on module comments."""
+
+    access_write_action = AccessAction.COMMENT
+    permission_classes = [ProjectLitePermission]
+    model = ModuleCommentReaction
+
+    def _get_comment(self, slug, project_id, module_id, module_comment_id):
+        return ModuleComment.objects.filter(
+            pk=module_comment_id, module_id=module_id, project_id=project_id, workspace__slug=slug
+        ).first()
+
+    @allow_permission([ROLE.ADMIN, ROLE.MEMBER, ROLE.GUEST])
+    def create(self, request, slug, project_id, module_id, module_comment_id):
+        comment = self._get_comment(slug, project_id, module_id, module_comment_id)
+        reaction = str(request.data.get("reaction", "")).strip()
+        if comment is None:
+            return Response({"error": "Comment not found"}, status=status.HTTP_404_NOT_FOUND)
+        if not reaction or len(reaction) > 50:
+            return Response({"error": "Invalid reaction"}, status=status.HTTP_400_BAD_REQUEST)
+        obj, _ = ModuleCommentReaction.objects.get_or_create(
+            comment=comment, actor=request.user, reaction=reaction, defaults={"project_id": project_id}
+        )
+        return Response(
+            {"id": str(obj.id), "actor": str(obj.actor_id), "reaction": obj.reaction, "comment": str(comment.id)},
+            status=status.HTTP_201_CREATED,
+        )
+
+    @allow_permission([ROLE.ADMIN, ROLE.MEMBER, ROLE.GUEST])
+    def destroy(self, request, slug, project_id, module_id, module_comment_id, reaction_code):
+        comment = self._get_comment(slug, project_id, module_id, module_comment_id)
+        if comment is None:
+            return Response({"error": "Comment not found"}, status=status.HTTP_404_NOT_FOUND)
+        ModuleCommentReaction.objects.filter(comment=comment, actor=request.user, reaction=reaction_code).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

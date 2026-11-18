@@ -10,6 +10,9 @@ import type { IModule, ILinkDetails, ModuleLink, TIssueComment, TIssuesResponse 
 // services
 import { APIService } from "@/services/api.service";
 
+// Solar: reaction on a module ("Demanda") comment
+export type TModuleCommentReaction = { id: string; actor: string; reaction: string; comment: string };
+
 export class ModuleService extends APIService {
   constructor() {
     super(API_BASE_URL);
@@ -232,6 +235,39 @@ export class ModuleService extends APIService {
   async deleteModuleComment(workspaceSlug: string, projectId: string, moduleId: string, commentId: string) {
     return this.delete(
       `/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/comments/${commentId}/`
+    )
+      .then((response) => response?.data)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
+  async createModuleCommentReaction(
+    workspaceSlug: string,
+    projectId: string,
+    moduleId: string,
+    commentId: string,
+    reaction: string
+  ): Promise<TModuleCommentReaction> {
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/comments/${commentId}/reactions/`,
+      { reaction }
+    )
+      .then((response) => response?.data)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
+  async deleteModuleCommentReaction(
+    workspaceSlug: string,
+    projectId: string,
+    moduleId: string,
+    commentId: string,
+    reaction: string
+  ) {
+    return this.delete(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/modules/${moduleId}/comments/${commentId}/reactions/${reaction}/`
     )
       .then((response) => response?.data)
       .catch((error) => {

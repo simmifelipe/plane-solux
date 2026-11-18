@@ -27,7 +27,17 @@ export type TNotificationIssueLite = {
   state_group: string | undefined;
 };
 
+// Solar: comment notifications on a "Demanda" (module)
+export type TNotificationModuleLite = {
+  id: string;
+  name: string;
+  project_id: string;
+  project_identifier?: string;
+};
+
 export type TNotificationData = {
+  module?: TNotificationModuleLite;
+  module_comment?: { id: string; text: string; mentioned: boolean };
   issue: TNotificationIssueLite | undefined;
   issue_activity: {
     id: string | undefined;

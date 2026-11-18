@@ -154,7 +154,11 @@ def accessible_notifications(queryset, user):
     A user who loses access (or never had it) must not keep reading titles and
     activity of a restricted work item through their notification inbox.
     """
-    return queryset.filter(~Q(entity_name="issue") | Q(entity_identifier__in=accessible_issue_ids(user)))
+    return queryset.filter(~Q(entity_name="issue") | Q(entity_identifier__in=accessible_issue_ids(user))).filter(
+        # Solar: module ("Demanda") comment notifications follow restricted module access
+        ~Q(entity_name="module")
+        | Q(entity_identifier__in=accessible_modules(Module.objects.all(), user).values("id"))
+    )
 
 
 def can_access_module(user, module_id, action=AccessAction.VIEW):

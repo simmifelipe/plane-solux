@@ -353,7 +353,10 @@ class ModuleCommentSerializer(BaseSerializer):
         ]
 
     def get_comment_reactions(self, obj):
-        return []
+        return [
+            {"id": str(r.id), "actor": str(r.actor_id), "reaction": r.reaction, "comment": str(r.comment_id)}
+            for r in obj.module_comment_reactions.all()
+        ]
 
     def get_attachments(self, obj):
         return []
