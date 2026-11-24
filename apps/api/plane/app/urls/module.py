@@ -7,6 +7,7 @@ from django.urls import path
 
 from plane.app.views import (
     ModuleViewSet,
+    ModuleViewViewSet,
     ModuleIssueViewSet,
     ModuleLinkViewSet,
     ModuleCommentViewSet,
@@ -20,6 +21,16 @@ from plane.app.views import (
 
 
 urlpatterns = [
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/module-views/",
+        ModuleViewViewSet.as_view({"get": "list", "post": "create"}),
+        name="project-module-views",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/module-views/<uuid:pk>/",
+        ModuleViewViewSet.as_view({"get": "retrieve", "patch": "partial_update", "delete": "destroy"}),
+        name="project-module-view-detail",
+    ),
     path(
         "workspaces/<str:slug>/projects/<uuid:project_id>/modules/",
         ModuleViewSet.as_view({"get": "list", "post": "create"}),

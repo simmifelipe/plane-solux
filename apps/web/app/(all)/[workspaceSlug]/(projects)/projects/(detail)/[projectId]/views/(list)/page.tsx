@@ -22,6 +22,8 @@ import { PageHead } from "@/components/core/page-title";
 import { DetailedEmptyState } from "@/components/empty-state/detailed-empty-state-root";
 import { ViewAppliedFiltersList } from "@/components/views/applied-filters";
 import { ProjectViewsList } from "@/components/views/views-list";
+import { ModuleViewsList, useIsModuleViewsTab } from "@/components/modules/views";
+import { useSearchParams } from "next/navigation";
 // hooks
 import { useProject } from "@/hooks/store/use-project";
 import { useProjectView } from "@/hooks/store/use-project-view";
@@ -37,6 +39,9 @@ function ProjectViewsPage({ params }: Route.ComponentProps) {
   const { resolvedTheme } = useTheme();
   // plane hooks
   const { t } = useTranslation();
+  const searchParams = useSearchParams();
+  const isModulesTab = useIsModuleViewsTab();
+  const isCreateModuleViewOpen = isModulesTab && searchParams.get("novo") === "1";
   // store
   const { getProjectById, currentProjectDetails } = useProject();
   const { filters, updateFilters, clearAllFilters } = useProjectView();
@@ -83,6 +88,18 @@ function ProjectViewsPage({ params }: Route.ComponentProps) {
           }}
         />
       </div>
+    );
+
+  if (isModulesTab)
+    return (
+      <>
+        <PageHead title={pageTitle} />
+        <ModuleViewsList
+          isCreateOpen={isCreateModuleViewOpen}
+          onCreateOpen={() => router.push(`/${workspaceSlug}/projects/${projectId}/views?tipo=demandas&novo=1`)}
+          onCreateClose={() => router.push(`/${workspaceSlug}/projects/${projectId}/views?tipo=demandas`)}
+        />
+      </>
     );
 
   return (

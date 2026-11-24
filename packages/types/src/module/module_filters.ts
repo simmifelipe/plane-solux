@@ -46,3 +46,18 @@ export type TModuleStoredFilters = {
   display_filters?: TModuleDisplayFilters;
   filters?: TModuleFilters;
 };
+
+// Solar: saved views of modules ("Visualizações de Demandas")
+export type TModuleView = {
+  id: string;
+  name: string;
+  description: string;
+  filters: TModuleFilters;
+  display_filters: TModuleDisplayFilters;
+  logo_props?: any;
+  access: number;
+  owned_by: string;
+  project: string;
+  workspace: string;
+  sort_order: number;
+};

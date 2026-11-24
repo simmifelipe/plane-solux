@@ -290,3 +290,25 @@ class ModuleCommentReaction(ProjectBaseModel):
 
     def __str__(self):
         return f"{self.comment_id} {self.actor_id} {self.reaction}"
+
+
+class ModuleView(ProjectBaseModel):
+    """Solar: saved view (filters + display) over the modules ("Demandas") of a project."""
+
+    name = models.CharField(max_length=255, verbose_name="View Name")
+    description = models.TextField(verbose_name="View Description", blank=True)
+    filters = models.JSONField(default=dict)
+    display_filters = models.JSONField(default=dict)
+    access = models.PositiveSmallIntegerField(default=1, choices=((0, "Private"), (1, "Public")))
+    sort_order = models.FloatField(default=65535)
+    logo_props = models.JSONField(default=dict)
+    owned_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="module_views")
+
+    class Meta:
+        verbose_name = "Module View"
+        verbose_name_plural = "Module Views"
+        db_table = "module_views"
+        ordering = ("-created_at",)
+
+    def __str__(self):
+        return f"{self.name} <{self.project.name}>"

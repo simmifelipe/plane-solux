@@ -47,6 +47,7 @@ from .project import (
 )
 from .state import StateSerializer, StateLiteSerializer
 from .view import IssueViewSerializer, ViewIssueListSerializer
+from .module_view import ModuleViewSerializer
 from .cycle import (
     CycleSerializer,
     CycleIssueSerializer,

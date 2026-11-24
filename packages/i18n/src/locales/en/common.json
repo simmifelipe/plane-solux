@@ -1832,5 +1832,25 @@
     "module_estimate_required": "Estimate is required",
     "work_item_module_required": "Select the parent module",
     "work_item_estimate_required": "Estimate is required"
+  },
+  "module_view": {
+    "tab_work_items": "Work items",
+    "tab_modules": "Modules",
+    "add": "Add module view",
+    "create": "Create module view",
+    "update": "Update module view",
+    "created": "Module view created successfully.",
+    "updated": "Module view updated successfully.",
+    "deleted": "Module view deleted.",
+    "failed_create": "Failed to create the module view. Please try again.",
+    "failed_update": "Failed to update the module view. Please try again.",
+    "failed_delete": "Failed to delete the module view. Please try again.",
+    "empty_title": "Save your first module view",
+    "empty_description": "Module views save a combination of filters so you can reach the modules you care about in one click.",
+    "delete_title": "Delete module view",
+    "delete_confirm": "Are you sure you want to delete the module view \"{name}\"? This action cannot be undone.",
+    "save_changes": "Save changes",
+    "edit": "Edit",
+    "not_found": "This module view does not exist or you do not have access to it."
   }
 }

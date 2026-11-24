@@ -14,6 +14,8 @@ import { Header } from "@plane/blocks/layout";
 // components
 import { BreadcrumbLink } from "@/components/common/breadcrumb-link";
 import { ViewListHeader } from "@/components/views/view-list-header";
+import { useIsModuleViewsTab, ViewsTypeTabs } from "@/components/modules/views";
+import { useAppRouter } from "@/hooks/use-app-router";
 // hooks
 import { useCommandPalette } from "@/hooks/store/use-command-palette";
 import { useProject } from "@/hooks/store/use-project";
@@ -29,6 +31,8 @@ export const ProjectViewsHeader = observer(function ProjectViewsHeader() {
   // store hooks
   const { toggleCreateViewModal } = useCommandPalette();
   const { loader } = useProject();
+  const router = useAppRouter();
+  const isModulesTab = useIsModuleViewsTab();
 
   return (
     <>
@@ -54,14 +58,19 @@ export const ProjectViewsHeader = observer(function ProjectViewsHeader() {
           </Breadcrumbs>
         </Header.LeftItem>
         <Header.RightItem>
-          <ViewListHeader />
+          <ViewsTypeTabs />
+          {!isModulesTab && <ViewListHeader />}
           <div>
             <Button
               variant="primary"
               size="md"
               stretch="auto"
-              label={t("workspace_views.add_view")}
-              onClick={() => toggleCreateViewModal(true)}
+              label={isModulesTab ? t("module_view.add") : t("workspace_views.add_view")}
+              onClick={() =>
+                isModulesTab
+                  ? router.push(`/${workspaceSlug}/projects/${projectId}/views?tipo=demandas&novo=1`)
+                  : toggleCreateViewModal(true)
+              }
             />
           </div>
         </Header.RightItem>

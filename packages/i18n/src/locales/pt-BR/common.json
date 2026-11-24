@@ -1832,5 +1832,25 @@
     "module_estimate_required": "Informe a estimativa",
     "work_item_module_required": "Selecione a demanda pai",
     "work_item_estimate_required": "Informe a estimativa"
+  },
+  "module_view": {
+    "tab_work_items": "Tarefas",
+    "tab_modules": "Demandas",
+    "add": "Adicionar visualização de demandas",
+    "create": "Criar visualização de demandas",
+    "update": "Atualizar visualização de demandas",
+    "created": "Visualização de demandas criada com sucesso.",
+    "updated": "Visualização de demandas atualizada com sucesso.",
+    "deleted": "Visualização de demandas excluída.",
+    "failed_create": "Não foi possível criar a visualização de demandas. Tente novamente.",
+    "failed_update": "Não foi possível atualizar a visualização de demandas. Tente novamente.",
+    "failed_delete": "Não foi possível excluir a visualização de demandas. Tente novamente.",
+    "empty_title": "Salve sua primeira visualização de demandas",
+    "empty_description": "As visualizações de demandas guardam uma combinação de filtros para você chegar às demandas que importam com um clique.",
+    "delete_title": "Excluir visualização de demandas",
+    "delete_confirm": "Tem certeza de que deseja excluir a visualização de demandas \"{name}\"? Esta ação não pode ser desfeita.",
+    "save_changes": "Salvar alterações",
+    "edit": "Editar",
+    "not_found": "Esta visualização de demandas não existe ou você não tem acesso a ela."
   }
 }

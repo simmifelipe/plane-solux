@@ -178,6 +178,14 @@ export const coreRoutes: RouteConfigEntry[] = [
             ),
           ]),
 
+          // Module View Detail (Solar: Visualizações de Demandas)
+          layout("./(all)/[workspaceSlug]/(projects)/projects/(detail)/[projectId]/views/(module-detail)/layout.tsx", [
+            route(
+              ":workspaceSlug/projects/:projectId/views/modules/:viewId",
+              "./(all)/[workspaceSlug]/(projects)/projects/(detail)/[projectId]/views/(module-detail)/[viewId]/page.tsx"
+            ),
+          ]),
+
           // View Detail
           layout("./(all)/[workspaceSlug]/(projects)/projects/(detail)/[projectId]/views/(detail)/layout.tsx", [
             route(

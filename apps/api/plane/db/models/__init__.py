@@ -46,7 +46,16 @@ from .issue import (
     IssueVersion,
     IssueDescriptionVersion,
 )
-from .module import Module, ModuleComment, ModuleCommentReaction, ModuleIssue, ModuleLink, ModuleMember, ModuleUserProperties
+from .module import (
+    Module,
+    ModuleComment,
+    ModuleCommentReaction,
+    ModuleIssue,
+    ModuleLink,
+    ModuleMember,
+    ModuleUserProperties,
+    ModuleView,
+)
 from .resource_access import ResourceAccess
 from .notification import EmailNotificationLog, Notification, UserNotificationPreference
 from .page import Page, PageLabel, PageLog, ProjectPage, PageVersion
