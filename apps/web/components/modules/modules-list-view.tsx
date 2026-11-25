@@ -14,7 +14,13 @@ import { EUserProjectRoles } from "@plane/types";
 import { ContentWrapper, Row, ERowVariant } from "@plane/blocks/layout";
 // components
 import { ListLayout } from "@/components/core/list";
-import { ModuleCardItem, ModuleListItem, ModulePeekOverview, ModulesListGanttChartView } from "@/components/modules";
+import {
+  ModuleCardItem,
+  ModuleListItem,
+  ModulePeekOverview,
+  ModulesKanbanLayout,
+  ModulesListGanttChartView,
+} from "@/components/modules";
 import { CycleModuleBoardLayoutLoader } from "@/components/ui/loader/cycle-module-board-loader";
 import { CycleModuleListLayoutLoader } from "@/components/ui/loader/cycle-module-list-loader";
 import { GanttLayoutLoader } from "@/components/ui/loader/layouts/gantt-layout-loader";
@@ -48,7 +54,9 @@ export const ModulesListView = observer(function ModulesListView() {
     return (
       <>
         {displayFilters?.layout === "list" && <CycleModuleListLayoutLoader />}
-        {displayFilters?.layout === "board" && <CycleModuleBoardLayoutLoader />}
+        {(displayFilters?.layout === "board" || displayFilters?.layout === "kanban") && (
+          <CycleModuleBoardLayoutLoader />
+        )}
         {displayFilters?.layout === "gantt" && <GanttLayoutLoader />}
       </>
     );
@@ -88,6 +96,11 @@ export const ModulesListView = observer(function ModulesListView() {
               <ModuleListItem key={moduleId} moduleId={moduleId} />
             ))}
           </ListLayout>
+        )}
+        {displayFilters?.layout === "kanban" && (
+          <div className="size-full overflow-hidden">
+            <ModulesKanbanLayout moduleIds={filteredModuleIds} />
+          </div>
         )}
         {displayFilters?.layout === "board" && (
           <Row

@@ -5,7 +5,7 @@
  */
 
 import * as React from "react";
-import { GridOutline, ListOutline, TimelineOutline } from "@makeplane/propel/icons";
+import { BoardOutline, GridOutline, ListOutline, TimelineOutline } from "@makeplane/propel/icons";
 import type { TModuleLayoutOptions } from "@plane/types";
 import { cn } from "@plane/utils";
 
@@ -23,6 +23,7 @@ export function ModuleLayoutIcon(props: ILayoutIcon) {
   // get Layout icon
   const icons = {
     list: ListOutline,
+    kanban: BoardOutline,
     board: GridOutline,
     gantt: TimelineOutline,
   };

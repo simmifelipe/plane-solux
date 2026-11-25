@@ -15,6 +15,7 @@ import { orderModules, shouldFilterModule } from "@plane/utils";
 // components
 import { ListLayout } from "@/components/core/list";
 import { ModuleCardItem } from "@/components/modules/module-card-item";
+import { ModulesKanbanLayout } from "@/components/modules/modules-kanban-layout";
 import { ModuleListItem } from "@/components/modules/module-list-item";
 import { ModulePeekOverview } from "@/components/modules/module-peek-overview";
 import { CycleModuleBoardLayoutLoader } from "@/components/ui/loader/cycle-module-board-loader";
@@ -41,7 +42,7 @@ export const ModuleViewModules = observer(function ModuleViewModules({ view, sea
   });
   useEffect(() => setLoaded(false), [pid]);
 
-  const layout = view.display_filters?.layout === "board" ? "board" : "list";
+  const layout = (["board", "kanban"] as const).find((l) => l === view.display_filters?.layout) ?? "list";
   const projectModules = getProjectModuleDetails(pid);
 
   const moduleIds = useMemo(() => {
@@ -55,7 +56,7 @@ export const ModuleViewModules = observer(function ModuleViewModules({ view, sea
   }, [projectModules, searchQuery, view.display_filters, view.filters]);
 
   if (!loaded || !moduleIds)
-    return layout === "board" ? <CycleModuleBoardLayoutLoader /> : <CycleModuleListLayoutLoader />;
+    return layout === "board" || layout === "kanban" ? <CycleModuleBoardLayoutLoader /> : <CycleModuleListLayoutLoader />;
 
   if (moduleIds.length === 0)
     return (
@@ -69,7 +70,11 @@ export const ModuleViewModules = observer(function ModuleViewModules({ view, sea
   return (
     <ContentWrapper variant={ERowVariant.HUGGING}>
       <div className="flex size-full justify-between">
-        {layout === "list" ? (
+        {layout === "kanban" ? (
+          <div className="size-full overflow-hidden">
+            <ModulesKanbanLayout moduleIds={moduleIds} />
+          </div>
+        ) : layout === "list" ? (
           <ListLayout>
             {moduleIds.map((id) => (
               <ModuleListItem key={id} moduleId={id} />

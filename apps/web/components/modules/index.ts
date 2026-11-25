@@ -14,6 +14,7 @@ export * from "./gantt-chart";
 export * from "./links";
 export * from "./modal";
 export * from "./modules-list-view";
+export * from "./modules-kanban-layout";
 export * from "./module-card-item";
 export * from "./module-list-item";
 export * from "./module-peek-overview";

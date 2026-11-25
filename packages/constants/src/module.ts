@@ -78,6 +78,10 @@ export const MODULE_VIEW_LAYOUTS: {
     i18n_title: "project_modules.layout.list",
   },
   {
+    key: "kanban",
+    i18n_title: "project_modules.layout.kanban",
+  },
+  {
     key: "board",
     i18n_title: "project_modules.layout.board",
   },

@@ -347,6 +347,7 @@
     },
     "layout": {
       "list": "Layout de lista",
+      "kanban": "Layout Kanban",
       "board": "Layout de galeria",
       "timeline": "Layout de linha do tempo"
     },

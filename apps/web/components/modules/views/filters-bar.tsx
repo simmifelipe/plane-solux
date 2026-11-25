@@ -4,10 +4,15 @@
 
 import { useCallback } from "react";
 import { observer } from "mobx-react";
+import { Tab, Tabs, TabsList } from "@makeplane/propel/components/tabs";
+import { Tooltip } from "@makeplane/propel/components/tooltip";
+import { MODULE_VIEW_LAYOUTS } from "@plane/constants";
+import { useTranslation } from "@plane/i18n";
 import { calculateTotalFilters } from "@plane/utils";
 import type { TModuleDisplayFilters, TModuleFilters } from "@plane/types";
 // components
 import { ModuleAppliedFiltersList } from "@/components/modules/applied-filters";
+import { ModuleLayoutIcon } from "@/components/modules/module-layout-icon";
 import { ModuleOrderByDropdown } from "@/components/modules/dropdowns";
 import { ModuleFiltersDropdown } from "@/components/modules/dropdowns/filters/dropdown";
 // hooks
@@ -24,6 +29,7 @@ type Props = {
 /** Filters + order-by controls (and the chips of applied filters) bound to plain values, not to the global store. */
 export const ModuleViewFiltersControls = observer(function ModuleViewFiltersControls(props: Props) {
   const { filters, displayFilters, onFiltersChange, onDisplayFiltersChange } = props;
+  const { t } = useTranslation();
   const {
     workspace: { workspaceMemberIds },
   } = useMember();
@@ -46,6 +52,22 @@ export const ModuleViewFiltersControls = observer(function ModuleViewFiltersCont
 
   return (
     <div className="flex items-center gap-2">
+      {/* layout (the timeline layout is not available for saved views) */}
+      <Tabs value={displayFilters?.layout ?? "list"} variant="contained" stretch="auto">
+        <TabsList aria-label={t("common.layout")}>
+          {MODULE_VIEW_LAYOUTS.filter((layout) => layout.key !== "gantt").map((layout) => (
+            <Tooltip key={layout.key} label={t(layout.i18n_title)}>
+              <Tab
+                value={layout.key}
+                label=""
+                aria-label={t(layout.i18n_title)}
+                icon={<ModuleLayoutIcon layoutType={layout.key} size={16} />}
+                onClick={() => onDisplayFiltersChange({ ...displayFilters, layout: layout.key })}
+              />
+            </Tooltip>
+          ))}
+        </TabsList>
+      </Tabs>
       <ModuleFiltersDropdown
         isFiltersApplied={isFiltersApplied}
         displayFilters={displayFilters ?? {}}
