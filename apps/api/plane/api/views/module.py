@@ -29,6 +29,8 @@ from plane.api.serializers import (
 )
 from plane.app.permissions import ProjectEntityPermission
 from plane.bgtasks.issue_activities_task import issue_activity
+from plane.utils.module_rules import ERR_COMPLETED_MODULE, ERR_OPEN_TASKS, completion_blocked
+from plane.bgtasks.module_email_task import notify_module_changes
 from plane.db.models import (
     Issue,
     FileAsset,
@@ -230,6 +232,9 @@ class ModuleListCreateAPIEndpoint(BaseAPIView):
                     status=status.HTTP_409_CONFLICT,
                 )
             serializer.save()
+            notify_module_changes(
+                serializer.instance, None, None, request.user.id, base_host(request=request, is_app=True)
+            )
             # Send the model activity
             model_activity.delay(
                 model_name="module",
@@ -465,12 +470,15 @@ class ModuleDetailAPIEndpoint(BaseAPIView):
         module = Module.objects.get(pk=pk, project_id=project_id, workspace__slug=slug)
 
         current_instance = json.dumps(ModuleSerializer(module).data, cls=DjangoJSONEncoder)
+        old_status, old_lead_id = module.status, module.lead_id
 
         if module.archived_at:
             return Response(
                 {"error": "Archived module cannot be edited"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        if completion_blocked(module, request.data.get("status")):
+            return Response({"error": ERR_OPEN_TASKS}, status=status.HTTP_400_BAD_REQUEST)
         serializer = ModuleUpdateSerializer(module, data=request.data, context={"project_id": project_id}, partial=True)
         if serializer.is_valid():
             if (
@@ -491,6 +499,9 @@ class ModuleDetailAPIEndpoint(BaseAPIView):
                     status=status.HTTP_409_CONFLICT,
                 )
             serializer.save()
+            notify_module_changes(
+                serializer.instance, old_status, old_lead_id, request.user.id, base_host(request=request, is_app=True)
+            )
 
             # Send the model activity
             model_activity.delay(
@@ -732,6 +743,8 @@ class ModuleIssueListCreateAPIEndpoint(BaseAPIView):
         if not len(issues):
             return Response({"error": "Issues are required"}, status=status.HTTP_400_BAD_REQUEST)
         module = Module.objects.get(workspace__slug=slug, project_id=project_id, pk=module_id)
+        if module.status == "completed":
+            return Response({"error": ERR_COMPLETED_MODULE}, status=status.HTTP_400_BAD_REQUEST)
 
         # Ignore work items the caller may not see or edit (restricted modules / work items)
         issues = accessible_issues(

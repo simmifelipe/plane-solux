@@ -41,6 +41,7 @@ from plane.utils.filters import ComplexFilterBackend
 from plane.utils.filters import IssueFilterSet
 from .. import BaseViewSet
 from plane.utils.host import base_host
+from plane.utils.module_rules import ERR_COMPLETED_MODULE, completed_modules
 from plane.utils.resource_access import AccessAction, accessible_modules
 
 
@@ -216,7 +217,11 @@ class ModuleIssueViewSet(BaseViewSet):
             return Response({"error": "Issues are required"}, status=status.HTTP_400_BAD_REQUEST)
         project = Project.objects.get(pk=project_id)
         # The URL module must belong to the URL workspace + project (404 otherwise).
-        Module.objects.get(pk=module_id, project_id=project_id, workspace__slug=slug)
+        target_module = Module.objects.get(pk=module_id, project_id=project_id, workspace__slug=slug)
+        if target_module.status == "completed":
+            return Response(
+                {"error": ERR_COMPLETED_MODULE, "detail": ERR_COMPLETED_MODULE}, status=status.HTTP_400_BAD_REQUEST
+            )
         # Scope to workspace+project to prevent cross-tenant IDOR
         issues = list(
             Issue.issue_objects.filter(
@@ -274,6 +279,11 @@ class ModuleIssueViewSet(BaseViewSet):
         removed_modules = [
             str(module_id) for module_id in editable_modules.filter(pk__in=removed_modules).values_list("id", flat=True)
         ]
+
+        if completed_modules(modules):
+            return Response(
+                {"error": ERR_COMPLETED_MODULE, "detail": ERR_COMPLETED_MODULE}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         if modules:
             _ = ModuleIssue.objects.bulk_create(

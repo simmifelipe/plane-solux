@@ -21,6 +21,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 # Module imports
+from plane.utils.module_rules import ERR_COMPLETED_MODULE, completed_modules
 from plane.app.permissions import allow_permission, ROLE
 from plane.app.serializers import (
     IssueCreateSerializer,
@@ -271,6 +272,10 @@ class WorkspaceDraftIssueViewSet(BaseViewSet):
             draft_issue.project_id,
             draft_issue.workspace_id,
         )
+        if completed_modules(request.data.get("module_ids")):
+            return Response(
+                {"error": ERR_COMPLETED_MODULE, "detail": ERR_COMPLETED_MODULE}, status=status.HTTP_400_BAD_REQUEST
+            )
 
         serializer = IssueCreateSerializer(
             data=request.data,

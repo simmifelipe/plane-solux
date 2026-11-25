@@ -68,6 +68,9 @@ from plane.bgtasks.webhook_task import model_activity
 from .. import BaseAPIView, BaseViewSet
 from plane.bgtasks.recent_visited_task import recent_visited_task
 from plane.utils.host import base_host
+from plane.utils.module_rules import ERR_COMPLETED_MODULE, ERR_OPEN_TASKS, completed_modules, completion_blocked
+from plane.bgtasks.module_email_task import notify_module_changes
+
 
 
 class ModuleViewSet(BaseViewSet):
@@ -300,6 +303,9 @@ class ModuleViewSet(BaseViewSet):
 
         if serializer.is_valid():
             serializer.save()
+            notify_module_changes(
+                serializer.instance, None, None, request.user.id, base_host(request=request, is_app=True)
+            )
 
             module = (
                 self.get_queryset()
@@ -676,11 +682,20 @@ class ModuleViewSet(BaseViewSet):
                 {"error": "Archived module cannot be updated"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+        if completion_blocked(current_module, request.data.get("status")):
+            return Response(
+                {"error": ERR_OPEN_TASKS, "detail": ERR_OPEN_TASKS},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        old_status, old_lead_id = current_module.status, current_module.lead_id
         current_instance = json.dumps(ModuleSerializer(current_module).data, cls=DjangoJSONEncoder)
         serializer = ModuleWriteSerializer(current_module, data=request.data, partial=True)
 
         if serializer.is_valid():
             serializer.save()
+            notify_module_changes(
+                serializer.instance, old_status, old_lead_id, request.user.id, base_host(request=request, is_app=True)
+            )
             module = module_queryset.values(
                 # Required fields
                 "id",
