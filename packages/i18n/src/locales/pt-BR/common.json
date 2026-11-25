@@ -1860,6 +1860,7 @@
     "hint": "até {size} MB cada, exceto executáveis e scripts",
     "empty": "Nenhum anexo ainda.",
     "count": "{count, plural, one {# anexo} other {# anexos}}",
+    "download": "Baixar",
     "delete": "Excluir anexo",
     "too_large": "\"{name}\" é maior que {size} MB.",
     "type_blocked": "\"{name}\": executáveis e scripts não são permitidos.",

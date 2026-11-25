@@ -1860,6 +1860,7 @@
     "hint": "up to {size} MB each, except executables and scripts",
     "empty": "No attachments yet.",
     "count": "{count, plural, one {# attachment} other {# attachments}}",
+    "download": "Download",
     "delete": "Delete attachment",
     "too_large": "\"{name}\" is larger than {size} MB.",
     "type_blocked": "\"{name}\": executables and scripts are not allowed.",

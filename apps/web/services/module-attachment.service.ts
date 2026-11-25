@@ -9,7 +9,15 @@ import type { TIssueAttachment, TIssueAttachmentUploadResponse } from "@plane/ty
 import { APIService } from "@/services/api.service";
 import { FileUploadService } from "@/services/file-upload.service";
 
-export type TModuleAttachment = Omit<TIssueAttachment, "issue_id"> & { created_at?: string };
+export type TModuleAttachment = Omit<TIssueAttachment, "issue_id" | "attributes"> & {
+  attributes: { name: string; size: number; type?: string };
+  created_at?: string;
+};
+
+/** Raster images the browser may render inline (same list as INLINE_SAFE_MIME_TYPES on the API). */
+const PREVIEWABLE_IMAGE_TYPES = new Set(["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"]);
+export const isPreviewableImage = (attachment: TModuleAttachment): boolean =>
+  PREVIEWABLE_IMAGE_TYPES.has((attachment.attributes.type ?? "").toLowerCase());
 
 /** Keep in sync with FILE_SIZE_LIMIT (apps/api/.env) and plane/utils/attachment_types.py. */
 export const MODULE_ATTACHMENT_MAX_SIZE = 20 * 1024 * 1024;

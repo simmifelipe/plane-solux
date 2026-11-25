@@ -111,10 +111,14 @@ class ModuleAttachmentV2Endpoint(BaseAPIView):
                     {"error": "The asset is not uploaded.", "status": False}, status=status.HTTP_400_BAD_REQUEST
                 )
             storage = S3Storage(request=request)
+            # ?inline=1 lets the UI preview images; the storage layer still serves anything
+            # outside INLINE_SAFE_MIME_TYPES (SVG, HTML, PDF, ...) as a download.
+            inline = request.GET.get("inline") == "1"
             presigned_url = storage.generate_presigned_url(
                 object_name=asset.asset.name,
-                disposition="attachment",
+                disposition="inline" if inline else "attachment",
                 filename=asset.attributes.get("name"),
+                content_type=asset.attributes.get("type") if inline else None,
             )
             return HttpResponseRedirect(presigned_url)
         attachments = self._assets(slug, project_id, module_id).filter(is_uploaded=True).order_by("-created_at")

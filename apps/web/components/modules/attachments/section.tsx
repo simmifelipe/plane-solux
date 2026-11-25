@@ -13,10 +13,12 @@ import { useModule } from "@/hooks/store/use-module";
 import { useUser } from "@/hooks/store/user";
 import {
   MODULE_ATTACHMENT_MAX_SIZE,
+  isPreviewableImage,
   moduleAttachmentService,
   validateModuleAttachment,
 } from "@/services/module-attachment.service";
 import { formatFileSize } from "./file-utils";
+import { ModuleImageLightbox } from "./image-lightbox";
 
 type Props = {
   workspaceSlug: string;
@@ -36,6 +38,7 @@ export const ModuleAttachmentsSection = observer(function ModuleAttachmentsSecti
   const { data: currentUser } = useUser();
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState<Record<string, number>>({});
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const { data: attachments, mutate } = useSWR(moduleAttachmentsKey(workspaceSlug, projectId, moduleId), () =>
     moduleAttachmentService.list(workspaceSlug, projectId, moduleId)
@@ -88,6 +91,9 @@ export const ModuleAttachmentsSection = observer(function ModuleAttachmentsSecti
   };
 
   const count = attachments?.length ?? 0;
+  const images = (attachments ?? []).filter(isPreviewableImage);
+  const files = (attachments ?? []).filter((attachment) => !isPreviewableImage(attachment));
+  const canDeleteAttachment = (createdBy: string) => canEdit && (isAdmin || createdBy === currentUser?.id);
 
   return (
     <div className="flex flex-col gap-2 px-page-x py-3">
@@ -133,9 +139,49 @@ export const ModuleAttachmentsSection = observer(function ModuleAttachmentsSecti
       {count === 0 && Object.keys(uploading).length === 0 && (
         <p className="text-body-xs-regular text-tertiary">{t("module_attachment.empty")}</p>
       )}
+      {images.length > 0 && (
+        <div className="grid grid-cols-3 gap-2">
+          {images.map((image, index) => (
+            <div key={image.id} className="group relative aspect-square overflow-hidden rounded-md border border-subtle bg-layer-1">
+              <button
+                type="button"
+                className="size-full"
+                title={image.attributes.name}
+                aria-label={image.attributes.name}
+                onClick={() => setLightboxIndex(index)}
+              >
+                <img
+                  src={`${image.asset_url}?inline=1`}
+                  alt={image.attributes.name}
+                  loading="lazy"
+                  className="size-full object-cover transition-transform group-hover:scale-105"
+                />
+              </button>
+              {canDeleteAttachment(image.created_by) && (
+                <button
+                  type="button"
+                  aria-label={t("module_attachment.delete")}
+                  className="absolute top-1 right-1 rounded-full bg-black/60 p-1 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-black/80"
+                  onClick={() => void handleDelete(image.id)}
+                >
+                  <DeleteOutline className="size-3.5" />
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+      {lightboxIndex !== null && (
+        <ModuleImageLightbox
+          images={images}
+          index={Math.min(lightboxIndex, images.length - 1)}
+          onIndexChange={setLightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+        />
+      )}
       <ul className="space-y-1">
-        {attachments?.map((attachment) => {
-          const canDelete = canEdit && (isAdmin || attachment.created_by === currentUser?.id);
+        {files.map((attachment) => {
+          const canDelete = canDeleteAttachment(attachment.created_by);
           return (
             <li
               key={attachment.id}
