@@ -55,6 +55,7 @@ from plane.bgtasks.issue_activities_task import issue_activity
 from plane.db.models import (
     Issue,
     Module,
+    ModuleMember,
     UserFavorite,
     ModuleIssue,
     ModuleLink,
@@ -688,13 +689,19 @@ class ModuleViewSet(BaseViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
         old_status, old_lead_id = current_module.status, current_module.lead_id
+        old_member_ids = list(ModuleMember.objects.filter(module=current_module).values_list("member_id", flat=True))
         current_instance = json.dumps(ModuleSerializer(current_module).data, cls=DjangoJSONEncoder)
         serializer = ModuleWriteSerializer(current_module, data=request.data, partial=True)
 
         if serializer.is_valid():
             serializer.save()
             notify_module_changes(
-                serializer.instance, old_status, old_lead_id, request.user.id, base_host(request=request, is_app=True)
+                serializer.instance,
+                old_status,
+                old_lead_id,
+                request.user.id,
+                base_host(request=request, is_app=True),
+                old_member_ids,
             )
             module = module_queryset.values(
                 # Required fields

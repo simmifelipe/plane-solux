@@ -37,6 +37,7 @@ from plane.db.models import (
     IssueLink,
     Module,
     ModuleIssue,
+    ModuleMember,
     ModuleLink,
     Project,
     ProjectMember,
@@ -471,6 +472,7 @@ class ModuleDetailAPIEndpoint(BaseAPIView):
 
         current_instance = json.dumps(ModuleSerializer(module).data, cls=DjangoJSONEncoder)
         old_status, old_lead_id = module.status, module.lead_id
+        old_member_ids = list(ModuleMember.objects.filter(module=module).values_list("member_id", flat=True))
 
         if module.archived_at:
             return Response(
@@ -500,7 +502,12 @@ class ModuleDetailAPIEndpoint(BaseAPIView):
                 )
             serializer.save()
             notify_module_changes(
-                serializer.instance, old_status, old_lead_id, request.user.id, base_host(request=request, is_app=True)
+                serializer.instance,
+                old_status,
+                old_lead_id,
+                request.user.id,
+                base_host(request=request, is_app=True),
+                old_member_ids,
             )
 
             # Send the model activity

@@ -1,6 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
-<html>
-    <p>This is a test email sent to verify if email configuration is working as expected in your Plane instance.</p>
-
-<p>Regards,</br> Team Plane </p>
-</html>
+{% extends "emails/_base.html" %}
+{% block title %}Plane test email{% endblock %}
+{% block preheader %}Your Plane email configuration is working.{% endblock %}
+{% block content %}
+<p style="margin:0 0 14px 0;color:#3F76FF;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;line-height:16px;">Email configuration</p><h1 class="h1 t-title" style="margin:0 0 14px 0;color:#111827;font-size:28px;line-height:36px;font-weight:700;letter-spacing:-0.02em;">Your email setup works</h1><p class="t-body" style="margin:0 0 0px 0;color:#4B5563;font-size:16px;line-height:26px;">This is a test email sent to verify that the email configuration of your Plane instance is working as expected.</p>
+{% endblock %}
