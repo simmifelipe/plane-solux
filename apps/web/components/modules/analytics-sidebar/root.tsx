@@ -48,6 +48,7 @@ import { useProjectEstimates } from "@/hooks/store/estimates";
 import { useModule } from "@/hooks/store/use-module";
 import { useUserPermissions, useUserProfile } from "@/hooks/store/user";
 // local imports
+import { ModuleAttachmentsSection } from "../attachments/section";
 import { ModuleComments } from "./comments";
 import { ModuleSidebarDescription } from "./description";
 import { ModuleSidebarGroup } from "./sidebar-group";
@@ -509,6 +510,14 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
 
         {workspaceSlug && projectId && moduleDetails?.id && (
           <>
+            <div className="w-full border-t border-subtle" />
+            <ModuleAttachmentsSection
+              workspaceSlug={workspaceSlug.toString()}
+              projectId={projectId.toString()}
+              moduleId={moduleDetails.id}
+              canEdit={isEditingAllowed && !isArchived}
+              isAdmin={allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.PROJECT)}
+            />
             <div className="w-full border-t border-subtle" />
             <ModuleComments
               workspaceSlug={workspaceSlug.toString()}

@@ -8,6 +8,7 @@ from django.urls import path
 from plane.app.views import (
     ModuleViewSet,
     ModuleViewViewSet,
+    ModuleAttachmentV2Endpoint,
     ModuleIssueViewSet,
     ModuleLinkViewSet,
     ModuleCommentViewSet,
@@ -21,6 +22,16 @@ from plane.app.views import (
 
 
 urlpatterns = [
+    path(
+        "assets/v2/workspaces/<str:slug>/projects/<uuid:project_id>/modules/<uuid:module_id>/attachments/",
+        ModuleAttachmentV2Endpoint.as_view(),
+        name="project-module-attachments",
+    ),
+    path(
+        "assets/v2/workspaces/<str:slug>/projects/<uuid:project_id>/modules/<uuid:module_id>/attachments/<uuid:pk>/",
+        ModuleAttachmentV2Endpoint.as_view(),
+        name="project-module-attachment-detail",
+    ),
     path(
         "workspaces/<str:slug>/projects/<uuid:project_id>/module-views/",
         ModuleViewViewSet.as_view({"get": "list", "post": "create"}),

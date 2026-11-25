@@ -47,6 +47,8 @@ class FileAsset(BaseModel):
         DRAFT_ISSUE_DESCRIPTION = "DRAFT_ISSUE_DESCRIPTION"
         # Solar: images in comments of a "Demanda" (module); entity_identifier = module id
         MODULE_COMMENT_DESCRIPTION = "MODULE_COMMENT_DESCRIPTION"
+        # Solar: file attachments of a "Demanda" (module); entity_identifier = module id
+        MODULE_ATTACHMENT = "MODULE_ATTACHMENT"
 
     attributes = models.JSONField(default=dict)
     asset = models.FileField(upload_to=get_upload_path, max_length=800)
@@ -91,6 +93,9 @@ class FileAsset(BaseModel):
             or self.entity_type == self.EntityTypeContext.PROJECT_COVER
         ):
             return f"/api/assets/v2/static/{self.id}/"
+
+        if self.entity_type == self.EntityTypeContext.MODULE_ATTACHMENT:
+            return f"/api/assets/v2/workspaces/{self.workspace.slug}/projects/{self.project_id}/modules/{self.entity_identifier}/attachments/{self.id}/"  # noqa: E501
 
         if self.entity_type == self.EntityTypeContext.ISSUE_ATTACHMENT:
             return f"/api/assets/v2/workspaces/{self.workspace.slug}/projects/{self.project_id}/issues/{self.issue_id}/attachments/{self.id}/"  # noqa: E501

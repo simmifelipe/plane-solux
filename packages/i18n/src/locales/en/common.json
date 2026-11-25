@@ -1852,5 +1852,19 @@
     "save_changes": "Save changes",
     "edit": "Edit",
     "not_found": "This module view does not exist or you do not have access to it."
+  },
+  "module_attachment": {
+    "title": "Attachments",
+    "add": "Add file",
+    "add_files": "Attach files",
+    "hint": "up to {size} MB each, except executables and scripts",
+    "empty": "No attachments yet.",
+    "count": "{count, plural, one {# attachment} other {# attachments}}",
+    "delete": "Delete attachment",
+    "too_large": "\"{name}\" is larger than {size} MB.",
+    "type_blocked": "\"{name}\": executables and scripts are not allowed.",
+    "upload_failed": "Could not upload \"{name}\".",
+    "delete_failed": "Could not delete the attachment.",
+    "some_failed": "The module was created, but these files could not be attached: {names}. Add them again from the module sidebar."
   }
 }

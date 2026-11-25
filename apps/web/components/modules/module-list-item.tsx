@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+import { ModuleAttachmentIndicator } from "./attachments/attachment-indicator";
 import React, { useRef } from "react";
 import { observer } from "mobx-react";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
@@ -93,6 +94,7 @@ export const ModuleListItem = observer(function ModuleListItem(props: Props) {
           )}
         </ProgressRing>
       }
+      appendTitleElement={<ModuleAttachmentIndicator count={moduleDetails.attachment_count} />}
       actionableItems={<ModuleListItemAction moduleId={moduleId} moduleDetails={moduleDetails} parentRef={parentRef} />}
       quickActionElement={
         <div className="flex shrink-0 items-center gap-2 p-1">

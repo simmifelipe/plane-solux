@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+import { ModulePendingFiles } from "./attachments/pending-files";
 import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 // plane imports
@@ -44,6 +45,9 @@ type Props = {
   setActiveProject: React.Dispatch<React.SetStateAction<string | null>>;
   data?: IModule;
   isMobile?: boolean;
+  // Solar: files picked while creating a module; uploaded by the modal once the module exists
+  pendingFiles?: File[];
+  onPendingFilesChange?: (files: File[]) => void;
 };
 
 const defaultValues: Partial<IModule> = {
@@ -58,7 +62,17 @@ const defaultValues: Partial<IModule> = {
 };
 
 export function ModuleForm(props: Props) {
-  const { handleFormSubmit, handleClose, status, projectId, setActiveProject, data, isMobile = false } = props;
+  const {
+    handleFormSubmit,
+    handleClose,
+    status,
+    projectId,
+    setActiveProject,
+    data,
+    isMobile = false,
+    pendingFiles = [],
+    onPendingFilesChange,
+  } = props;
   // store hooks
   const { projectsWithCreatePermissions } = useUser();
   const { data: userProfile } = useUserProfile();
@@ -300,6 +314,7 @@ export function ModuleForm(props: Props) {
                 )}
               />
             </div>
+            {!data && onPendingFilesChange && <ModulePendingFiles files={pendingFiles} onChange={onPendingFilesChange} />}
             {requiredErrors.length > 0 && (
               <div className="space-y-0.5 text-caption-sm-regular text-danger-primary" role="alert">
                 {requiredErrors.map((message) => (

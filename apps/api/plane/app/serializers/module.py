@@ -241,6 +241,7 @@ class ModuleSerializer(DynamicBaseSerializer):
     member_ids = serializers.ListField(child=serializers.UUIDField(), required=False, allow_null=True)
     is_favorite = serializers.BooleanField(read_only=True)
     total_issues = serializers.IntegerField(read_only=True)
+    attachment_count = serializers.IntegerField(read_only=True)
     cancelled_issues = serializers.IntegerField(read_only=True)
     completed_issues = serializers.IntegerField(read_only=True)
     started_issues = serializers.IntegerField(read_only=True)
@@ -285,6 +286,7 @@ class ModuleSerializer(DynamicBaseSerializer):
             "completed_estimate_points",
             "is_favorite",
             "total_issues",
+            "attachment_count",
             "cancelled_issues",
             "completed_issues",
             "started_issues",

@@ -18,6 +18,7 @@ import { ModuleForm } from "@/components/modules";
 import { useModule } from "@/hooks/store/use-module";
 import { useProject } from "@/hooks/store/use-project";
 import { usePlatformOS } from "@/hooks/use-platform-os";
+import { moduleAttachmentService } from "@/services/module-attachment.service";
 
 type Props = {
   isOpen: boolean;
@@ -39,15 +40,17 @@ export const CreateUpdateModuleModal = observer(function CreateUpdateModuleModal
   const { isOpen, onClose, data, workspaceSlug, projectId } = props;
   // states
   const [activeProject, setActiveProject] = useState<string | null>(null);
+  const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   // plane hooks
   const { t } = useTranslation();
   // store hooks
   const { workspaceProjectIds } = useProject();
-  const { createModule, updateModuleDetails } = useModule();
+  const { createModule, updateModuleDetails, fetchModuleDetails } = useModule();
   const { isMobile } = usePlatformOS();
 
   const handleClose = () => {
     reset(defaultValues);
+    setPendingFiles([]);
     onClose();
   };
 
@@ -60,13 +63,29 @@ export const CreateUpdateModuleModal = observer(function CreateUpdateModuleModal
 
     const selectedProjectId = payload.project_id ?? projectId.toString();
     await createModule(workspaceSlug.toString(), selectedProjectId, payload)
-      .then((_res) => {
+      .then(async (res) => {
+        // Solar: attach the files picked in the form now that the module has an id
+        const failed: string[] = [];
+        for (const file of pendingFiles) {
+          try {
+            await moduleAttachmentService.upload(workspaceSlug.toString(), selectedProjectId, res.id, file);
+          } catch (_error) {
+            failed.push(file.name);
+          }
+        }
+        if (pendingFiles.length) void fetchModuleDetails(workspaceSlug.toString(), selectedProjectId, res.id);
         handleClose();
         setToast({
           type: "success",
           title: t("toast.success"),
           message: t("ui.module_created_successfully"),
         });
+        if (failed.length)
+          setToast({
+            type: "error",
+            title: t("toast.error"),
+            message: t("module_attachment.some_failed", { names: failed.join(", ") }),
+          });
       })
       .catch((err) => {
         setToast({
@@ -152,6 +171,8 @@ export const CreateUpdateModuleModal = observer(function CreateUpdateModuleModal
           setActiveProject={setActiveProject}
           data={data}
           isMobile={isMobile}
+          pendingFiles={pendingFiles}
+          onPendingFilesChange={setPendingFiles}
         />
       </DialogContent>
     </Dialog>

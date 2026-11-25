@@ -164,6 +164,7 @@ from .module.base import (
 from .module.issue import ModuleIssueViewSet
 from .module.comment import ModuleCommentViewSet, ModuleCommentReactionViewSet
 from .module.view import ModuleViewViewSet
+from .module.attachment import ModuleAttachmentV2Endpoint
 
 from .module.archive import ModuleArchiveUnarchiveEndpoint
 

@@ -1852,5 +1852,19 @@
     "save_changes": "Salvar alterações",
     "edit": "Editar",
     "not_found": "Esta visualização de demandas não existe ou você não tem acesso a ela."
+  },
+  "module_attachment": {
+    "title": "Anexos",
+    "add": "Adicionar arquivo",
+    "add_files": "Anexar arquivos",
+    "hint": "até {size} MB cada, exceto executáveis e scripts",
+    "empty": "Nenhum anexo ainda.",
+    "count": "{count, plural, one {# anexo} other {# anexos}}",
+    "delete": "Excluir anexo",
+    "too_large": "\"{name}\" é maior que {size} MB.",
+    "type_blocked": "\"{name}\": executáveis e scripts não são permitidos.",
+    "upload_failed": "Não foi possível enviar \"{name}\".",
+    "delete_failed": "Não foi possível excluir o anexo.",
+    "some_failed": "A demanda foi criada, mas estes arquivos não puderam ser anexados: {names}. Adicione-os de novo pela barra lateral da demanda."
   }
 }

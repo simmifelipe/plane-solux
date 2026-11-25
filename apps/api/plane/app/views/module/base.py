@@ -53,6 +53,7 @@ from plane.app.serializers import (
 from plane.app.serializers.favorite import get_favorite_entities
 from plane.bgtasks.issue_activities_task import issue_activity
 from plane.db.models import (
+    FileAsset,
     Issue,
     Module,
     ModuleMember,
@@ -146,6 +147,17 @@ class ModuleViewSet(BaseViewSet):
                 issue_module__deleted_at__isnull=True,
             )
             .values("issue_module__module_id")
+            .annotate(cnt=Count("pk"))
+            .values("cnt")
+        )
+        attachment_count = (
+            FileAsset.objects.filter(
+                entity_type=FileAsset.EntityTypeContext.MODULE_ATTACHMENT,
+                entity_identifier=Cast(OuterRef("pk"), models.CharField()),
+                is_uploaded=True,
+                is_deleted=False,
+            )
+            .values("entity_identifier")
             .annotate(cnt=Count("pk"))
             .values("cnt")
         )
@@ -248,6 +260,7 @@ class ModuleViewSet(BaseViewSet):
             )
             .annotate(backlog_issues=Coalesce(Subquery(backlog_issues[:1]), Value(0, output_field=IntegerField())))
             .annotate(total_issues=Coalesce(Subquery(total_issues[:1]), Value(0, output_field=IntegerField())))
+            .annotate(attachment_count=Coalesce(Subquery(attachment_count[:1]), Value(0, output_field=IntegerField())))
             .annotate(
                 backlog_estimate_points=Coalesce(
                     Subquery(backlog_estimate_point),
@@ -338,6 +351,7 @@ class ModuleViewSet(BaseViewSet):
                     "cancelled_issues",
                     "completed_issues",
                     "total_issues",
+                "attachment_count",
                     "started_issues",
                     "unstarted_issues",
                     "completed_estimate_points",
@@ -397,6 +411,7 @@ class ModuleViewSet(BaseViewSet):
                 "completed_estimate_points",
                 "total_estimate_points",
                 "total_issues",
+                "attachment_count",
                 "is_favorite",
                 "cancelled_issues",
                 "completed_issues",
@@ -734,6 +749,7 @@ class ModuleViewSet(BaseViewSet):
                 "completed_issues",
                 "started_issues",
                 "total_issues",
+                "attachment_count",
                 "unstarted_issues",
                 "backlog_issues",
                 "created_at",
@@ -776,6 +792,10 @@ class ModuleViewSet(BaseViewSet):
             for issue in module_issues
         ]
         module.delete()
+        # Solar: attachments of the module are no longer reachable
+        FileAsset.objects.filter(
+            entity_type=FileAsset.EntityTypeContext.MODULE_ATTACHMENT, entity_identifier=str(pk), project_id=project_id
+        ).update(is_deleted=True, deleted_at=timezone.now())
         # Delete the module issues
         ModuleIssue.objects.filter(module=pk, project_id=project_id).delete()
         # Delete the user favorite module

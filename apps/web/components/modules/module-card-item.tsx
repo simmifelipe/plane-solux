@@ -4,6 +4,7 @@
  * See the LICENSE file for details.
  */
 
+import { ModuleAttachmentIndicator } from "./attachments/attachment-indicator";
 import type { SyntheticEvent } from "react";
 import React, { useRef } from "react";
 import { observer } from "mobx-react";
@@ -209,6 +210,7 @@ export const ModuleCardItem = observer(function ModuleCardItem(props: Props) {
           </Tooltip>
           {/* Sits above the stretched card link; each control stops its own activation. */}
           <div className="relative z-[1] flex shrink-0 items-center gap-1.5">
+            <ModuleAttachmentIndicator count={moduleDetails.attachment_count} />
             <IconButton
               type="button"
               variant="ghost"
