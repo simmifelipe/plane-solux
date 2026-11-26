@@ -89,6 +89,7 @@ export interface IssueFormProps {
   // Solar: files attached while creating/editing; uploaded by the modal once the work item is saved
   pendingFiles?: File[];
   onPendingFilesChange?: (files: File[]) => void;
+  requireModule?: boolean;
   onCreateMoreToggleChange: (value: boolean) => void;
   onChange?: (formData: Partial<TIssue> | null) => void;
   onClose: () => void;
@@ -117,6 +118,7 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
     onAssetUpload,
     pendingFiles = [],
     onPendingFilesChange,
+    requireModule = false,
     onChange,
     onClose,
     onSubmit,
@@ -522,6 +524,7 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
                 parentId={watch("parent_id")}
                 isDraft={isDraft}
                 requireCreationFields={isCreating && !isDraft}
+                requireModule={requireModule}
                 handleFormChange={handleFormChange}
                 setSelectedParentIssue={setSelectedParentIssue}
               />

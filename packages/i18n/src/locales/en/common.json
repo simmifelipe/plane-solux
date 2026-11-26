@@ -1872,5 +1872,19 @@
     "some_failed": "The work item was saved, but these files could not be attached: {names}. Add them again from the work item page.",
     "not_in_drafts_title": "Attachments not saved",
     "not_in_drafts": "Drafts do not keep attachments. Attach the files after creating the work item."
+  },
+  "intake_convert": {
+    "title": "Approve request as…",
+    "continue": "Continue",
+    "default": "Default",
+    "module_title": "Module (Demanda)",
+    "module_description": "Creates a new Demanda from this request. Fill in its priority, labels and estimate next.",
+    "work_item_title": "Work item (Tarefa)",
+    "work_item_description": "Creates a work item. It must be linked to an existing Demanda.",
+    "converted": "Request converted into a Demanda.",
+    "convert_failed": "Could not convert the request. Please try again.",
+    "banner": "This request was converted into a Demanda.",
+    "banner_named": "This request was converted into the Demanda “{name}”.",
+    "open_module": "Open Demanda"
   }
 }

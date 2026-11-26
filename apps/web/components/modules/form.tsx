@@ -48,6 +48,8 @@ type Props = {
   // Solar: files picked while creating a module; uploaded by the modal once the module exists
   pendingFiles?: File[];
   onPendingFilesChange?: (files: File[]) => void;
+  // Solar: starting values for a *new* module (e.g. when converting an intake request)
+  initialValues?: Partial<IModule>;
 };
 
 const defaultValues: Partial<IModule> = {
@@ -72,7 +74,9 @@ export function ModuleForm(props: Props) {
     isMobile = false,
     pendingFiles = [],
     onPendingFilesChange,
+    initialValues,
   } = props;
+  const seed = data ?? initialValues;
   // store hooks
   const { projectsWithCreatePermissions } = useUser();
   const { data: userProfile } = useUserProfile();
@@ -86,14 +90,14 @@ export function ModuleForm(props: Props) {
   } = useForm<IModule>({
     defaultValues: {
       project_id: projectId,
-      name: data?.name || "",
-      description: data?.description || "",
-      status: data?.status || "backlog",
-      priority: data?.priority || "none",
-      label_ids: data?.label_ids || [],
-      estimate_point: data?.estimate_point ?? null,
-      lead_id: data?.lead_id || null,
-      member_ids: data?.member_ids || [],
+      name: seed?.name || "",
+      description: seed?.description || "",
+      status: seed?.status || "backlog",
+      priority: seed?.priority || "none",
+      label_ids: seed?.label_ids || [],
+      estimate_point: seed?.estimate_point ?? null,
+      lead_id: seed?.lead_id || null,
+      member_ids: seed?.member_ids || [],
     },
   });
 

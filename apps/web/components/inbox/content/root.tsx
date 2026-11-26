@@ -6,12 +6,15 @@
 
 import { useEffect, useState } from "react";
 import { observer } from "mobx-react";
+import Link from "next/link";
 import useSWR from "swr";
 import { EUserPermissions, EUserPermissionsLevel } from "@plane/constants";
 import type { TNameDescriptionLoader } from "@plane/types";
 // components
 import { ContentWrapper } from "@plane/blocks/layout";
+import { useTranslation } from "@plane/i18n";
 // hooks
+import { useModule } from "@/hooks/store/use-module";
 import { useProjectInbox } from "@/hooks/store/use-project-inbox";
 import { useUser, useUserPermissions } from "@/hooks/store/user";
 import { useAppRouter } from "@/hooks/use-app-router";
@@ -39,6 +42,7 @@ export const InboxContentRoot = observer(function InboxContentRoot(props: TInbox
     isNotificationEmbed = false,
     embedRemoveCurrentNotification,
   } = props;
+  const { t } = useTranslation();
   /// router
   const router = useAppRouter();
   // states
@@ -76,6 +80,15 @@ export const InboxContentRoot = observer(function InboxContentRoot(props: TInbox
     allowPermissions([EUserPermissions.ADMIN], EUserPermissionsLevel.PROJECT, workspaceSlug, projectId) ||
     inboxIssue?.issue.created_by === currentUser?.id;
 
+  // Solar: requests converted into a Demanda link to it (name loaded lazily)
+  const { getModuleById, fetchModulesSlim } = useModule();
+  useSWR(
+    inboxIssue?.converted_module && workspaceSlug && projectId ? `INTAKE_CONVERTED_MODULES_${projectId}` : null,
+    () => fetchModulesSlim(workspaceSlug, projectId),
+    { revalidateOnFocus: false }
+  );
+  const convertedModule = inboxIssue?.converted_module ? getModuleById(inboxIssue.converted_module) : null;
+
   const isGuest = getProjectRoleByWorkspaceSlugAndProjectId(workspaceSlug, projectId) === EUserPermissions.GUEST;
   const isOwner = inboxIssue?.issue.created_by === currentUser?.id;
   const readOnly = !isOwner && isGuest;
@@ -99,6 +112,21 @@ export const InboxContentRoot = observer(function InboxContentRoot(props: TInbox
             embedRemoveCurrentNotification={embedRemoveCurrentNotification}
           />
         </div>
+        {inboxIssue.converted_module && (
+          <div className="flex flex-shrink-0 flex-wrap items-center justify-between gap-2 border-b border-subtle bg-success-subtle px-page-x py-2 text-body-xs-regular text-primary">
+            <span>
+              {convertedModule?.name
+                ? t("intake_convert.banner_named", { name: convertedModule.name })
+                : t("intake_convert.banner")}
+            </span>
+            <Link
+              href={`/${workspaceSlug}/projects/${projectId}/modules/${inboxIssue.converted_module}`}
+              className="text-body-xs-medium text-accent-primary hover:underline"
+            >
+              {t("intake_convert.open_module")}
+            </Link>
+          </div>
+        )}
         <ContentWrapper>
           <InboxIssueMainContent
             workspaceSlug={workspaceSlug}

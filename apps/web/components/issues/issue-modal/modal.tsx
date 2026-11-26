@@ -33,6 +33,8 @@ export interface IssuesModalProps {
   templateId?: string;
   allowedProjectIds?: string[];
   showActionItemsOnUpdate?: boolean;
+  // Solar: the work item must be linked to an existing Demanda (module) when saved
+  requireModule?: boolean;
 }
 
 export const CreateUpdateIssueModal = observer(function CreateUpdateIssueModal(props: IssuesModalProps) {

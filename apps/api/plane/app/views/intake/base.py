@@ -30,6 +30,7 @@ from plane.db.models import (
     StateGroup,
     IssueLink,
     FileAsset,
+    Module,
     Project,
     ProjectMember,
     CycleIssue,
@@ -54,6 +55,7 @@ from plane.utils.global_paginator import paginate
 from plane.utils.host import base_host
 from plane.utils.serializers import writable_data
 from plane.db.models.intake import SourceType
+from plane.bgtasks.module_email_task import notify_module_changes
 
 
 class IntakeViewSet(BaseViewSet):
@@ -643,3 +645,108 @@ class IntakeWorkItemDescriptionVersionEndpoint(BaseAPIView):
             ),
         )
         return Response(paginated_data, status=status.HTTP_200_OK)
+
+
+class IntakeIssueConvertToModuleEndpoint(BaseAPIView):
+    """Solar: approve a request (intake issue) as a "Demanda" (module) instead of a work item.
+
+    Creates the module from the payload (name/description default to the request's), copies the request's
+    attachments to it and marks the request accepted with ``converted_module`` set. The request's own work
+    item stays in the triage state, so it never appears as a task.
+    """
+
+    @allow_permission(allowed_roles=[ROLE.ADMIN])
+    def post(self, request, slug, project_id, pk):
+        from django.db import transaction
+        from django.utils.html import strip_tags
+        from plane.app.serializers import ModuleWriteSerializer, IntakeIssueSerializer
+        from plane.bgtasks.issue_activities_task import issue_activity
+        from plane.bgtasks.webhook_task import model_activity
+
+        intake = Intake.objects.filter(workspace__slug=slug, project_id=project_id).first()
+        intake_issue = (
+            IntakeIssue.objects.select_related("issue")
+            .filter(issue_id=pk, intake=intake, project_id=project_id, workspace__slug=slug)
+            .first()
+        )
+        if intake_issue is None:
+            return Response({"error": "Intake issue not found"}, status=status.HTTP_404_NOT_FOUND)
+        if intake_issue.status not in (-2, 0):
+            return Response(
+                {"error": "Somente requisições pendentes ou adiadas podem ser convertidas em demanda."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        issue = intake_issue.issue
+        project = Project.objects.get(pk=project_id, workspace__slug=slug)
+        data = {k: v for k, v in request.data.items() if k not in ("id", "project_id", "workspace", "converted_module")}
+        data.setdefault("name", issue.name)
+        if not data.get("description_html") and issue.description_html:
+            data["description_html"] = issue.description_html
+        if not data.get("description"):
+            data["description"] = strip_tags(issue.description_html or "")[:5000]
+        data.setdefault("priority", issue.priority)
+
+        serializer = ModuleWriteSerializer(data=data, context={"project": project})
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        with transaction.atomic():
+            serializer.save()
+            module = serializer.instance
+            # carry the request's files over to the new module (same stored object)
+            for attachment in FileAsset.objects.filter(
+                issue_id=issue.id,
+                entity_type=FileAsset.EntityTypeContext.ISSUE_ATTACHMENT,
+                is_uploaded=True,
+                is_deleted=False,
+            ):
+                FileAsset.objects.create(
+                    asset=attachment.asset.name,
+                    attributes=attachment.attributes,
+                    size=attachment.size,
+                    storage_metadata=attachment.storage_metadata,
+                    workspace_id=attachment.workspace_id,
+                    project_id=project_id,
+                    created_by_id=attachment.created_by_id,
+                    entity_type=FileAsset.EntityTypeContext.MODULE_ATTACHMENT,
+                    entity_identifier=str(module.id),
+                    is_uploaded=True,
+                )
+            intake_current_instance = json.dumps(IntakeIssueSerializer(intake_issue).data, cls=DjangoJSONEncoder)
+            intake_issue.status = 1
+            intake_issue.snoozed_till = None
+            intake_issue.converted_module = module
+            intake_issue.save()
+
+        origin = base_host(request=request, is_app=True)
+        issue_activity.delay(
+            type="intake.activity.created",
+            requested_data=json.dumps({"status": 1}),
+            actor_id=str(request.user.id),
+            issue_id=str(pk),
+            project_id=str(project_id),
+            current_instance=intake_current_instance,
+            epoch=int(timezone.now().timestamp()),
+            notification=False,
+            origin=origin,
+            intake=str(intake_issue.id),
+        )
+        model_activity.delay(
+            model_name="module",
+            model_id=str(module.id),
+            requested_data=json.dumps(request.data, cls=DjangoJSONEncoder),
+            current_instance=None,
+            actor_id=request.user.id,
+            slug=slug,
+            origin=origin,
+        )
+        notify_module_changes(module, None, None, request.user.id, origin)
+
+        return Response(
+            {
+                "module": ModuleWriteSerializer(module).data,
+                "intake_issue": {"id": str(intake_issue.id), "status": 1, "converted_module": str(module.id)},
+            },
+            status=status.HTTP_201_CREATED,
+        )

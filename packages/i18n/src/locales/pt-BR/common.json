@@ -1872,5 +1872,19 @@
     "some_failed": "A tarefa foi salva, mas estes arquivos não puderam ser anexados: {names}. Adicione-os de novo pela página da tarefa.",
     "not_in_drafts_title": "Anexos não salvos",
     "not_in_drafts": "Rascunhos não guardam anexos. Anexe os arquivos depois de criar a tarefa."
+  },
+  "intake_convert": {
+    "title": "Aprovar requisição como…",
+    "continue": "Continuar",
+    "default": "Padrão",
+    "module_title": "Demanda",
+    "module_description": "Cria uma nova Demanda a partir desta requisição. Em seguida, preencha prioridade, etiquetas e estimativa.",
+    "work_item_title": "Tarefa",
+    "work_item_description": "Cria uma tarefa. Ela precisa estar vinculada a uma Demanda já existente.",
+    "converted": "Requisição convertida em Demanda.",
+    "convert_failed": "Não foi possível converter a requisição. Tente novamente.",
+    "banner": "Esta requisição foi convertida em uma Demanda.",
+    "banner_named": "Esta requisição foi convertida na Demanda “{name}”.",
+    "open_module": "Abrir Demanda"
   }
 }

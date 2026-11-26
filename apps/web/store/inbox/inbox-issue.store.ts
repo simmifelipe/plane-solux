@@ -7,6 +7,7 @@
 import { clone, set } from "lodash-es";
 import { makeObservable, observable, runInAction, action } from "mobx";
 import type {
+  IModule,
   TInboxIssue,
   TInboxIssueStatus,
   EInboxIssueSource,
@@ -30,10 +31,12 @@ export interface IInboxIssueStore {
   snoozed_till: Date | undefined;
   source: EInboxIssueSource | undefined;
   duplicate_to: string | undefined;
+  converted_module: string | null;
   created_by: string | undefined;
   duplicate_issue_detail: TInboxDuplicateIssueDetails | undefined;
   // actions
   updateInboxIssueStatus: (status: TInboxIssueStatus) => Promise<void>; // accept, decline
+  convertToModule: (payload: Partial<IModule>) => Promise<IModule>; // Solar: approve as a "Demanda"
   updateInboxIssueDuplicateTo: (issueId: string) => Promise<void>; // connecting the inbox issue to the project existing issue
   updateInboxIssueSnoozeTill: (date: Date | undefined) => Promise<void>; // snooze the issue
   updateIssue: (issue: Partial<TIssue>) => Promise<void>; // updating the issue
@@ -50,6 +53,7 @@ export class InboxIssueStore implements IInboxIssueStore {
   snoozed_till: Date | undefined;
   source: EInboxIssueSource | undefined;
   duplicate_to: string | undefined;
+  converted_module: string | null = null;
   created_by: string | undefined;
   duplicate_issue_detail: TInboxDuplicateIssueDetails | undefined = undefined;
   workspaceSlug: string;
@@ -69,6 +73,7 @@ export class InboxIssueStore implements IInboxIssueStore {
     this.issue = data?.issue;
     this.snoozed_till = data?.snoozed_till || undefined;
     this.duplicate_to = data?.duplicate_to || undefined;
+    this.converted_module = data?.converted_module || null;
     this.created_by = data?.created_by || undefined;
     this.source = data?.source || undefined;
     this.duplicate_issue_detail = data?.duplicate_issue_detail || undefined;
@@ -84,11 +89,13 @@ export class InboxIssueStore implements IInboxIssueStore {
       issue: observable,
       snoozed_till: observable,
       duplicate_to: observable,
+      converted_module: observable,
       duplicate_issue_detail: observable,
       created_by: observable,
       source: observable,
       // actions
       updateInboxIssueStatus: action,
+      convertToModule: action,
       updateInboxIssueDuplicateTo: action,
       updateInboxIssueSnoozeTill: action,
       updateIssue: action,
@@ -141,6 +148,37 @@ export class InboxIssueStore implements IInboxIssueStore {
     } catch {
       runInAction(() => set(this, "status", previousData.status));
     }
+  };
+
+  /**
+   * Solar: approve the request as a "Demanda" (module). The server creates the module from `payload` and marks
+   * the request accepted; here we mirror the status change and the pending counters.
+   */
+  convertToModule = async (payload: Partial<IModule>) => {
+    if (!this.issue.id) throw new Error("Missing intake issue");
+    const previousStatus = this.status;
+    const response = await this.inboxIssueService.convertToModule(
+      this.workspaceSlug,
+      this.projectId,
+      this.issue.id,
+      payload
+    );
+    runInAction(() => {
+      set(this, "status", EInboxIssueStatus.ACCEPTED);
+      set(this, "converted_module", response.module.id);
+      if (previousStatus === EInboxIssueStatus.PENDING) {
+        const currentCount = this.store.projectRoot.project.projectMap[this.projectId]?.intake_count ?? 0;
+        set(this.store.projectRoot.project.projectMap, [this.projectId, "intake_count"], Math.max(0, currentCount - 1));
+      }
+    });
+    const currentTotalResults = this.store.projectInbox.inboxIssuePaginationInfo?.total_results ?? 0;
+    set(
+      this.store.projectInbox,
+      ["inboxIssuePaginationInfo", "total_results"],
+      currentTotalResults > 0 ? currentTotalResults - 1 : currentTotalResults
+    );
+    void this.store.module.fetchModules(this.workspaceSlug, this.projectId);
+    return response.module;
   };
 
   updateInboxIssueDuplicateTo = async (issueId: string) => {

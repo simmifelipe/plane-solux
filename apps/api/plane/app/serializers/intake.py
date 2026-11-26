@@ -22,7 +22,7 @@ class IntakeSerializer(BaseSerializer):
     class Meta:
         model = Intake
         fields = "__all__"
-        read_only_fields = ["project", "workspace"]
+        read_only_fields = ["project", "workspace", "converted_module"]
 
 
 class IntakeIssueSerializer(BaseSerializer):
@@ -38,8 +38,9 @@ class IntakeIssueSerializer(BaseSerializer):
             "source",
             "issue",
             "created_by",
+            "converted_module",
         ]
-        read_only_fields = ["project", "workspace"]
+        read_only_fields = ["project", "workspace", "converted_module"]
 
     def validate(self, attrs):
         """
@@ -111,8 +112,9 @@ class IntakeIssueDetailSerializer(BaseSerializer):
             "duplicate_issue_detail",
             "source",
             "issue",
+            "converted_module",
         ]
-        read_only_fields = ["project", "workspace"]
+        read_only_fields = ["project", "workspace", "converted_module"]
 
     def to_representation(self, instance):
         # Pass the annotated fields to the Issue instance if they exist
@@ -127,7 +129,7 @@ class IntakeIssueDetailSerializer(BaseSerializer):
 class IntakeIssueLiteSerializer(BaseSerializer):
     class Meta:
         model = IntakeIssue
-        fields = ["id", "status", "duplicate_to", "snoozed_till", "source"]
+        fields = ["id", "status", "duplicate_to", "snoozed_till", "source", "converted_module"]
         read_only_fields = fields
 
 

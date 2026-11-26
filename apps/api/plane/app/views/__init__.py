@@ -204,6 +204,7 @@ from .estimate.base import (
 from .intake.base import (
     IntakeViewSet,
     IntakeIssueViewSet,
+    IntakeIssueConvertToModuleEndpoint,
     IntakeWorkItemDescriptionVersionEndpoint,
 )
 

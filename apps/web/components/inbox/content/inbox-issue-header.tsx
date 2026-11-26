@@ -4,6 +4,8 @@
  * See the LICENSE file for details.
  */
 
+import { IntakeAcceptChoiceModal } from "@/components/inbox/modals/accept-choice-modal";
+import { IntakeConvertToModuleModal } from "@/components/inbox/modals/convert-to-module-modal";
 import { useCallback, useEffect, useState } from "react";
 import type { MouseEvent } from "react";
 import { observer } from "mobx-react";
@@ -77,6 +79,11 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
   const [isSnoozeDateModalOpen, setIsSnoozeDateModalOpen] = useState(false);
   const [selectDuplicateIssue, setSelectDuplicateIssue] = useState(false);
   const [acceptIssueModal, setAcceptIssueModal] = useState(false);
+  // Solar: approving asks what the request becomes (Demanda by default, or a work item)
+  const [acceptChoiceModal, setAcceptChoiceModal] = useState(false);
+  const [convertToModuleModal, setConvertToModuleModal] = useState(false);
+  // next request to show once this one is converted (computed before the list changes)
+  const [redirectAfterConvert, setRedirectAfterConvert] = useState<string | undefined>(undefined);
   const [declineIssueModal, setDeclineIssueModal] = useState(false);
   const [deleteIssueModal, setDeleteIssueModal] = useState(false);
   // store
@@ -239,13 +246,16 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
 
   if (!inboxIssue) return null;
 
-  const workItemLink = generateWorkItemLink({
-    workspaceSlug: workspaceSlug?.toString(),
-    projectId: issue?.project_id,
-    issueId: currentInboxIssueId,
-    projectIdentifier: currentProjectDetails?.identifier,
-    sequenceId: issue?.sequence_id,
-  });
+  // Solar: a request converted into a Demanda has no work item page — link to the Demanda instead
+  const workItemLink = inboxIssue.converted_module
+    ? `/${workspaceSlug?.toString()}/projects/${issue?.project_id}/modules/${inboxIssue.converted_module}`
+    : generateWorkItemLink({
+        workspaceSlug: workspaceSlug?.toString(),
+        projectId: issue?.project_id,
+        issueId: currentInboxIssueId,
+        projectIdentifier: currentProjectDetails?.identifier,
+        sequenceId: issue?.sequence_id,
+      });
 
   // Plain click navigates in-app; Cmd/Ctrl+click keeps the browser's open-in-new-tab behaviour.
   const handleOpenIssueLink = (event: MouseEvent<HTMLElement>) => {
@@ -263,7 +273,29 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
           value={inboxIssue?.duplicate_to}
           onSubmit={handleInboxIssueDuplicate}
         />
+        <IntakeAcceptChoiceModal
+          isOpen={acceptChoiceModal}
+          onClose={() => setAcceptChoiceModal(false)}
+          onConfirm={(target) => {
+            setAcceptChoiceModal(false);
+            if (target === "module") {
+              setRedirectAfterConvert(redirectIssue());
+              setConvertToModuleModal(true);
+            }
+            else setAcceptIssueModal(true);
+          }}
+        />
+        {inboxIssue && (
+          <IntakeConvertToModuleModal
+            isOpen={convertToModuleModal}
+            onClose={() => setConvertToModuleModal(false)}
+            inboxIssue={inboxIssue}
+            projectId={projectId}
+            onConverted={() => handleRedirection(redirectAfterConvert)}
+          />
+        )}
         <CreateUpdateIssueModal
+          requireModule
           data={inboxIssue?.issue}
           isOpen={acceptIssueModal}
           onClose={() => setAcceptIssueModal(false)}
@@ -347,7 +379,7 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
                 onClick={() =>
                   handleActionWithPermission(
                     isProjectAdmin,
-                    () => setAcceptIssueModal(true),
+                    () => setAcceptChoiceModal(true),
                     t("inbox_issue.errors.accept_permission")
                   )
                 }
@@ -467,7 +499,7 @@ export const InboxIssueActionsHeader = observer(function InboxIssueActionsHeader
           inboxIssue={inboxIssue}
           isSubmitting={isSubmitting}
           handleCopyIssueLink={() => handleCopyIssueLink(workItemLink)}
-          setAcceptIssueModal={setAcceptIssueModal}
+          setAcceptIssueModal={(value: boolean) => (value ? setAcceptChoiceModal(true) : setAcceptIssueModal(false))}
           setDeclineIssueModal={setDeclineIssueModal}
           handleIssueSnoozeAction={handleIssueSnoozeAction}
           setSelectDuplicateIssue={setSelectDuplicateIssue}

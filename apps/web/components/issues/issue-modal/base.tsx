@@ -434,6 +434,7 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
       module_ids: data?.module_ids ? data?.module_ids : moduleId ? [moduleId.toString()] : null,
     },
     onAssetUpload: handleUpdateUploadedAssetIds,
+    requireModule: props.requireModule,
     pendingFiles: pendingFiles,
     onPendingFilesChange: setPendingFiles,
     onClose: handleClose,

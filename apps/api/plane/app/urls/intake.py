@@ -8,11 +8,22 @@ from django.urls import path
 from plane.app.views import (
     IntakeViewSet,
     IntakeIssueViewSet,
+    IntakeIssueConvertToModuleEndpoint,
     IntakeWorkItemDescriptionVersionEndpoint,
 )
 
 
 urlpatterns = [
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/intake-issues/<uuid:pk>/convert-to-module/",
+        IntakeIssueConvertToModuleEndpoint.as_view(),
+        name="intake-issue-convert-to-module",
+    ),
+    path(
+        "workspaces/<str:slug>/projects/<uuid:project_id>/inbox-issues/<uuid:pk>/convert-to-module/",
+        IntakeIssueConvertToModuleEndpoint.as_view(),
+        name="inbox-issue-convert-to-module",
+    ),
     path(
         "workspaces/<str:slug>/projects/<uuid:project_id>/intakes/",
         IntakeViewSet.as_view({"get": "list", "post": "create"}),

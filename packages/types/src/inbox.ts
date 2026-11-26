@@ -36,6 +36,8 @@ export type TInboxIssue = {
   status: TInboxIssueStatus;
   snoozed_till: Date | null;
   duplicate_to: string | undefined;
+  // Solar: the "Demanda" (module) the request was converted into
+  converted_module?: string | null;
   source: EInboxIssueSource | undefined;
   issue: TIssue;
   created_by: string;

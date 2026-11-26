@@ -6,7 +6,7 @@
 
 // plane imports
 import { API_BASE_URL } from "@plane/constants";
-import type { TInboxIssue, TIssue, TInboxIssueWithPagination } from "@plane/types";
+import type { IModule, TInboxIssue, TIssue, TInboxIssueWithPagination } from "@plane/types";
 import { EInboxIssueSource } from "@plane/types";
 // helpers
 // services
@@ -56,6 +56,23 @@ export class InboxIssueService extends APIService {
     data: Omit<Partial<TInboxIssue>, "snoozed_till"> & { snoozed_till?: string | null }
   ): Promise<TInboxIssue> {
     return this.patch(`/api/workspaces/${workspaceSlug}/projects/${projectId}/inbox-issues/${inboxIssueId}/`, data)
+      .then((response) => response?.data)
+      .catch((error) => {
+        throw error?.response?.data;
+      });
+  }
+
+  /** Solar: approve the request as a "Demanda" (module) instead of a work item. */
+  async convertToModule(
+    workspaceSlug: string,
+    projectId: string,
+    inboxIssueId: string,
+    data: Partial<IModule>
+  ): Promise<{ module: IModule; intake_issue: { id: string; status: number; converted_module: string } }> {
+    return this.post(
+      `/api/workspaces/${workspaceSlug}/projects/${projectId}/inbox-issues/${inboxIssueId}/convert-to-module/`,
+      data
+    )
       .then((response) => response?.data)
       .catch((error) => {
         throw error?.response?.data;

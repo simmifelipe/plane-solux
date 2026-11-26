@@ -67,6 +67,11 @@ class IntakeIssue(ChangeTrackerMixin, ProjectBaseModel):
         default=-2,
     )
     snoozed_till = models.DateTimeField(null=True)
+    # Solar: the "Demanda" (module) this request was converted into; the request's own work item stays
+    # in the triage state, so it never shows up as a task
+    converted_module = models.ForeignKey(
+        "db.Module", related_name="converted_intake_issues", on_delete=models.SET_NULL, null=True, blank=True
+    )
     duplicate_to = models.ForeignKey(
         "db.Issue",
         related_name="intake_duplicate",

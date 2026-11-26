@@ -48,6 +48,7 @@ type TIssueDefaultPropertiesProps = {
   parentId: string | null;
   isDraft: boolean;
   requireCreationFields?: boolean;
+  requireModule?: boolean;
   handleFormChange: () => void;
   setSelectedParentIssue: (issue: ISearchIssueResponse) => void;
 };
@@ -64,6 +65,7 @@ export const IssueDefaultProperties = observer(function IssueDefaultProperties(p
     parentId,
     isDraft,
     requireCreationFields = false,
+    requireModule = false,
     handleFormChange,
     setSelectedParentIssue,
   } = props;
@@ -80,7 +82,7 @@ export const IssueDefaultProperties = observer(function IssueDefaultProperties(p
   // derived values
   const projectDetails = getProjectById(projectId);
   // Solar: a new work item must belong to a module (Demanda) and carry an estimate
-  const isModuleRequired = requireCreationFields && !!projectDetails?.module_view;
+  const isModuleRequired = (requireCreationFields || requireModule) && !!projectDetails?.module_view;
   const isEstimateRequired = requireCreationFields && !!projectId && areEstimateEnabledByProjectId(projectId);
   const requiredErrors = [errors.module_ids?.message, errors.estimate_point?.message].filter(
     (message): message is string => !!message
