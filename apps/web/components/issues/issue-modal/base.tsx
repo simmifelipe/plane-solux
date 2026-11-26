@@ -25,6 +25,8 @@ import { useIssueStoreType } from "@/hooks/use-issue-layout-store";
 import { useIssuesActions } from "@/hooks/use-issues-actions";
 // services
 import { FileService } from "@/services/file.service";
+import { IssueAttachmentService } from "@/services/issue";
+import { validateModuleAttachment } from "@/services/module-attachment.service";
 const fileService = new FileService();
 // local imports
 import { useCreateIssueToastActions } from "../create-issue-toast-action-items";
@@ -32,6 +34,8 @@ import { DraftIssueLayout } from "./draft-issue-layout";
 import { IssueFormRoot } from "./form";
 import type { IssueFormProps } from "./form";
 import type { IssuesModalProps } from "./modal";
+
+const issueAttachmentService = new IssueAttachmentService();
 
 export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueModalBase(props: IssuesModalProps) {
   const {
@@ -65,6 +69,8 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
   const [description, setDescription] = useState<string | undefined>(undefined);
   const [uploadedAssetIds, setUploadedAssetIds] = useState<string[]>([]);
+  // Solar: files picked in the form; uploaded right after the work item is saved
+  const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const [isDuplicateModalOpen, setIsDuplicateModalOpen] = useState(false);
   // store hooks
   const { t } = useTranslation();
@@ -144,6 +150,29 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
     ]);
   };
 
+  const uploadPendingFiles = async (projectId: string, issueId: string) => {
+    if (!workspaceSlug || pendingFiles.length === 0) return;
+    const failed: string[] = [];
+    for (const file of pendingFiles) {
+      if (validateModuleAttachment(file)) {
+        failed.push(file.name);
+        continue;
+      }
+      try {
+        await issueAttachmentService.uploadIssueAttachment(workspaceSlug.toString(), projectId, issueId, file);
+      } catch (_error) {
+        failed.push(file.name);
+      }
+    }
+    setPendingFiles([]);
+    if (failed.length)
+      setToast({
+        type: "error",
+        title: t("error"),
+        message: t("work_item_attachment.some_failed", { names: failed.join(", ") }),
+      });
+  };
+
   const handleCreateMoreToggleChange = (value: boolean) => {
     setCreateMore(value);
   };
@@ -155,6 +184,7 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
 
     setActiveProjectId(null);
     setChangesMade(null);
+    if (!saveAsDraft) setPendingFiles([]);
     onClose();
     handleDuplicateIssueModal(false);
   };
@@ -233,6 +263,15 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
           projectId: response.project_id,
           parentId: response.id,
         });
+      }
+
+      if (is_draft_issue) {
+        if (pendingFiles.length) {
+          setPendingFiles([]);
+          setToast({ type: "info", title: t("work_item_attachment.not_in_drafts_title"), message: t("work_item_attachment.not_in_drafts") });
+        }
+      } else if (response.id && response.project_id) {
+        await uploadPendingFiles(response.project_id, response.id);
       }
 
       setToast({
@@ -339,6 +378,8 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
         isDraft: isDraft,
       });
 
+      if (!isDraft) await uploadPendingFiles(payload.project_id, data.id);
+
       setToast({
         type: "success",
         title: t("success"),
@@ -393,6 +434,8 @@ export const CreateUpdateIssueModalBase = observer(function CreateUpdateIssueMod
       module_ids: data?.module_ids ? data?.module_ids : moduleId ? [moduleId.toString()] : null,
     },
     onAssetUpload: handleUpdateUploadedAssetIds,
+    pendingFiles: pendingFiles,
+    onPendingFilesChange: setPendingFiles,
     onClose: handleClose,
     onSubmit: (payload) => handleFormSubmit(payload, isDraft),
     projectId: activeProjectId,

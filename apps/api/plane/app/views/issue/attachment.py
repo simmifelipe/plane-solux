@@ -25,6 +25,7 @@ from plane.bgtasks.issue_activities_task import issue_activity
 from plane.app.permissions import allow_permission, issue_hidden_from_guest, ROLE
 from plane.settings.storage import S3Storage
 from plane.utils.path_validator import sanitize_filename
+from plane.utils.attachment_types import is_blocked_attachment
 from plane.bgtasks.storage_metadata_task import get_asset_object_metadata
 from plane.utils.host import base_host
 
@@ -127,12 +128,21 @@ class IssueAttachmentV2Endpoint(BaseAPIView):
                 status=status.HTTP_403_FORBIDDEN,
             )
         name = sanitize_filename(request.data.get("name")) or "unnamed"
-        type = request.data.get("type", False)
-        size = int(request.data.get("size", settings.FILE_SIZE_LIMIT))
+        # Solar: same rule as "Demanda" attachments — any type except executables/scripts
+        type = request.data.get("type") or "application/octet-stream"
+        try:
+            size = int(request.data.get("size", settings.FILE_SIZE_LIMIT))
+        except (TypeError, ValueError):
+            size = settings.FILE_SIZE_LIMIT
 
-        if not type or type not in settings.ATTACHMENT_MIME_TYPES:
+        if is_blocked_attachment(name, type):
             return Response(
-                {"error": "Invalid file type.", "status": False},
+                {"error": "Este tipo de arquivo não é permitido (executáveis e scripts).", "status": False},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        if size > settings.FILE_SIZE_LIMIT:
+            return Response(
+                {"error": "O arquivo excede o tamanho máximo permitido.", "status": False},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 

@@ -7,6 +7,8 @@
  * See the LICENSE file for details.
  */
 
+import { ModulePendingFiles } from "@/components/modules/attachments/pending-files";
+import { IssueExistingAttachments } from "./components/existing-attachments";
 import React, { useState, useRef, useEffect } from "react";
 import { observer } from "mobx-react";
 import { useParams } from "next/navigation";
@@ -84,6 +86,9 @@ export interface IssueFormProps {
   issueTitleRef: React.MutableRefObject<HTMLInputElement | null>;
   isCreateMoreToggleEnabled: boolean;
   onAssetUpload: (assetId: string) => void;
+  // Solar: files attached while creating/editing; uploaded by the modal once the work item is saved
+  pendingFiles?: File[];
+  onPendingFilesChange?: (files: File[]) => void;
   onCreateMoreToggleChange: (value: boolean) => void;
   onChange?: (formData: Partial<TIssue> | null) => void;
   onClose: () => void;
@@ -110,6 +115,8 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
     data,
     issueTitleRef,
     onAssetUpload,
+    pendingFiles = [],
+    onPendingFilesChange,
     onChange,
     onClose,
     onSubmit,
@@ -490,6 +497,18 @@ export const IssueFormRoot = observer(function IssueFormRoot(props: IssueFormPro
                 onAssetUpload={onAssetUpload}
                 onClose={onClose}
               />
+              {!isDraft && onPendingFilesChange && (
+                <div className="mt-3">
+                  <ModulePendingFiles files={pendingFiles} onChange={onPendingFilesChange} />
+                  {data?.id && workspaceSlug && projectId && (
+                    <IssueExistingAttachments
+                      workspaceSlug={workspaceSlug.toString()}
+                      projectId={projectId}
+                      issueId={data.id}
+                    />
+                  )}
+                </div>
+              )}
             </DialogBody>
             <div className="shrink-0">
               <IssueDefaultProperties

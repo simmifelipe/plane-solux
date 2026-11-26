@@ -1867,5 +1867,10 @@
     "upload_failed": "Could not upload \"{name}\".",
     "delete_failed": "Could not delete the attachment.",
     "some_failed": "The module was created, but these files could not be attached: {names}. Add them again from the module sidebar."
+  },
+  "work_item_attachment": {
+    "some_failed": "The work item was saved, but these files could not be attached: {names}. Add them again from the work item page.",
+    "not_in_drafts_title": "Attachments not saved",
+    "not_in_drafts": "Drafts do not keep attachments. Attach the files after creating the work item."
   }
 }

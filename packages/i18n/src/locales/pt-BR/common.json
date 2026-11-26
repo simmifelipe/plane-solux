@@ -1867,5 +1867,10 @@
     "upload_failed": "Não foi possível enviar \"{name}\".",
     "delete_failed": "Não foi possível excluir o anexo.",
     "some_failed": "A demanda foi criada, mas estes arquivos não puderam ser anexados: {names}. Adicione-os de novo pela barra lateral da demanda."
+  },
+  "work_item_attachment": {
+    "some_failed": "A tarefa foi salva, mas estes arquivos não puderam ser anexados: {names}. Adicione-os de novo pela página da tarefa.",
+    "not_in_drafts_title": "Anexos não salvos",
+    "not_in_drafts": "Rascunhos não guardam anexos. Anexe os arquivos depois de criar a tarefa."
   }
 }
