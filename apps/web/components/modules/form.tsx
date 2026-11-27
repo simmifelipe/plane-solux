@@ -20,7 +20,7 @@ import { InputField } from "@makeplane/propel/components/input-field";
 import { TextAreaField } from "@makeplane/propel/components/text-area-field";
 import { ETabIndices } from "@plane/constants";
 import { useTranslation } from "@plane/i18n";
-import { DateRangeSelect } from "@plane/blocks/property-select";
+import { DateSelect } from "@plane/blocks/property-select";
 import { Button } from "@makeplane/propel/components/button";
 import { CalendarOutline } from "@makeplane/propel/icons";
 import type { IModule } from "@plane/types";
@@ -87,6 +87,7 @@ export function ModuleForm(props: Props) {
     handleSubmit,
     control,
     reset,
+    watch,
   } = useForm<IModule>({
     defaultValues: {
       project_id: projectId,
@@ -102,6 +103,8 @@ export function ModuleForm(props: Props) {
   });
 
   const { getIndex } = getTabIndex(ETabIndices.PROJECT_MODULE, isMobile);
+  const startDate = watch("start_date");
+  const targetDate = watch("target_date");
 
   const { t } = useTranslation();
 
@@ -212,31 +215,39 @@ export function ModuleForm(props: Props) {
               />
             </div>
             <div className="flex flex-wrap items-center gap-2">
+              {/* Solar: start and end dates are picked separately (same as work items), so a Demanda can
+                  have only a start date */}
               <Controller
                 control={control}
                 name="start_date"
-                render={({ field: { value: startDateValue, onChange: onChangeStartDate } }) => (
-                  <Controller
-                    control={control}
-                    name="target_date"
-                    render={({ field: { value: endDateValue, onChange: onChangeEndDate } }) => (
-                      <DateRangeSelect
-                        variant="pill-sm"
-                        className="max-w-none"
-                        value={{
-                          from: getDate(startDateValue) ?? null,
-                          to: getDate(endDateValue) ?? null,
-                        }}
-                        onChange={(range) => {
-                          onChangeStartDate(range.from ? renderFormattedPayloadDate(range.from) : null);
-                          onChangeEndDate(range.to ? renderFormattedPayloadDate(range.to) : null);
-                        }}
-                        placeholder={`${t("start_date")} - ${t("end_date")}`}
-                        icon={<CalendarOutline />}
-                        weekStartsOn={userProfile?.start_of_the_week}
-                        tabIndex={getIndex("date_range")}
-                      />
-                    )}
+                render={({ field: { value, onChange } }) => (
+                  <DateSelect
+                    value={getDate(value) ?? null}
+                    onChange={(date) => onChange(date ? renderFormattedPayloadDate(date) : null)}
+                    maxDate={getDate(targetDate) ?? undefined}
+                    placeholder={t("start_date")}
+                    icon={<CalendarOutline />}
+                    weekStartsOn={userProfile?.start_of_the_week}
+                    clearable
+                    variant="pill-sm"
+                    tabIndex={getIndex("date_range")}
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name="target_date"
+                render={({ field: { value, onChange } }) => (
+                  <DateSelect
+                    value={getDate(value) ?? null}
+                    onChange={(date) => onChange(date ? renderFormattedPayloadDate(date) : null)}
+                    minDate={getDate(startDate) ?? undefined}
+                    placeholder={t("end_date")}
+                    icon={<CalendarOutline />}
+                    weekStartsOn={userProfile?.start_of_the_week}
+                    clearable
+                    variant="pill-sm"
+                    tabIndex={getIndex("date_range")}
                   />
                 )}
               />

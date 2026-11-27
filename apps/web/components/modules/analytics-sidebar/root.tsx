@@ -17,6 +17,7 @@ import {
   MembersOutline,
   PriorityOutline,
   StartDateOutline,
+  DueDateOutline,
   StateOutline,
   WorkItemsOutline,
 } from "@makeplane/propel/icons";
@@ -29,7 +30,7 @@ import { ModuleStatusIcon } from "@plane/blocks/icons";
 import { setToast } from "@plane/blocks/toast";
 import type { ILinkDetails, IModule, ModuleLink } from "@plane/types";
 // plane ui
-import { DateRangeSelect } from "@plane/blocks/property-select";
+import { DateSelect } from "@plane/blocks/property-select";
 import { Loader } from "@plane/blocks/skeleton";
 // components
 // helpers
@@ -206,11 +207,8 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
     [workspaceSlug, projectId, moduleId, deleteModuleLink, t]
   );
 
-  const handleDateChange = async (startDate: Date | undefined, targetDate: Date | undefined) => {
-    submitChanges({
-      start_date: startDate ? renderFormattedPayloadDate(startDate) : null,
-      target_date: targetDate ? renderFormattedPayloadDate(targetDate) : null,
-    });
+  const handleDateChange = async (dates: Partial<Pick<IModule, "start_date" | "target_date">>) => {
+    submitChanges(dates);
     setToast({
       type: "success",
       title: t("toast.success"),
@@ -401,36 +399,47 @@ export const ModuleAnalyticsSidebar = observer(function ModuleAnalyticsSidebar(p
                 )}
               />
             </SidebarPropertyListItem>
-            <SidebarPropertyListItem icon={StartDateOutline} label={t("date_range")}>
+            {/* Solar: start and end dates are separate (same as work items), so only a start date is allowed */}
+            <SidebarPropertyListItem icon={StartDateOutline} label={t("start_date")}>
               <Controller
                 control={control}
                 name="start_date"
-                render={({ field: { value: startDateValue, onChange: onChangeStartDate } }) => (
-                  <Controller
-                    control={control}
-                    name="target_date"
-                    render={({ field: { value: endDateValue, onChange: onChangeEndDate } }) => {
-                      const startDate = getDate(startDateValue);
-                      const endDate = getDate(endDateValue);
-                      return (
-                        <DateRangeSelect
-                          variant="select-ghost-md"
-                          value={{
-                            from: startDate ?? null,
-                            to: endDate ?? null,
-                          }}
-                          onChange={(range) => {
-                            onChangeStartDate(range.from ? renderFormattedPayloadDate(range.from) : null);
-                            onChangeEndDate(range.to ? renderFormattedPayloadDate(range.to) : null);
-                            void handleDateChange(range.from ?? undefined, range.to ?? undefined);
-                          }}
-                          mergeDates
-                          placeholder={`${t("start_date")} - ${t("end_date")}`}
-                          weekStartsOn={userProfile?.start_of_the_week}
-                          disabled={!isEditingAllowed || isArchived}
-                        />
-                      );
+                render={({ field: { value, onChange } }) => (
+                  <DateSelect
+                    variant="select-ghost-md"
+                    className="w-full"
+                    value={getDate(value) ?? null}
+                    onChange={(date) => {
+                      onChange(date ? renderFormattedPayloadDate(date) : null);
+                      void handleDateChange({ start_date: date ? renderFormattedPayloadDate(date) : null });
                     }}
+                    maxDate={getDate(moduleDetails?.target_date) ?? undefined}
+                    placeholder={t("start_date")}
+                    weekStartsOn={userProfile?.start_of_the_week}
+                    clearable
+                    disabled={!isEditingAllowed || !!isArchived}
+                  />
+                )}
+              />
+            </SidebarPropertyListItem>
+            <SidebarPropertyListItem icon={DueDateOutline} label={t("end_date")}>
+              <Controller
+                control={control}
+                name="target_date"
+                render={({ field: { value, onChange } }) => (
+                  <DateSelect
+                    variant="select-ghost-md"
+                    className="w-full"
+                    value={getDate(value) ?? null}
+                    onChange={(date) => {
+                      onChange(date ? renderFormattedPayloadDate(date) : null);
+                      void handleDateChange({ target_date: date ? renderFormattedPayloadDate(date) : null });
+                    }}
+                    minDate={getDate(moduleDetails?.start_date) ?? undefined}
+                    placeholder={t("end_date")}
+                    weekStartsOn={userProfile?.start_of_the_week}
+                    clearable
+                    disabled={!isEditingAllowed || !!isArchived}
                   />
                 )}
               />
